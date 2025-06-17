@@ -395,6 +395,7 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     Nombre: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    salon: Schema.Attribute.Relation<'manyToOne', 'api::salon.salon'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -402,6 +403,90 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
+  };
+}
+
+export interface ApiGradoGrado extends Struct.CollectionTypeSchema {
+  collectionName: 'grados';
+  info: {
+    displayName: 'Grado';
+    pluralName: 'grados';
+    singularName: 'grado';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    grado: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<1>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::grado.grado'> &
+      Schema.Attribute.Private;
+    nombre: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Primero'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGrupoGrupo extends Struct.CollectionTypeSchema {
+  collectionName: 'grupos';
+  info: {
+    displayName: 'Grupo';
+    pluralName: 'grupos';
+    singularName: 'grupo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    grupo: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'A'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::grupo.grupo'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
+  collectionName: 'salons';
+  info: {
+    displayName: 'Salon';
+    pluralName: 'salons';
+    singularName: 'salon';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    alumnos: Schema.Attribute.Relation<'oneToMany', 'api::alumno.alumno'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    grados: Schema.Attribute.Relation<'oneToMany', 'api::grado.grado'>;
+    grupos: Schema.Attribute.Relation<'oneToMany', 'api::grupo.grupo'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::salon.salon'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -915,6 +1000,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::alumno.alumno': ApiAlumnoAlumno;
+      'api::grado.grado': ApiGradoGrado;
+      'api::grupo.grupo': ApiGrupoGrupo;
+      'api::salon.salon': ApiSalonSalon;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

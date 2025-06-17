@@ -15,6 +15,12 @@
       "type": "string",
       "required": true
     },
+    "salon": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::salon.salon",
+      "inversedBy": "alumnos"
+    },
     "users_permissions_users": {
       "type": "relation",
       "relation": "manyToMany",
