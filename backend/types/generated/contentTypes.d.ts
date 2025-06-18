@@ -384,16 +384,27 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    apellido: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    foto: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::alumno.alumno'
     > &
       Schema.Attribute.Private;
-    Nombre: Schema.Attribute.String & Schema.Attribute.Required;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     salon: Schema.Attribute.Relation<'manyToOne', 'api::salon.salon'>;
     updatedAt: Schema.Attribute.DateTime;
@@ -475,6 +486,7 @@ export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
   };
   attributes: {
     alumnos: Schema.Attribute.Relation<'oneToMany', 'api::alumno.alumno'>;
+    aula: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -965,6 +977,7 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    nombre: Schema.Attribute.String & Schema.Attribute.Required;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{

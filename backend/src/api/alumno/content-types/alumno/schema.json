@@ -11,9 +11,26 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Nombre": {
+    "nombre": {
       "type": "string",
+      "minLength": 1,
       "required": true
+    },
+    "apellido": {
+      "type": "string",
+      "minLength": 1,
+      "required": true
+    },
+    "foto": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     },
     "salon": {
       "type": "relation",
