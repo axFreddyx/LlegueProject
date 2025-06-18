@@ -15,6 +15,10 @@
       "type": "string",
       "required": true
     },
+    "Apellidos": {
+      "type": "string",
+      "required": true
+    },
     "salon": {
       "type": "relation",
       "relation": "manyToOne",

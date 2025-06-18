@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rols",
+  "info": {
+    "singularName": "rol",
+    "pluralName": "rols",
+    "displayName": "Rol"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nombre": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
