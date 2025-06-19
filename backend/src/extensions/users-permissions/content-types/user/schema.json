@@ -70,12 +70,6 @@
       "type": "string",
       "required": true
     },
-    "alumnos": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::alumno.alumno",
-      "mappedBy": "persona_autorizada"
-    },
     "foto": {
       "type": "media",
       "multiple": false,
@@ -84,6 +78,12 @@
         "images",
         "files"
       ]
+    },
+    "alumnos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::alumno.alumno",
+      "mappedBy": "persona_autorizada"
     }
   }
 }

@@ -16,7 +16,7 @@
       "minLength": 1,
       "required": true
     },
-    "Apellidos": {
+    "apellidos": {
       "type": "string",
       "required": true
     },
