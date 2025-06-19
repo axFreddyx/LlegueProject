@@ -84,6 +84,9 @@
       "relation": "manyToMany",
       "target": "api::alumno.alumno",
       "mappedBy": "persona_autorizada"
+    },
+    "apellidos": {
+      "type": "string"
     }
   }
 }

@@ -999,6 +999,7 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     alumnos: Schema.Attribute.Relation<'manyToMany', 'api::alumno.alumno'>;
+    apellidos: Schema.Attribute.String;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
