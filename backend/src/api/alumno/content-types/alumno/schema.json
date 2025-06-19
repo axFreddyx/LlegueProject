@@ -27,9 +27,7 @@
       "required": true,
       "allowedTypes": [
         "images",
-        "files",
-        "videos",
-        "audios"
+        "files"
       ]
     },
     "salon": {
@@ -38,7 +36,7 @@
       "target": "api::salon.salon",
       "inversedBy": "alumnos"
     },
-    "users_permissions_users": {
+    "persona_autorizada": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",

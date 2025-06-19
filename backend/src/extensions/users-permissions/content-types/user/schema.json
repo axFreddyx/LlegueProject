@@ -74,7 +74,16 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::alumno.alumno",
-      "mappedBy": "users_permissions_users"
+      "mappedBy": "persona_autorizada"
+    },
+    "foto": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
     }
   }
 }

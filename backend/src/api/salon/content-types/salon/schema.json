@@ -30,6 +30,11 @@
       "relation": "oneToMany",
       "target": "api::alumno.alumno",
       "mappedBy": "salon"
+    },
+    "docente": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }
