@@ -394,7 +394,11 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
       'api::alumno.alumno'
     > &
       Schema.Attribute.Private;
-    Nombre: Schema.Attribute.String & Schema.Attribute.Required;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     salon: Schema.Attribute.Relation<'manyToOne', 'api::salon.salon'>;
     updatedAt: Schema.Attribute.DateTime;
@@ -404,36 +408,6 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
-  };
-}
-
-export interface ApiDocenteDocente extends Struct.CollectionTypeSchema {
-  collectionName: 'docentes';
-  info: {
-    displayName: 'Docente';
-    pluralName: 'docentes';
-    singularName: 'docente';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    alumnos: Schema.Attribute.Relation<'oneToMany', 'api::alumno.alumno'>;
-    Apellidos: Schema.Attribute.String & Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::docente.docente'
-    > &
-      Schema.Attribute.Private;
-    Nombre: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -494,31 +468,6 @@ export interface ApiGrupoGrupo extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiRolRol extends Struct.CollectionTypeSchema {
-  collectionName: 'rols';
-  info: {
-    displayName: 'Rol';
-    pluralName: 'rols';
-    singularName: 'rol';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::rol.rol'> &
-      Schema.Attribute.Private;
-    Nombre: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
   collectionName: 'salons';
   info: {
@@ -531,6 +480,7 @@ export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
   };
   attributes: {
     alumnos: Schema.Attribute.Relation<'oneToMany', 'api::alumno.alumno'>;
+    aula: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1021,6 +971,7 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    nombre: Schema.Attribute.String & Schema.Attribute.Required;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
@@ -1056,10 +1007,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::alumno.alumno': ApiAlumnoAlumno;
-      'api::docente.docente': ApiDocenteDocente;
       'api::grado.grado': ApiGradoGrado;
       'api::grupo.grupo': ApiGrupoGrupo;
-      'api::rol.rol': ApiRolRol;
       'api::salon.salon': ApiSalonSalon;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

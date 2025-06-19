@@ -66,6 +66,10 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
     "alumnos": {
       "type": "relation",
       "relation": "manyToMany",
