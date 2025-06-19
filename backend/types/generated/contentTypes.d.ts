@@ -470,6 +470,45 @@ export interface ApiGrupoGrupo extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiLlegadaLlegada extends Struct.CollectionTypeSchema {
+  collectionName: 'llegadas';
+  info: {
+    displayName: 'Llegada';
+    pluralName: 'llegadas';
+    singularName: 'llegada';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    alumno: Schema.Attribute.Relation<'oneToOne', 'api::alumno.alumno'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    docente: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    llegada: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::llegada.llegada'
+    > &
+      Schema.Attribute.Private;
+    persona_autorizada: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
   collectionName: 'salons';
   info: {
@@ -971,8 +1010,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    foto: Schema.Attribute.Media<'images' | 'files'> &
-      Schema.Attribute.Required;
+    foto: Schema.Attribute.Media<'images' | 'files'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1017,6 +1055,7 @@ declare module '@strapi/strapi' {
       'api::alumno.alumno': ApiAlumnoAlumno;
       'api::grado.grado': ApiGradoGrado;
       'api::grupo.grupo': ApiGrupoGrupo;
+      'api::llegada.llegada': ApiLlegadaLlegada;
       'api::salon.salon': ApiSalonSalon;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

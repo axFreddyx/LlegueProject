@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "llegadas",
+  "info": {
+    "singularName": "llegada",
+    "pluralName": "llegadas",
+    "displayName": "Llegada"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "llegada": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "alumno": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::alumno.alumno"
+    },
+    "persona_autorizada": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "docente": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
