@@ -20,22 +20,22 @@ export class ApiService {
   }
 
   getAlumnos(): Observable<any> {
-    return this.http.get(`${this.url}/alumnos?populate=*`);
+    return this.http.get(`${this.url}/alumno?populate=*`);
   }
 
-  getAlumno(id: number): Observable<any> {
-    return this.http.get(`${this.url}/alumnos/${id}?populate=*`);
+  getAlumno(id: string): Observable<any> {
+    return this.http.get(`${this.url}/alumno?documentId=${id}&populate=*`);
   }
 
   createAlumno(data: any): Observable<any> {
     return this.http.post(`${this.url}/alumnos`, { data });
   }
 
-  updateAlumno(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.url}/alumnos/${id}`, { data });
+  updateAlumno(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.url}/alumnos?documentId=${id}`, { data });
   }
 
-  deleteAlumno(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/alumnos/${id}`);
+  deleteAlumno(id: string): Observable<any> {
+    return this.http.delete(`${this.url}/alumnos?documentId=${id}`);
   }
 }
