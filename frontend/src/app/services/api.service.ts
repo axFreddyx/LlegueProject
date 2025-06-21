@@ -11,6 +11,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  //#region Register y login
+
   register(username: string, email: string, password: string) {
     return this.http.post(this.url + "/auth/local/register", { username, email, password });
   }
@@ -18,6 +20,10 @@ export class ApiService {
   login(data: any) {
     return this.http.post(this.url + "/auth/local", data);
   }
+
+  //#endregion
+
+  //#region Alumnos
 
   getAlumnos(): Observable<any> {
     return this.http.get(`${this.url}/alumno?populate=*`);
@@ -38,4 +44,6 @@ export class ApiService {
   deleteAlumno(id: string): Observable<any> {
     return this.http.delete(`${this.url}/alumnos?documentId=${id}`);
   }
+  
+  //#endregion
 }
