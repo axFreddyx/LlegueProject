@@ -26,11 +26,11 @@ export class ApiService {
   //#region Alumnos
 
   getAlumnos(): Observable<any> {
-    return this.http.get(`${this.url}/alumno?populate=*`);
+    return this.http.get(`${this.url}/alumnos?populate=*`);
   }
 
   getAlumno(id: string): Observable<any> {
-    return this.http.get(`${this.url}/alumno?documentId=${id}&populate=*`);
+    return this.http.get(`${this.url}/alumnos?documentId=${id}&populate=*`);
   }
 
   createAlumno(data: any): Observable<any> {
