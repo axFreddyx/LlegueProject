@@ -13,8 +13,8 @@ export class ApiService {
 
   //#region Register y login
 
-  register(username: string, email: string, password: string) {
-    return this.http.post(this.url + "/auth/local/register", { username, email, password });
+  register(username: string, email: string, password: string, nombre:string) {
+    return this.http.post(this.url + "/auth/local/register", { username, email, password, nombre });
   }
 
   login(data: any) {

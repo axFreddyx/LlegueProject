@@ -1,0 +1,7 @@
+<ion-content [fullscreen]="true" mode="ios">
+  <ion-input type="text" placeholder="usuario o email" [(ngModel)]="identifier"></ion-input>
+  <ion-input type="text" placeholder="Contraseña" [(ngModel)]="password"></ion-input>
+  <ion-button class="w-100 btn btn-custom btn-lg" (click)="login()" expand="block" shape="round" fill="clear">
+    Iniciar Sesión
+  </ion-button>
+</ion-content>
