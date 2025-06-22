@@ -1,2 +1,86 @@
-<ion-content [fullscreen]="true" mode="ios">
+<ion-header class="custom-header">
+    <ion-toolbar color="light">
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title class="navbar-title">
+            Crear Persona Autorizada
+        </ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button>
+                <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-menu contentId="main-content">
+    <ion-header>
+        <ion-toolbar color="light">
+            <ion-title>Menú</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item routerLink="/create/autorizada">Crear Persona Autorizada</ion-item>
+            <ion-item routerLink="/create/alumnos">Crear Alumnos</ion-item>
+            <ion-item routerLink="/create/docente">Crear Docente</ion-item>
+            <!-- <ion-item routerLink="/perfil">Perfil</ion-item>
+      <ion-item routerLink="/ajustes">Ajustes</ion-item> -->
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="main-content"></ion-router-outlet>
+<ion-content [fullscreen]="true" class="admin-home">
+
+    <div class="content-wrapper">
+
+        <!-- Encabezado -->
+        <h1 class="titulo">Panel de <span class="brand">Llegué</span></h1>
+        <p class="descripcion">Bienvenido, Administrador. Aquí puedes gestionar las notificaciones y usuarios.</p>
+
+        <!-- Tarjetas de resumen -->
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12" size-md="6">
+                    <ion-card class="card-resumen">
+                        <ion-card-header>
+                            <ion-card-title>Notificaciones Hoy</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <h2>23</h2>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+
+                <ion-col size="12" size-md="6">
+                    <ion-card class="card-resumen">
+                        <ion-card-header>
+                            <ion-card-title>Alumnos en Espera</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <h2>5</h2>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <!-- Botones de acción -->
+        <ion-button expand="block" color="primary" shape="round" routerLink="/usuarios">
+            Gestionar Usuarios
+        </ion-button>
+
+        <ion-button expand="block" color="tertiary" shape="round" routerLink="/historial">
+            Ver Historial de Llegadas
+        </ion-button>
+
+        <!-- <ion-button expand="block" color="danger" shape="round" (click)="logout()">
+      Cerrar Sesión
+    </ion-button> -->
+
+    </div>
+
 </ion-content>

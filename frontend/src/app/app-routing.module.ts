@@ -19,6 +19,16 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'create/alumnos',
+    loadChildren: () => import('./admin/alumnos/create/create.module').then( m => m.CreatePageModule)
+  },
+  {
+    path: 'create/docente',
+    loadChildren: () => import('./admin/docentes/create/create.module').then( m => m.CreatePageModule)
+  },
+
+
 
 ];
 
