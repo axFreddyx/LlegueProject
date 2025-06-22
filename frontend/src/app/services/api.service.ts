@@ -30,7 +30,7 @@ export class ApiService {
   }
 
   getAlumno(id: string): Observable<any> {
-    return this.http.get(`${this.url}/alumnos?documentId=${id}&populate=*`);
+    return this.http.get(`${this.url}/alumnos/${id}?populate=*`);
   }
 
   createAlumno(data: any): Observable<any> {
@@ -38,11 +38,11 @@ export class ApiService {
   }
 
   updateAlumno(id: string, data: any): Observable<any> {
-    return this.http.put(`${this.url}/alumnos?documentId=${id}`, { data });
+    return this.http.put(`${this.url}/alumnos/${id}`, { data });
   }
 
   deleteAlumno(id: string): Observable<any> {
-    return this.http.delete(`${this.url}/alumnos?documentId=${id}`);
+    return this.http.delete(`${this.url}/alumnos/${id}`);
   }
   
   //#endregion
