@@ -1,0 +1,51 @@
+
+
+
+.custom-content {
+  --background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.form-logo {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.form-box {
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.custom-form {
+  width: 100%;
+}
+a{
+    text-decoration: none;
+}
+ion-button{
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 15px;
+}
+ion-button:hover {
+  background-color: #3e8e41;
+//   color: #dbc927;
+  -webkit-text-stroke: .5px black;
+  text-stroke: .5px black; /* Para navegadores que lo soportan */
+}

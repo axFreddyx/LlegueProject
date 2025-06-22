@@ -9,12 +9,19 @@ import { Observable } from 'rxjs';
 export class ApiService {
   private url = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //#region Register y login
 
-  register(username: string, email: string, password: string, nombre:string) {
+  register(username: string, email: string, password: string, nombre: string) {
     return this.http.post(this.url + "/auth/local/register", { username, email, password, nombre });
+  }
+
+  CrearAutorizada( data: any) {
+    // let options = new HttpHeaders({
+    //   'Authorization': 'Bearer ' + token
+    // })
+    return this.http.post(this.url + "/auth/local/register", data);
   }
 
   login(data: any) {
@@ -44,6 +51,6 @@ export class ApiService {
   deleteAlumno(id: string): Observable<any> {
     return this.http.delete(`${this.url}/alumnos?documentId=${id}`);
   }
-  
+
   //#endregion
 }
