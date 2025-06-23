@@ -5,7 +5,7 @@
         </ion-buttons>
 
         <ion-title class="navbar-title">
-            Crear Persona Autorizada
+            Inicio
         </ion-title>
 
         <ion-buttons slot="end">
@@ -23,9 +23,10 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <ion-item routerLink="/create/autorizada">Crear Persona Autorizada</ion-item>
+            <ion-item routerLink="/create/cuennta">Crear Cuenta</ion-item>
             <ion-item routerLink="/create/alumnos">Crear Alumnos</ion-item>
-            <ion-item routerLink="/create/docente">Crear Docente</ion-item>
+            <ion-item routerLink="/ver/alumnos">Ver Alumnos</ion-item>
+            <ion-item routerLink="/gradoygrupo">Grados y Grupos</ion-item>
             <!-- <ion-item routerLink="/perfil">Perfil</ion-item>
       <ion-item routerLink="/ajustes">Ajustes</ion-item> -->
         </ion-list>
@@ -36,7 +37,6 @@
 <ion-content [fullscreen]="true" class="admin-home">
 
     <div class="content-wrapper">
-
         <!-- Encabezado -->
         <h1 class="titulo">Panel de <span class="brand">Llegué</span></h1>
         <p class="descripcion">Bienvenido, Administrador. Aquí puedes gestionar las notificaciones y usuarios.</p>
@@ -77,9 +77,9 @@
             Ver Historial de Llegadas
         </ion-button>
 
-        <!-- <ion-button expand="block" color="danger" shape="round" (click)="logout()">
-      Cerrar Sesión
-    </ion-button> -->
+        <ion-button expand="block" color="danger" shape="round">
+            Cerrar Sesión
+        </ion-button>
 
     </div>
 

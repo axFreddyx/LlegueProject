@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreatePageRoutingModule } from './create-routing.module';
+import { VerPageRoutingModule } from './ver-routing.module';
 
-import { CreatePage } from './create.page';
+import { VerPage } from './ver.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreatePageRoutingModule
+    VerPageRoutingModule
   ],
-  declarations: [CreatePage]
+  declarations: [VerPage]
 })
-export class CreatePageModule {}
+export class VerPageModule {}

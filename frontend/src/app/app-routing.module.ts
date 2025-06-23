@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'create/autorizada',
+    path: 'create/cuenta',
     loadChildren: () => import('./admin/pautorizada/create/create.module').then( m => m.CreatePageModule)
   },
   {
@@ -24,9 +24,15 @@ const routes: Routes = [
     loadChildren: () => import('./admin/alumnos/create/create.module').then( m => m.CreatePageModule)
   },
   {
-    path: 'create/docente',
-    loadChildren: () => import('./admin/docentes/create/create.module').then( m => m.CreatePageModule)
+    path: 'ver/alumnos',
+    loadChildren: () => import('./admin/alumnos/ver/ver.module').then( m => m.VerPageModule)
   },
+  {
+    path: 'gradoygrupo',
+    loadChildren: () => import('./admin/gradoygrupo/gradoygrupo.module').then( m => m.GradoygrupoPageModule)
+  },
+
+
 
 
 
