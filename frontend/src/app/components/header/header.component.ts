@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
@@ -6,6 +7,7 @@ import { Storage } from '@ionic/storage-angular';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HeaderComponent  implements OnInit {
 
