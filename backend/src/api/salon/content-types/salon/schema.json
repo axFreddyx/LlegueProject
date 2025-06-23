@@ -15,16 +15,6 @@
       "type": "string",
       "required": true
     },
-    "grados": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::grado.grado"
-    },
-    "grupos": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::grupo.grupo"
-    },
     "alumnos": {
       "type": "relation",
       "relation": "oneToMany",
@@ -35,6 +25,20 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "periodo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::periodo.periodo",
+      "inversedBy": "salons"
+    },
+    "grado": {
+      "type": "integer",
+      "required": true
+    },
+    "grupo": {
+      "type": "string",
+      "required": true
     }
   }
 }

@@ -1,43 +1,6 @@
-<ion-header class="custom-header">
-    <ion-toolbar color="light">
-        <ion-buttons slot="start">
-            <ion-menu-button autoHide="false"></ion-menu-button>
-        </ion-buttons>
 
-        <ion-title class="navbar-title">
-            Inicio
-        </ion-title>
 
-        <ion-buttons slot="end">
-            <ion-button>
-                <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
-<ion-menu contentId="main-content">
-    <ion-header>
-        <ion-toolbar color="light">
-            <ion-title>Menú</ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-content>
-        <ion-list>
-            <ion-item routerLink="/create/cuennta">Crear Cuenta</ion-item>
-            <ion-item routerLink="/create/alumnos">Crear Alumnos</ion-item>
-            <ion-item routerLink="/ver/alumnos">Ver Alumnos</ion-item>
-            <ion-item routerLink="/gradoygrupo">Grados y Grupos</ion-item>
-                <ion-item [style.cursor]="'pointer'" (click)="logout()">
-                    Cerrar Sesión
-                </ion-item>
 
-            <!-- <ion-item routerLink="/perfil">Perfil</ion-item>
-      <ion-item routerLink="/ajustes">Ajustes</ion-item> -->
-        </ion-list>
-    </ion-content>
-</ion-menu>
-
-<ion-router-outlet id="main-content"></ion-router-outlet>
 <ion-content [fullscreen]="true" class="admin-home">
 
     <div class="content-wrapper">

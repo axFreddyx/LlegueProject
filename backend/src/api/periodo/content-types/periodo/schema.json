@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "periodos",
+  "info": {
+    "singularName": "periodo",
+    "pluralName": "periodos",
+    "displayName": "Periodo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ciclo": {
+      "type": "string"
+    },
+    "director": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "periodos"
+    },
+    "salons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::salon.salon",
+      "mappedBy": "periodo"
+    }
+  }
+}

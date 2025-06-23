@@ -21,12 +21,6 @@ export class HomePage implements OnInit {
   ) {
   }
 
-  logout(){
-    console.log("has cerrado sesion")
-    setTimeout(() => {
-      this.router.navigateByUrl("/login");
-    }, 3000)
-    this.storage.remove("token")
-  }
+ 
 
 }

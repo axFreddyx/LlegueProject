@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
     this.api.login(data).subscribe({
       next: (data: any) => {
         console.log(data);
-        this.db.set('token',data.jwt);
+        this.db.set('token',`Bearer ${data.jwt}`);
         
         this.message = 'Inicio de sesión exitoso';
         this.messageType = 'success';

@@ -413,63 +413,6 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiGradoGrado extends Struct.CollectionTypeSchema {
-  collectionName: 'grados';
-  info: {
-    displayName: 'Grado';
-    pluralName: 'grados';
-    singularName: 'grado';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    grado: Schema.Attribute.Integer &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<1>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::grado.grado'> &
-      Schema.Attribute.Private;
-    nombre: Schema.Attribute.Text &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'Primero'>;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiGrupoGrupo extends Struct.CollectionTypeSchema {
-  collectionName: 'grupos';
-  info: {
-    displayName: 'Grupo';
-    pluralName: 'grupos';
-    singularName: 'grupo';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    grupo: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'A'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::grupo.grupo'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiLlegadaLlegada extends Struct.CollectionTypeSchema {
   collectionName: 'llegadas';
   info: {
@@ -509,6 +452,39 @@ export interface ApiLlegadaLlegada extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPeriodoPeriodo extends Struct.CollectionTypeSchema {
+  collectionName: 'periodos';
+  info: {
+    displayName: 'Periodo';
+    pluralName: 'periodos';
+    singularName: 'periodo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ciclo: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    director: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::periodo.periodo'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    salons: Schema.Attribute.Relation<'oneToMany', 'api::salon.salon'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
   collectionName: 'salons';
   info: {
@@ -529,11 +505,12 @@ export interface ApiSalonSalon extends Struct.CollectionTypeSchema {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    grados: Schema.Attribute.Relation<'oneToMany', 'api::grado.grado'>;
-    grupos: Schema.Attribute.Relation<'oneToMany', 'api::grupo.grupo'>;
+    grado: Schema.Attribute.Integer & Schema.Attribute.Required;
+    grupo: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::salon.salon'> &
       Schema.Attribute.Private;
+    periodo: Schema.Attribute.Relation<'manyToOne', 'api::periodo.periodo'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1024,6 +1001,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    periodos: Schema.Attribute.Relation<'oneToMany', 'api::periodo.periodo'>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1054,9 +1032,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::alumno.alumno': ApiAlumnoAlumno;
-      'api::grado.grado': ApiGradoGrado;
-      'api::grupo.grupo': ApiGrupoGrupo;
       'api::llegada.llegada': ApiLlegadaLlegada;
+      'api::periodo.periodo': ApiPeriodoPeriodo;
       'api::salon.salon': ApiSalonSalon;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

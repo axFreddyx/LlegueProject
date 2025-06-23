@@ -87,6 +87,12 @@
     },
     "apellidos": {
       "type": "string"
+    },
+    "periodos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::periodo.periodo",
+      "mappedBy": "director"
     }
   }
 }
