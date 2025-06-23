@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'gradoygrupo',
     loadChildren: () => import('./admin/gradoygrupo/gradoygrupo.module').then( m => m.GradoygrupoPageModule)
+  },  {
+    path: 'llegue',
+    loadChildren: () => import('./autorizada/llegue/llegue.module').then( m => m.LleguePageModule)
   },
+
 
 
 
