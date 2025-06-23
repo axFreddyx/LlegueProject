@@ -23,9 +23,7 @@ export class LoginPage implements OnInit {
   message = ''; // Para mostrar el mensaje
   messageType = ''; // Tipo de mensaje ('success', 'error')
 
-
-
- ngOnInit() { 
+  ngOnInit() { 
     this.db.create();
   }
 

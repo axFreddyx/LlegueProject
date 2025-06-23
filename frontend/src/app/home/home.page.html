@@ -27,6 +27,10 @@
             <ion-item routerLink="/create/alumnos">Crear Alumnos</ion-item>
             <ion-item routerLink="/ver/alumnos">Ver Alumnos</ion-item>
             <ion-item routerLink="/gradoygrupo">Grados y Grupos</ion-item>
+                <ion-item [style.cursor]="'pointer'" (click)="logout()">
+                    Cerrar Sesión
+                </ion-item>
+
             <!-- <ion-item routerLink="/perfil">Perfil</ion-item>
       <ion-item routerLink="/ajustes">Ajustes</ion-item> -->
         </ion-list>
@@ -75,10 +79,6 @@
 
         <ion-button expand="block" color="tertiary" shape="round" routerLink="/historial">
             Ver Historial de Llegadas
-        </ion-button>
-
-        <ion-button expand="block" color="danger" shape="round">
-            Cerrar Sesión
         </ion-button>
 
     </div>
