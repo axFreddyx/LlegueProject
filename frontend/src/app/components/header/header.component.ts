@@ -7,7 +7,8 @@ import { Storage } from '@ionic/storage-angular';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  // schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  standalone: false,
 })
 export class HeaderComponent  implements OnInit {
 
@@ -26,6 +27,10 @@ export class HeaderComponent  implements OnInit {
       this.router.navigateByUrl("/login");
     }, 3000)
     this.storage.remove("token")
+  }
+
+  redirect(path:any){
+    return this.router.navigateByUrl(`${path}`);
   }
 
 }
