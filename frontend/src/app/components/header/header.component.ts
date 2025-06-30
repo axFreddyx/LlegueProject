@@ -1,4 +1,3 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
@@ -7,21 +6,17 @@ import { Storage } from '@ionic/storage-angular';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  // schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  standalone: false,
+  standalone: false
 })
 export class HeaderComponent implements OnInit {
+  menuType: string = 'overlay';
 
   constructor(
     private storage: Storage,
     private router: Router
-  ) {
+  ) {}
 
-  }
-
-  ngOnInit() {
-    // this.protectedRoute();
-  }
+  ngOnInit() {}
 
   logout() {
     console.log("has cerrado sesion")
@@ -34,6 +29,8 @@ export class HeaderComponent implements OnInit {
   redirect(path: any) {
     return this.router.navigateByUrl(`${path}`);
   }
+}
+
 
   // protectedRoute() {
   //   const checkInterval = setInterval(() => {
@@ -47,4 +44,4 @@ export class HeaderComponent implements OnInit {
   // }
 
 
-}
+// }
