@@ -46,14 +46,12 @@ export class CreatePage implements OnInit {
   }
 
   crearPersona() {
-    this.api.register(this.username, this.email, this.password, this.nombre).subscribe({
-      next:(data:any) => {
-        console.log(data);
-      }
-    })
-    error:(err:any) =>{
-      console.log(err);
-    }
+    this.api.register(this.username, this.email, this.password, this.nombre).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.error(err);
+    });
+    
   }
 
 

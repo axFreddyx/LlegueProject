@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -14,46 +15,50 @@ export class ApiService {
 
   //#region Register y login
 
-  register(username: string, email: string, password: string, nombre: string) {
-    return this.http.post(this.url + "/auth/local/register", { username, email, password, nombre });
+  async register(username: string, email: string, password: string, nombre: string) {
+    return await axios.post(this.url + "/auth/local/register", { username, email, password, nombre });
   }
   private async initStorage() {
     await this.storage.create(); // 👈 esto evita que `storage.get` falle
   }
 
-  CrearAutorizada(data: any) {
+  async CrearAutorizada(data: any) {
     // let options = new HttpHeaders({
     //   'Authorization': 'Bearer ' + token
     // })
-    return this.http.post(this.url + "/auth/local/register", data);
+    return await axios.post(this.url + "/auth/local/register", data);
   }
 
-  login(data: any) {
-    return this.http.post(this.url + "/auth/local", data);
+  async login(data: any) {
+    return await axios.post(this.url + "/auth/local", data);
   }
 
   //#endregion
 
   //#region Alumnos
 
-  getAlumnos(): Observable<any> {
-    return this.http.get(`${this.url}/alumnos?populate=*`);
+  async getAlumnos() {
+    return await axios.get(`${this.url}/alumnos?populate=*`);
   }
 
-  getAlumno(id: string): Observable<any> {
-    return this.http.get(`${this.url}/alumnos/${id}?populate=*`);
+  async getAlumno(id: string) {
+    return await axios.get(`${this.url}/alumnos/${id}?populate=*`);
   }
 
-  createAlumno(data: any): Observable<any> {
-    return this.http.post(`${this.url}/alumnos`, { data });
+  async getAlumnoByDocente(id:any){
+    return await axios.get(`${this.url}/alumnos?filters[docentes][id][$eq]=${id}`)
   }
 
-  updateAlumno(id: string, data: any): Observable<any> {
-    return this.http.put(`${this.url}/alumnos/${id}`, { data });
+  async createAlumno(data: any) {
+    return await axios.post(`${this.url}/alumnos`, { data });
   }
 
-  deleteAlumno(id: string): Observable<any> {
-    return this.http.delete(`${this.url}/alumnos/${id}`);
+  async updateAlumno(id: string, data: any) {
+    return await axios.put(`${this.url}/alumnos/${id}`, { data });
+  }
+
+  async deleteAlumno(id: string) {
+    return await axios.delete(`${this.url}/alumnos/${id}`);
   }
 
   //#endregion

@@ -26,5 +26,9 @@ export class CreatePage implements OnInit {
     }
   }
 
+  save(){
+    
+  }
+
 
 }
