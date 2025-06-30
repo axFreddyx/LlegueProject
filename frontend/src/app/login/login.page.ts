@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
   message = ''; // Para mostrar el mensaje
   messageType = ''; // Tipo de mensaje ('success', 'error')
 
-  ngOnInit() { 
+  ngOnInit() {
     this.db.create();
   }
 
@@ -33,31 +33,29 @@ export class LoginPage implements OnInit {
       password: this.password
     };
 
-    this.api.login(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.db.set('token',`Bearer ${data.jwt}`);
-        
-        this.message = 'Inicio de sesión exitoso';
-        this.messageType = 'success';
-        
-        setTimeout(() => {
-          this.message = '';
-          this.messageType = '';
-        }, 3000);
-        this.router.navigateByUrl("/home");
-      },
-      error: (error: any) => {
-        console.log("Algo que no debería pasar pasó");
-        console.log(error);
-        this.message = 'Ocurrió un error desconocido';
-        this.messageType = 'error';
+    this.api.login(data).then((data: any) => {
+      console.log(data);
+      this.db.set('token', `Bearer ${data.jwt}`);
 
-        setTimeout(() => {
-          this.message = '';
-          this.messageType = '';
-        }, 3000);
-      }
-    });
+      this.message = 'Inicio de sesión exitoso';
+      this.messageType = 'success';
+
+      setTimeout(() => {
+        this.message = '';
+        this.messageType = '';
+      }, 3000);
+      this.router.navigateByUrl("/home");
+    }
+    ).catch((error: any) => {
+      console.log("Algo que no debería pasar pasó");
+      console.log(error);
+      this.message = 'Ocurrió un error desconocido';
+      this.messageType = 'error';
+
+      setTimeout(() => {
+        this.message = '';
+        this.messageType = '';
+      }, 3000);
+    })
   }
 }

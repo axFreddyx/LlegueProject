@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
     console.log("has cerrado sesion")
     setTimeout(() => {
       this.redirect("/login");
-    }, 3000)
+    }, 1000)
     this.storage.remove("token")
   }
 

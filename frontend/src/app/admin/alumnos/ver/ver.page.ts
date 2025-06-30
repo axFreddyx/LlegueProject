@@ -20,13 +20,12 @@ export class VerPage implements OnInit {
   alumnos: any[] = [];
 
   getAlumnos() {
-    this.api.getAlumnos().subscribe(
+    this.api.getAlumnos().then(
       (res: any) => {
-      this.alumnos = res.data;
-    },
-      (err: any) => {
-        console.error(err);
-      });
+        this.alumnos = res.data;
+      }
+    ).catch((err: any) => {
+      console.error(err);
+    })
   }
-
 }
