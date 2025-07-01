@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { GradoygrupoPageRoutingModule } from './gradoygrupo-routing.module';
 
 import { GradoygrupoPage } from './gradoygrupo.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GradoygrupoPageRoutingModule
+    GradoygrupoPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [GradoygrupoPage]
 })

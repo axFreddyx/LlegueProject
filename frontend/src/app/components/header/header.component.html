@@ -42,20 +42,51 @@
 <ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu Content</ion-title>
+      <ion-title>
+        <a href="/home">
+          Llegué
+        </a>
+      </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">This is the menu content.</ion-content>
+  <ion-content class="ion-padding">
+    <ion-list class="custom-list">
+
+      <a href="/create/cuenta">
+        <ion-item class="custom-item">
+          <ion-icon slot="start" name="person-add-outline" class="custom-icon"></ion-icon>
+          <ion-label class="custom-label">Crear Cuenta</ion-label>
+        </ion-item>
+      </a>
+
+      <a href="/create/alumnos">
+        <ion-item  class="custom-item">
+          <ion-icon slot="start" name="people-circle-outline" class="custom-icon"></ion-icon>
+          <ion-label class="custom-label">Crear Alumnos</ion-label>
+        </ion-item>
+      </a>
+
+      <a href="/ver/alumnos">
+        <ion-item class="custom-item">
+          <ion-icon slot="start" name="school-outline" class="custom-icon"></ion-icon>
+          <ion-label class="custom-label">Ver Alumnos</ion-label>
+        </ion-item>
+      </a>
+
+      <a href="/gradoygrupo">
+        <ion-item class="custom-item">
+          <ion-icon slot="start" name="albums-outline" class="custom-icon"></ion-icon>
+          <ion-label class="custom-label">Periodos y Salones</ion-label>
+        </ion-item>
+      </a>
+
+      <ion-button (click)="logout()" expand="block"  shape="round" color="danger">
+        <ion-icon name="log-out"></ion-icon> Cerrar Sesión
+      </ion-button>
+
+    </ion-list>
+  </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
   <ion-content class="ion-padding"> Tap the button in the toolbar to open the menu. </ion-content>
 </div>
-

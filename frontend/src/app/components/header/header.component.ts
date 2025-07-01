@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -13,22 +14,29 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    public menu: MenuController
   ) {}
 
   ngOnInit() {}
 
   logout() {
-    console.log("has cerrado sesion")
-    setTimeout(() => {
-      this.redirect("/login");
-    }, 1000)
-    this.storage.remove("token")
+    console.log("Has cerrado sesión");
+
+    // Primero borra el token
+    this.storage.remove("token").then(() => {
+      // Después redirige con un pequeño delay si deseas
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 1000);
+    });
   }
 
-  redirect(path: any) {
-    return this.router.navigateByUrl(`${path}`);
-  }
+redirect(path: string) {
+  this.router.navigateByUrl(path).then(() => {
+    this.menu.close(); // ✅ Cierra el menú tras la redirección
+  });
+
 }
 
 
@@ -44,4 +52,4 @@ export class HeaderComponent implements OnInit {
   // }
 
 
-// }
+}

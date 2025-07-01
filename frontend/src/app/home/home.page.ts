@@ -10,17 +10,28 @@ import { Storage } from '@ionic/storage-angular';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  
+
   constructor(
     private storage: Storage,
     private router: Router
-  ){
-    
-  }
-  ngOnInit(
   ) {
+
+  }
+  ngOnInit() {
   }
 
- 
+  logout() {
+    console.log("Has cerrado sesión");
+
+    // Primero borra el token
+    this.storage.remove("token").then(() => {
+      // Después redirige con un pequeño delay si deseas
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 1000);
+    });
+  }
+
+
 
 }
