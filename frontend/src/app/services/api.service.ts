@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
 import axios from 'axios';
 
@@ -23,9 +23,6 @@ export class ApiService {
   }
 
   async CrearAutorizada(data: any) {
-    // let options = new HttpHeaders({
-    //   'Authorization': 'Bearer ' + token
-    // })
     return await axios.post(this.url + "/auth/local/register", data);
   }
 
