@@ -27,7 +27,8 @@ export class ApiService {
   }
 
   async login(data: any) {
-    return await axios.post(this.url + "/auth/local", data);
+    const res = await axios.post(this.url + "/auth/local", data);
+    return res.data;
   }
 
   //#endregion
@@ -59,6 +60,11 @@ export class ApiService {
   }
 
   //#endregion
+
+  //#region Usuarios
+  async getUserByMe(){
+    
+  }
 
   // async isAuthenticated() {
   //   // return !!localStorage.getItem("token");
