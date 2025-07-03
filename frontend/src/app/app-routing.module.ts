@@ -41,18 +41,11 @@ const routes: Routes = [
   {
     path: 'ver/padres',
     loadChildren: () => import('./admin/pautorizada/ver/ver.module').then( m => m.VerPageModule)
-  },  {
+  },
+  {
     path: 'alumnos',
     loadChildren: () => import('./docente/alumnos/alumnos.module').then( m => m.AlumnosPageModule)
   },
-
-
-
-
-
-
-
-
 ];
 
 @NgModule({

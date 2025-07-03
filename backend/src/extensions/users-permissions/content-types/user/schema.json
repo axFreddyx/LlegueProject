@@ -93,6 +93,12 @@
       "relation": "oneToMany",
       "target": "api::periodo.periodo",
       "mappedBy": "director"
+    },
+    "salon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::salon.salon",
+      "inversedBy": "docente"
     }
   }
 }

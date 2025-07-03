@@ -72,7 +72,9 @@ export class ApiService {
   async getUserByMe() {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
-    return await axios.get(`${this.url}/users/me?populate=alumnos.salon`, {
+    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos]=*`;
+
+    return await axios.get(url, {
       headers: headers
     });
   }
@@ -108,6 +110,12 @@ export class ApiService {
     }, {
       headers: { Authorization: token }
     }); 
+  }
+
+  async getLlegadasBySalon(id:number, token: string) {
+    return await axios.get(`${this.url}/llegadas?filters[salon][id][$eq]=${id}&populate[alumno][populate]=foto&populate[persona_autorizada][populate]=foto`, {
+      headers: { Authorization: token }
+    });
   }
 
   async isAuthenticated(): Promise<boolean> {

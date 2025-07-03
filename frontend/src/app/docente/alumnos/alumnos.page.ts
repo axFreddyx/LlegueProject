@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
 
 interface Alumno {
   id: number;
@@ -19,61 +20,57 @@ export class AlumnosPage implements OnInit {
 
   fechaHoy = new Date().toISOString().split('T')[0];
 
-  alumnos: Alumno[] = [
-    { id: 1, nombre: "Juan Pérez", grupo: "3°A", foto: "juan.jpg" },
-    { id: 2, nombre: "María López", grupo: "3°A", foto: "maria.jpg" },
-    { id: 3, nombre: "Pedro Sánchez", grupo: "4°B", foto: "pedro.jpg" }
-  ];
+  salon: any = [];
 
-  llegadas = [
-    { alumno_id: 1, fecha: "2025-07-01" },
-    { alumno_id: 1, fecha: "2025-07-02" }, // recogido hoy
-    { alumno_id: 3, fecha: "2025-07-02" }  // recogido hoy
-  ];
+  alumnosConLlegada: any[] = [];
+  alumnosSinLlegada: any[] = [];
 
-  recogidos: Alumno[] = [];
-  pendientes: Alumno[] = [];
-
-  constructor(private toastCtrl: ToastController) { }
+  constructor(
+    private toastCtrl: ToastController,
+    private api: ApiService,
+  ) { }
 
   ngOnInit() {
-    this.actualizarListas();
+    this.getMe();
   }
 
-  actualizarListas() {
-    const idsRecogidosHoy = new Set(
-      this.llegadas
-        .filter(l => l.fecha === this.fechaHoy)
-        .map(l => l.alumno_id)
-    );
+  // Quiero que muestre los alumnos que la llegada sea false y en otra true. que las almacene en alumnosSinLlegada y alumnosConLlegada respectivamente
+  getMe() {
+    this.api.getUserByMe().then((res: any) => {
+      console.log('Usuario cargado:', res.data);
+      // this.salon = res.data.salon;
 
-    this.recogidos = this.alumnos.filter(a => idsRecogidosHoy.has(a.id));
-    this.pendientes = this.alumnos.filter(a => !idsRecogidosHoy.has(a.id));
-  }
+      // if (this.salon && Array.isArray(this.salon.alumnos)) {
+      //   this.alumnosConLlegada = this.salon.alumnos.filter((a: any) => a.llegada === true);
+      //   this.alumnosSinLlegada = this.salon.alumnos.filter((a: any) => a.llegada === false);
+      //   console.log('Alumnos con llegada:', this.alumnosConLlegada);
+      //   console.log('Alumnos sin llegada:', this.alumnosSinLlegada);
+      // } else {
+      //   console.log('No hay alumnos o salon.alumnos no es un arreglo');
+      //   this.alumnosConLlegada = [];
+      //   this.alumnosSinLlegada = [];
+      // }
 
-  confirmarLlegadas() {
-    const nuevos = this.pendientes.filter(a => a.seleccionado);
-
-    nuevos.forEach(a => {
-      this.llegadas.push({ alumno_id: a.id, fecha: this.fechaHoy });
-      a.seleccionado = false;
+    }).catch((err: any) => {
+      console.error(err);
+      this.presentToast('Error al cargar usuario');
     });
-
-    this.actualizarListas();
   }
 
-  async dejarSalir(alumno: Alumno) {
-    // Aquí podrías añadir lógica para registrar salida en base de datos
+  getLlegada() {
+    this.api.getLlegadasBySalon(1, '').then((res: any) => {
+      console.log('Llegadas:', res.data);
+    }).catch((err: any) => {
+      console.error('Error al obtener llegadas:', err);
+      this.presentToast('Error al obtener llegadas');
+    });
+  }
 
-    // Por ahora, solo quitamos de la lista recogidos para simular que salió
-    this.recogidos = this.recogidos.filter(a => a.id !== alumno.id);
-
-    const toast = await this.toastCtrl.create({
-      message: `${alumno.nombre} ha sido dejado salir.`,
+  presentToast(message: string) {
+    this.toastCtrl.create({
+      message: message,
       duration: 2000,
-      color: 'success',
       position: 'bottom'
-    });
-    toast.present();
+    }).then(toast => toast.present());
   }
 }
