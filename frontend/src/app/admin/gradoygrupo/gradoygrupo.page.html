@@ -1,17 +1,65 @@
 <app-header></app-header>
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button autoHide="false"></ion-menu-button>
-        </ion-buttons>
-
-        <ion-title>Periodos y Salones</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <!-- <ion-title>Periodos y Salones</ion-title> -->
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="container text-center">
-    <h1>Grados & Grupos</h1>
+    <h1 class="titulo">Salones</h1>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
+
+
+    <ion-button class="btn-principal" expand="block" fill="clear" shape="round" (click)="setOpen(true)">
+      Agregar Grupo
+    </ion-button>
+
+    <ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Crear Salon</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <div class="text-center">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12" size-md="6">
+                  <ion-input class="input-grupo" type="text" placeholder="Grado"></ion-input>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                  <ion-input class="input-grupo" type="text" placeholder="Grupo"></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <ion-item>
+            <ion-label>Periodo</ion-label>
+            <ion-select value="peperoni" multiple="true" placeholder="Seleccione Periodo">
+              <ion-select-option value="peperoni">2025-26</ion-select-option>
+              <ion-select-option value="hawaii">2024-25</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button class="btn-principal" expand="block" fill="clear" shape="round">
+            Crear
+          </ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+
+
+
+
+
     <hr class="border border-success border-2 my-3">
     <ion-grid class="tabla-ejemplo">
       <ion-row class="encabezado">
