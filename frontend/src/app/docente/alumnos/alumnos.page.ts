@@ -38,18 +38,9 @@ export class AlumnosPage implements OnInit {
   getMe() {
     this.api.getUserByMe().then((res: any) => {
       console.log('Usuario cargado:', res.data);
-      // this.salon = res.data.salon;
+      this.salon = res.data.salon;
 
-      // if (this.salon && Array.isArray(this.salon.alumnos)) {
-      //   this.alumnosConLlegada = this.salon.alumnos.filter((a: any) => a.llegada === true);
-      //   this.alumnosSinLlegada = this.salon.alumnos.filter((a: any) => a.llegada === false);
-      //   console.log('Alumnos con llegada:', this.alumnosConLlegada);
-      //   console.log('Alumnos sin llegada:', this.alumnosSinLlegada);
-      // } else {
-      //   console.log('No hay alumnos o salon.alumnos no es un arreglo');
-      //   this.alumnosConLlegada = [];
-      //   this.alumnosSinLlegada = [];
-      // }
+     
 
     }).catch((err: any) => {
       console.error(err);
