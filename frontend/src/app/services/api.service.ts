@@ -73,4 +73,6 @@ export class ApiService {
   async isAuthenticated():Promise<boolean>{
     return !!this.storage.get("token");
   }
+
+
 }
