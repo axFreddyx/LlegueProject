@@ -1,63 +1,61 @@
-.custom-header {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --background: #ffffff;
-  border-bottom: 1px solid #ddd;
-}
+// .custom-header {
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+//   --background: #ffffff;
+//   border-bottom: 1px solid #ddd;
+// }
 
-.navbar-title {
-  font-weight: bold;
-  font-size: 20px;
-  color: #333;
-}
-a{
+// .navbar-title {
+//   font-weight: bold;
+//   font-size: 20px;
+//   color: #333;
+// }
+a {
   text-decoration: none;
 }
 
 
 .admin-home {
   --background: #f5f5f5;
+}
 
-  .content-wrapper {
-    padding: 20px;
-    text-align: center;
+.content-wrapper {
+  padding: 20px;
+  text-align: center;
+}
+
+// .titulo {
+//   font-size: 1.8rem;
+//   font-weight: bold;
+//   color: #333;
+//   margin-bottom: 10px;
+// }
+
+// .brand {
+//   color: #4CAF50;
+// }
+
+.descripcion {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.card-resumen {
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  ion-card-title {
+    font-size: 1rem;
+    color: #555;
   }
 
-  .titulo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+  ion-card-content h2 {
+    font-size: 2rem;
+    // color: #4CAF50;
+    margin: 0;
   }
 
-  .brand {
-    color: #4CAF50;
-  }
-
-  .descripcion {
-    color: #666;
-    margin-bottom: 20px;
-  }
-
-  .card-resumen {
-    text-align: center;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-    ion-card-title {
-      font-size: 1rem;
-      color: #555;
-    }
-
-    ion-card-content h2 {
-      font-size: 2rem;
-      color: #4CAF50;
-      margin: 0;
-    }
-  }
-
-  ion-button {
-    margin-top: 10px;
-    font-weight: bold;
-    border-radius: 12px;
+  .card {
+    margin-top: 2rem;
   }
 }

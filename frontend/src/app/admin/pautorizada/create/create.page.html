@@ -4,22 +4,23 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Crear Cuenta</ion-title>
+    <!-- <ion-title>Crear Cuenta</ion-title> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container text-center" mode="ios">
-    <h1>
+  <div class="container text-center">
+    <h1 class="titulo">
       Crear Cuenta
     </h1>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
     <ion-grid fixed>
       <ion-row>
 
         <!-- Nombre -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label position="stacked">Nombre(s)</ion-label>
+            <ion-label class="label-input" position="stacked">Nombre(s)</ion-label>
             <ion-input type="text" placeholder="Nombre(s)" [(ngModel)]="persona_autorizada.nombre"></ion-input>
           </ion-item>
         </ion-col>
@@ -27,7 +28,7 @@
         <!-- Apellidos -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label position="stacked">Apellidos</ion-label>
+            <ion-label class="label-input" position="stacked">Apellidos</ion-label>
             <ion-input type="text" placeholder="Apellidos" [(ngModel)]="persona_autorizada.apellidos"></ion-input>
           </ion-item>
         </ion-col>
@@ -35,7 +36,7 @@
         <!-- Usuario -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label position="stacked">Usuario</ion-label>
+            <ion-label class="label-input" position="stacked">Usuario</ion-label>
             <ion-input type="text" placeholder="Usuario" [(ngModel)]="persona_autorizada.username"></ion-input>
           </ion-item>
         </ion-col>
@@ -43,7 +44,7 @@
         <!-- Correo -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label position="stacked">Correo Electrónico</ion-label>
+            <ion-label class="label-input" position="stacked">Correo Electrónico</ion-label>
             <ion-input type="email" placeholder="Email" [(ngModel)]="persona_autorizada.email"></ion-input>
           </ion-item>
         </ion-col>
@@ -51,15 +52,15 @@
         <!-- Contraseña -->
         <ion-col size="12">
           <ion-item>
-            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-label class="label-input" position="stacked">Contraseña</ion-label>
             <ion-input type="password" placeholder="Contraseña" [(ngModel)]="persona_autorizada.password"></ion-input>
           </ion-item>
         </ion-col>
 
         <ion-col size="12">
           <ion-item>
-            <ion-label position="stacked">Rol</ion-label>
-            <ion-select value="role"placeholder="Seleccione Rol">
+            <ion-label class="label-input" position="stacked">Rol</ion-label>
+            <ion-select value="role" placeholder="Seleccione Rol">
               <ion-select-option value="Admin">Administrador</ion-select-option>
               <ion-select-option value="Docente">Docente</ion-select-option>
               <ion-select-option value="Persona Autorizada">Persona Autorizada</ion-select-option>
@@ -70,7 +71,7 @@
         <!-- Foto -->
         <ion-col size="12">
           <ion-item lines="none" class="foto-input">
-            <ion-label position="stacked">Foto de perfil</ion-label>
+            <ion-label class="label-input" position="stacked">Foto de perfil</ion-label>
             <input type="file" accept="image/*" (change)="onFileChange($event)" [(ngModel)]="persona_autorizada.foto" />
           </ion-item>
           <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
@@ -80,7 +81,7 @@
 
         <!-- Botón -->
         <ion-col size="12">
-          <ion-button expand="block" shape="round" fill="clear" (click)="crearPersona()">
+          <ion-button expand="block" shape="round" fill="clear" class="btn-principal" (click)="crearPersona()">
             Crear Cuenta
           </ion-button>
         </ion-col>

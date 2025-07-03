@@ -1,11 +1,11 @@
 <app-header></app-header>
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button autoHide="false"></ion-menu-button>
-        </ion-buttons>
-        <!-- <ion-title>Inicio</ion-title> -->
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <!-- <ion-title>Inicio</ion-title> -->
+  </ion-toolbar>
 </ion-header>
 
 
@@ -13,13 +13,95 @@
   <div class="container py-4">
     <!-- Encabezado -->
     <div class="text-center mb-4">
-      <img src="assets/img/escuela.png" alt="Logo Escuela" width="100">
-      <h1 class="mt-3 text-dark">Panel Administrativo</h1>
+      <h1 class="mt-3 titulo">Panel Administrativo</h1>
+      <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
       <p class="text-muted">Sistema de Recogida de Alumnos</p>
     </div>
 
     <!-- Tarjetas de gestión -->
-    <div class="row g-4">
+
+    <ion-grid>
+      <ion-row>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="people-circle-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Padres Registrados</h5>
+              <p class="card-text">Gestiona la información de los padres autorizados.</p>
+              <ion-button fill="clear" class="btn-principal" expand="block">Ver Padres</ion-button>
+            </div>
+          </div>
+        </ion-col>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="school-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Alumnos</h5>
+              <p class="card-text">Consulta y edita los datos de los alumnos.</p>
+              <ion-button fill="clear" class="btn-secundario" expand="block">Ver Alumnos</ion-button>
+            </div>
+          </div>
+        </ion-col>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="glasses-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Docentes</h5>
+              <p class="card-text">Consulta Docentes.</p>
+              <ion-button fill="clear" class="btn-principal" expand="block">Ver Docentes</ion-button>
+            </div>
+          </div>
+        </ion-col>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="briefcase-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Salones Y Grupos</h5>
+              <p class="card-text">Consulta y edita los Salones y Grupos.</p>
+              <ion-button fill="clear" class="btn-secundario" expand="block">Ver Salones</ion-button>
+            </div>
+          </div>
+        </ion-col>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="time-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Periodos</h5>
+              <p class="card-text">Consulta y edita los Periodos.</p>
+              <ion-button fill="clear" class="btn-principal" expand="block">Consultar Periodo</ion-button>
+            </div>
+          </div>
+        </ion-col>
+
+
+        <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="person-add-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Crear Cuenta</h5>
+              <p class="card-text">Crea Cuentas para Padres y Docentes.</p>
+              <a href="/create/cuenta">
+                <ion-button fill="clear" class="btn-secundario" expand="block">Crear Cuenta</ion-button>
+              </a>
+            </div>
+          </div>
+        </ion-col>
+
+
+      </ion-row>
+    </ion-grid>
+
+    <!-- <div class="row g-4">
       <div class="col-md-6 col-lg-4">
         <div class="card border-success shadow-sm h-100">
           <div class="card-body text-center">
@@ -52,7 +134,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Pie -->
     <div class="text-center mt-5 text-secondary small">
