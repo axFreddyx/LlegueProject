@@ -1,6 +1,6 @@
 <ion-header class="custom-header">
   <ion-toolbar>
-    <!-- <ion-title>Llegué</ion-title> -->
+    <ion-title>{{userLogged.role.name}}</ion-title>
     <ion-buttons slot="end">
       <!-- <ion-button routerLink="/historial">
         <ion-icon name="log-out-outline"></ion-icon>
@@ -33,7 +33,7 @@
         <ion-toolbar>
           <ion-title>Seleccione el/los hijo(s)</ion-title>
           <ion-buttons slot="start">
-            <ion-button (click)="marcarLlegada()" class="btn-principal" fill="clear"
+            <ion-button (click)="marcarLlegada()" color="dark"  
               [disabled]="seleccionados.length === 0">Llegué</ion-button>
             <!-- <ion-button (click)="setOpen(false)">Cerrar</ion-button> -->
           </ion-buttons>
