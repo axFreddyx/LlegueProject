@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-ver',
@@ -9,9 +10,10 @@ import { OverlayEventDetail } from '@ionic/core/components';
 })
 export class VerPage implements OnInit {
 
-  constructor() { }
-
   isModalOpen = false;
+  personas: any[] = [];
+
+  constructor(private api: ApiService) { }
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
@@ -21,8 +23,21 @@ export class VerPage implements OnInit {
     this.isModalOpen = false;
   }
 
+async ngOnInit() {
+  try {
+    const response: any = await this.api.getPersonasAutorizadas();
 
-  ngOnInit() {
+    if (response?.data) {
+      this.personas = response.data;
+      console.log('Personas autorizadas:', this.personas);
+    } else {
+      console.warn('No se encontró .data en la respuesta:', response);
+    }
+
+  } catch (error) {
+    console.error('Error al obtener personas autorizadas:', error);
   }
+}
 
 }
+

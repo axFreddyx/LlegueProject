@@ -74,5 +74,15 @@ export class ApiService {
     return !!this.storage.get("token");
   }
 
+  //Función para traer usuarios con rol de "Persona Autorizada"
+  async getPersonasAutorizadas() {
+    const token = await this.storage.get('token');
+    const headers = { Authorization: token };
+    const url = `${this.url}/users?filters[role][id][$eq]=5&populate[alumnos]=*&populate[foto]=*`;
+
+    return await axios.get(url, { headers }); 
+  }
+
+
 
 }
