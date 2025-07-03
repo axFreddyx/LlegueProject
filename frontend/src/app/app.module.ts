@@ -17,7 +17,11 @@ import { FormsModule } from '@angular/forms';
   imports: [
     HttpClientModule,
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot(
+      {
+        mode:"ios",
+      }
+    ),
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     FormsModule

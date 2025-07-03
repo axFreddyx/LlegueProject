@@ -72,7 +72,9 @@ export class ApiService {
   async getUserByMe() {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
-    return await axios.get(`${this.url}/users/me?populate=*`, { headers: headers });
+    return await axios.get(`${this.url}/users/me?populate=alumnos.salon`, {
+      headers: headers
+    });
   }
 
   //Función para traer usuarios con rol de "Persona Autorizada"
@@ -94,8 +96,20 @@ export class ApiService {
     });
   }
 
-
   //#endregion
+
+  //#region Llegue
+  async llegue(alumnoId: string, autorizadaId: string, token: string) {
+    return await axios.post(`${this.url}/llegadas`, {
+      data: {
+        alumno: alumnoId,
+        persona_autorizada: autorizadaId,
+      }
+    }, {
+      headers: { Authorization: token }
+    }); 
+  }
+
   async isAuthenticated(): Promise<boolean> {
     return !!this.storage.get("token");
   }
