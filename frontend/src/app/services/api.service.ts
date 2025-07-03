@@ -43,9 +43,9 @@ export class ApiService {
     return await axios.get(`${this.url}/alumnos/${id}?populate=*`);
   }
 
-  async getAlumnoByDocente(id:any){
-    return await axios.get(`${this.url}/alumnos?filters[docentes][id][$eq]=${id}`)
-  }
+  // async getAlumnoByDocente(id: any) {
+  //   return await axios.get(`${this.url}/alumnos?filters[docentes][id][$eq]=${id}`)
+  // }
 
   async createAlumno(data: any) {
     return await axios.post(`${this.url}/alumnos`, { data });
@@ -59,30 +59,44 @@ export class ApiService {
     return await axios.delete(`${this.url}/alumnos/${id}`);
   }
 
+  async asignarAlumnosAPersona(idPersona: number, alumno: number[], token: string) {
+    return await axios.put(`${this.url}/users/${idPersona}`, {
+      alumnos: alumno,
+    },
+      { headers: { Authorization: token } });
+  }
+
   //#endregion
 
   //#region Usuarios
-  async getUserByMe(){
-    
-  }
-
-  // async isAuthenticated() {
-  //   // return !!localStorage.getItem("token");
-  //   console.log(!!this.storage.get("token"));
-  // }
-  async isAuthenticated():Promise<boolean>{
-    return !!this.storage.get("token");
+  async getUserByMe() {
+    const token = await this.storage.get('token');
+    const headers = { Authorization: token };
+    return await axios.get(`${this.url}/users/me?populate=*`, { headers: headers });
   }
 
   //Función para traer usuarios con rol de "Persona Autorizada"
-  async getPersonasAutorizadas() {
+  async getUsersByRole(id: number) {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
-    const url = `${this.url}/users?filters[role][id][$eq]=5&populate[alumnos]=*&populate[foto]=*`;
+    const url = `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*`;
 
-    return await axios.get(url, { headers }); 
+    return await axios.get(url, { headers: headers });
+  }
+
+  //#endregion
+
+  //#region Salones
+
+  async getSalones(token: any) {
+    return await axios.get(`${this.url}/salons?populate[alumnos][populate]=*&populate[docente]=true&populate[periodo]=true`, {
+      headers: { Authorization: token }
+    });
   }
 
 
-
+  //#endregion
+  async isAuthenticated(): Promise<boolean> {
+    return !!this.storage.get("token");
+  }
 }
