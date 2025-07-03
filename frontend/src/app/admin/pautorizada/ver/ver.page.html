@@ -27,7 +27,9 @@
                         </ion-card-header>
                         <ion-card-content>
                             <p> <strong>Alumnos a su cargo:</strong> 2</p>
-                            <ion-button fill="clear" expand="block" class="btn-principal">Agregar Alumno</ion-button>
+                            <ion-button fill="clear" expand="block" class="btn-principal" (click)="setOpen(true)">
+                                Agregar Alumno
+                            </ion-button>
                         </ion-card-content>
                     </div>
 
@@ -35,5 +37,65 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+
+    <ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>Seleccione sus Alumnos</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button color="danger" (click)="setOpen(false)">Cerrar</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding bg-light">
+                <ion-accordion-group expand="inset">
+
+                    <!-- Salón 1 -->
+                    <ion-accordion value="salon1">
+                        <ion-item slot="header" color="light">
+                            <ion-label><strong>Salón 1 - 3° A</strong></ion-label>
+                        </ion-item>
+                        <div class="ion-padding" slot="content">
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>Juan Pérez</ion-label>
+                                    <ion-button size="small" color="primary" fill="outline">Seleccionar</ion-button>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>María López</ion-label>
+                                    <ion-button size="small" color="primary" fill="outline">Seleccionar</ion-button>
+                                </ion-item>
+                            </ion-list>
+                        </div>
+                    </ion-accordion>
+
+                    <!-- Salón 2 -->
+                    <ion-accordion value="salon2">
+                        <ion-item slot="header" color="light">
+                            <ion-label><strong>Salón 2 - 4° B</strong></ion-label>
+                        </ion-item>
+                        <div class="ion-padding" slot="content">
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>Pedro Sánchez</ion-label>
+                                    <ion-button size="small" color="primary" fill="outline">Seleccionar</ion-button>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>Laura Gómez</ion-label>
+                                    <ion-button size="small" color="primary" fill="outline">Seleccionar</ion-button>
+                                </ion-item>
+                            </ion-list>
+                        </div>
+                    </ion-accordion>
+
+                </ion-accordion-group>
+                <ion-button fill="clear" expand="block" class="btn-principal">
+                    Agregar Alumno
+                </ion-button>
+            </ion-content>
+
+        </ng-template>
+    </ion-modal>
 
 </ion-content>
