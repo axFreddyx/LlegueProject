@@ -1,51 +1,133 @@
 
-
-
-.custom-content {
-  --background: #f2f2f2;
+.gobierno-login-content {
+  --background: #f4f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+.gobierno-login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  padding: 30px 20px;
 }
 
-.form-logo {
-  width: 220px;
+.gobierno-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.institucion-nombre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #003366;
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.form-box {
+.formulario-container {
   background-color: #ffffff;
-  padding: 30px 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
 }
 
-.custom-form {
-  width: 100%;
+.titulo-login {
+  font-weight: 600;
+  margin-bottom: 15px;
 }
-a{
-    text-decoration: none;
+
+.input-institucional {
+  --highlight-color-focused: #2e7d32;
+  --background: #f8f9fa;
+  border-radius: 5px;
 }
-ion-button{
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    border-radius: 15px;
+
+.enlace {
+  font-size: 0.85rem;
+  color: #004080;
+  text-decoration: none;
 }
-ion-button:hover {
-  background-color: #3e8e41;
-//   color: #dbc927;
-  -webkit-text-stroke: .5px black;
-  text-stroke: .5px black; /* Para navegadores que lo soportan */
+
+.enlace:hover {
+  text-decoration: underline;
+}
+
+
+// Centrado completo en pantalla
+.gobierno-login-content {
+  --background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+// Contenedor adaptado
+.gobierno-login-wrapper {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh; // Centrado vertical en móviles
+}
+
+// Logo institucional
+.gobierno-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+// Nombre de la escuela
+.institucion-nombre {
+  font-size: 2.1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+// Caja del formulario
+.formulario-container {
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+// Título del formulario
+.titulo-login {
+  color: #004080;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+// Inputs institucionales
+.input-institucional {
+  --highlight-color-focused: #2e7d32;
+  --background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 1.05rem;
+}
+
+// Botón
+
+
+// Enlace
+.enlace {
+  font-size: 0.9rem;
+  color: #004080;
+  text-decoration: none;
+}
+
+.enlace:hover {
+  text-decoration: underline;
 }

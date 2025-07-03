@@ -36,15 +36,78 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 // @import "@ionic/angular/css/palettes/dark.system.css";
 
-ion-title {
-    color: #4CAF50;
-    font-weight: bold;
-    text-align: center;
+
+:root {
+    --primario: #004080; // Azul institucional
+    --secundario: #8c180b; // Verde tipo gobierno
+    --tercero: #f9a825; // Amarillo institucional
+    --blanco: #f4f4f4;
+    --negro: #000000;
 }
 
-h1 {
-    color: #4CAF50;
+
+.menu-title,
+a {
+
+    color: var(--primario);
+
+}
+
+.custom-item {
+
+    color: var(--primario);
+
+}
+
+.custom-icon {
+    color: var(--primario);
+}
+
+.titulo-login {
+    color: var(--primario);
+}
+
+.btn-principal {
+    font-size: 1rem;
+    height: 48px;
+    color: var(--blanco);
+    background-color: var(--primario);
+    border-radius: 15px;
+}
+
+.btn-principal:hover {
+    color: var(--negro);
     font-weight: bold;
-    text-align: center;
-    -webkit-text-stroke: .5px black;
+    background-color: var(--tercero);
+}
+
+.btn-secundario:hover {
+    color: var(--negro);
+    font-weight: bold;
+    background-color: var(--tercero);
+}
+
+.btn-secundario {
+    font-size: 1rem;
+    height: 48px;
+    color: var(--blanco);
+    background-color: var(--secundario);
+    border-radius: 15px;
+}
+
+.institucion-nombre {
+
+    color: var(--primario);
+
+}
+
+.titulo {
+    font-size: 2rem;
+    color: var(--secundario);
+    font-weight: bold;
+}
+
+.label-input{
+    font-size: 2rem;
+    color: var(--primario);
 }

@@ -37,7 +37,11 @@ const routes: Routes = [
   {
     path: 'llegue',
     loadChildren: () => import('./autorizada/llegue/llegue.module').then( m => m.LleguePageModule)
+  },  {
+    path: 'ver',
+    loadChildren: () => import('./admin/pautorizada/ver/ver.module').then( m => m.VerPageModule)
   },
+
 
 
 
