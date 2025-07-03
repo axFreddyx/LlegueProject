@@ -59,9 +59,16 @@
         </ion-item>
       </a>
 
-      <a href="/create/alumnos">
-        <ion-item  class="custom-item">
+      <a href="/ver/padres">
+        <ion-item class="custom-item">
           <ion-icon slot="start" name="people-circle-outline" class="custom-icon"></ion-icon>
+          <ion-label class="custom-label">Ver Padres</ion-label>
+        </ion-item>
+      </a>
+
+      <a href="/create/alumnos">
+        <ion-item class="custom-item">
+          <ion-icon slot="start" name="person-add-outline" class="custom-icon"></ion-icon>
           <ion-label class="custom-label">Crear Alumnos</ion-label>
         </ion-item>
       </a>
@@ -80,7 +87,7 @@
         </ion-item>
       </a>
 
-      <ion-button (click)="logout()" expand="block"  shape="round" color="danger">
+      <ion-button (click)="logout()" expand="block" shape="round" color="danger">
         <ion-icon name="log-out"></ion-icon> Cerrar Sesión
       </ion-button>
 

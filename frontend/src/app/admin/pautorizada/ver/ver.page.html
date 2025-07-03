@@ -1,13 +1,39 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>ver</ion-title>
-  </ion-toolbar>
+<app-header></app-header>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">ver</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+    <div class="text-center mb-4">
+        <h1 class="mt-3 titulo">Ver Padres</h1>
+        <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
+        <p class="text-muted">Panel para ver padres y agregar alumnos a las personas autorizadas</p>
+    </div>
+
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="12" size-lg="4" size-md="6">
+                <ion-card>
+                    <div class="text-center">
+                        <img alt="Foto Padre" src="assets/img/ejemplo.jpg" class="img-card" />
+                        <ion-card-header>
+                            <ion-card-title class="card-titulo">Alfredo Solis Martinez</ion-card-title>
+                            <ion-card-subtitle>afredy&#64;gmail.com</ion-card-subtitle>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <p> <strong>Alumnos a su cargo:</strong> 2</p>
+                            <ion-button fill="clear" expand="block" class="btn-principal">Agregar Alumno</ion-button>
+                        </ion-card-content>
+                    </div>
+
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
 </ion-content>

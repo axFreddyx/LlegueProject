@@ -107,7 +107,20 @@ a {
     font-weight: bold;
 }
 
-.label-input{
+.label-input {
     font-size: 2rem;
     color: var(--primario);
+}
+
+.img-card {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.card-titulo{
+font-size: 1rem;
+color: var(--secundario);
 }
