@@ -1,15 +1,25 @@
 <ion-header class="custom-header">
   <ion-toolbar>
-    <ion-title>Llegué</ion-title>
+    <!-- <ion-title>Llegué</ion-title> -->
     <ion-buttons slot="end">
-      <ion-button routerLink="/historial">
-        <ion-icon name="time-outline"></ion-icon>
+      <!-- <ion-button routerLink="/historial">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button> -->
+      <ion-button (click)="logout()" expand="block" shape="round" color="danger">
+        <ion-icon name="log-out"></ion-icon> Cerrar Sesión
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding custom-llegue-content">
+
+  <!-- <div class="container text-center">
+    <h1 class="titulo">
+      Crear Alumno
+    </h1>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
+  </div> -->
 
   <div class="llegue-wrapper">
     <ion-button expand="block" fill="clear" class="btn-llegue" (click)="setOpen(true)">
@@ -22,16 +32,22 @@
       <ion-header>
         <ion-toolbar>
           <ion-title>Seleccione el/los hijo(s)</ion-title>
+          <ion-buttons slot="start">
+            <ion-button (click)="marcarLlegada()" class="btn-principal" fill="clear"
+              [disabled]="seleccionados.length === 0">Llegué</ion-button>
+            <!-- <ion-button (click)="setOpen(false)">Cerrar</ion-button> -->
+          </ion-buttons>
           <ion-buttons slot="end">
-            <ion-button (click)="marcarLlegada()" color="success" [disabled]="seleccionados.length === 0">Llegué</ion-button>
             <ion-button (click)="setOpen(false)">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-list>
-          <ion-item *ngFor="let alumno of userLogged?.alumnos" lines="none" style="border-radius:10px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
-            <ion-checkbox slot="start" [(ngModel)]="alumno.seleccionado" (ionChange)="toggleSeleccion(alumno)"></ion-checkbox>
+          <ion-item *ngFor="let alumno of userLogged?.alumnos" lines="none"
+            style="border-radius:10px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+            <ion-checkbox slot="start" [(ngModel)]="alumno.seleccionado"
+              (ionChange)="toggleSeleccion(alumno)"></ion-checkbox>
             <ion-avatar slot="start" style="margin-left: 10px;">
               <img src="assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
             </ion-avatar>

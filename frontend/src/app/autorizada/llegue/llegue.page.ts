@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-llegue',
@@ -18,6 +19,7 @@ export class LleguePage implements OnInit {
   constructor(
     private api: ApiService,
     private storage: Storage,
+    private router:Router
   ) { }
 
   setOpen(isOpen: boolean) {
@@ -82,6 +84,18 @@ export class LleguePage implements OnInit {
     } catch (error) {
       console.error('Error marcando llegada:', error);
     }
+  }
+
+    logout() {
+    console.log("Has cerrado sesión");
+
+    // Primero borra el token
+    this.storage.remove("token").then(() => {
+      // Después redirige con un pequeño delay si deseas
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 1000);
+    });
   }
 
 }
