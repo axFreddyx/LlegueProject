@@ -1,0 +1,108 @@
+<!-- <app-header></app-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [fullscreen]="true" class="bg-light">
+  <div class="text-center mt-3">
+    <h1 class="titulo">Mis Alumnos</h1>
+    <img src="assets/img/escuela.png" width="120" alt="Logo Escuela">
+    <p class="text-muted">Fecha: {{ fechaHoy }}</p>
+  </div>
+
+  <!-- 🟡 Lista de alumnos pendientes -->
+
+  <div class="container">
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="label-docente"><strong>Alumnos listos para salir</strong></ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>Juan Pérez</h2>
+          <p>3°A</p>
+        </ion-label>
+        <ion-button fill="clear" class="btn-principal" onclick="alert('Dejar salir Juan Pérez')">
+          Dejar salir
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo2.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>María López</h2>
+          <p>3°A</p>
+        </ion-label>
+        <ion-button fill="clear" class="btn-principal" onclick="alert('Dejar salir María López')">
+          Dejar salir
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>Pedro Sánchez</h2>
+          <p>4°A</p>
+        </ion-label>
+        <ion-button fill="clear" class="btn-principal" onclick="alert('Dejar salir Pedro Sánchez')">
+          Dejar salir
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="container mt-4">
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="label-docente2" ><strong>Alumnos pendientes por recoger</strong></ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>Luis Gómez</h2>
+          <p>3°A</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo2.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>Ana Martínez</h2>
+          <p>3°A</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/ejemplo.jpg" />
+        </ion-avatar>
+        <ion-label>
+          <h2>Carlos Ruiz</h2>
+          <p>3°A</p>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <div class="text-center mt-5 text-secondary small">
+    © 2025 Escuela Primaria Benito Juárez | Llegué
+  </div>
+
+</ion-content>

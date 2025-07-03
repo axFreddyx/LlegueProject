@@ -120,7 +120,18 @@ a {
     margin-top: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.card-titulo{
-font-size: 1rem;
-color: var(--secundario);
+
+.card-titulo {
+    font-size: 1rem;
+    color: var(--secundario);
+}
+
+.label-docente {
+    font-size: 1.5rem;
+    color: var(--primario);
+}
+
+.label-docente2 {
+    font-size: 1.5rem;
+    color: var(--secundario);
 }
