@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
+import { Storage } from '@ionic/storage-angular';
 
 interface Alumno {
   id: number;
@@ -22,25 +23,58 @@ export class AlumnosPage implements OnInit {
 
   salon: any = [];
 
+  isMobile: boolean = false;
+
+  idSalon: any;
+  idMe: any;
+
   alumnosConLlegada: any[] = [];
   alumnosSinLlegada: any[] = [];
 
   constructor(
     private toastCtrl: ToastController,
     private api: ApiService,
+    private storage: Storage
   ) { }
 
-  ngOnInit() {
-    this.getMe();
+  async ngOnInit() {
+    this.changeResolution();
+    this.detectDevice();
+    await this.getMe();
+    await this.getLlegada();
+  }
+
+  changeResolution() {
+    // Variable que detecta el cambio de resolución
+    const resolution = window.matchMedia('(max-width: 768px)');
+    // Si la resolución cambia, se actualiza la variable isMobile
+    resolution.addEventListener('change', (event) => {
+      this.isMobile = event.matches;
+    });
+    return resolution.matches;
+  }
+
+  detectDevice() {
+    if (window.innerWidth <= 768) {
+      this.isMobile = true;
+    }
   }
 
   // Quiero que muestre los alumnos que la llegada sea false y en otra true. que las almacene en alumnosSinLlegada y alumnosConLlegada respectivamente
-  getMe() {
-    this.api.getUserByMe().then((res: any) => {
+  async getMe() {
+    await this.api.getUserByMe().then((res: any) => {
       console.log('Usuario cargado:', res.data);
       this.salon = res.data.salon;
+      this.idSalon = res.data.salon.documentId;
+      this.idMe = res.data.documentId;
 
-     
+      // res.data.alumnos.forEach((alumno:any) => {
+      //   // console.log('Alumno:', alumno.publishedAt);
+      //   if (alumno.publishedAt !== null) {
+      //     // res.data.alumnos = alumno
+      //     console.log('Alumno:', alumno);
+      //   }
+      // })
 
     }).catch((err: any) => {
       console.error(err);
@@ -48,12 +82,45 @@ export class AlumnosPage implements OnInit {
     });
   }
 
-  getLlegada() {
-    this.api.getLlegadasBySalon(1, '').then((res: any) => {
-      console.log('Llegadas:', res.data);
+  async getLlegada() {
+    const token = await this.storage.get('token');
+    // console.log('Token:', token);
+
+    this.api.getLlegadasBySalon(this.idSalon, token).then((res: any) => {
+      const data = res.data.data;
+      data.forEach((llegada: any) => {
+        if (llegada.llegada) {
+          this.alumnosConLlegada.push(llegada);
+        } else {
+          this.alumnosSinLlegada.push(llegada);
+        }
+      });
     }).catch((err: any) => {
       console.error('Error al obtener llegadas:', err);
       this.presentToast('Error al obtener llegadas');
+    });
+  }
+
+  reset(){
+    this.alumnosConLlegada = [];
+    this.alumnosSinLlegada = [];
+  }
+
+  async dejarSalir(llegada: any) {
+    const token = await this.storage.get('token');
+
+    const data = {
+      llegada: true,
+      docente: this.idMe,
+    }
+    this.api.autorizarSalida(llegada.documentId, data, token).then((res: any) => {
+      this.presentToast(`Alumno ${llegada.alumno.nombre} se ha entregado a su conocido.`);
+      // Actualizar las listas de alumnos
+      this.reset();
+      this.getLlegada();
+    }).catch((err: any) => {
+      console.error('Error al autorizar salida:', err);
+      this.presentToast('Error al autorizar salida');
     });
   }
 

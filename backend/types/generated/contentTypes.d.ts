@@ -429,7 +429,7 @@ export interface ApiLlegadaLlegada extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     docente: Schema.Attribute.Relation<
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     llegada: Schema.Attribute.Boolean &
@@ -989,6 +989,7 @@ export interface PluginUsersPermissionsUser
         minLength: 6;
       }>;
     foto: Schema.Attribute.Media<'images' | 'files'>;
+    llegadas: Schema.Attribute.Relation<'oneToMany', 'api::llegada.llegada'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

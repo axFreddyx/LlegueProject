@@ -109,11 +109,23 @@ export class ApiService {
       }
     }, {
       headers: { Authorization: token }
-    }); 
+    });
   }
 
-  async getLlegadasBySalon(id:number, token: string) {
-    return await axios.get(`${this.url}/llegadas?filters[salon][id][$eq]=${id}&populate[alumno][populate]=foto&populate[persona_autorizada][populate]=foto`, {
+  async getLlegadasBySalon(id: string, token: any) {
+    const url = `${this.url}/llegadas?filters[alumno][salon][documentId][$eq]=${id}&populate[alumno][populate]=*`;
+
+    return await axios.get(url, {
+      headers: {
+        Authorization: token
+      }
+    });
+  }
+
+  async autorizarSalida(id: string, data:any, token: string) {
+    return await axios.put(`${this.url}/llegadas/${id}`, { 
+      data: data
+    }, {
       headers: { Authorization: token }
     });
   }

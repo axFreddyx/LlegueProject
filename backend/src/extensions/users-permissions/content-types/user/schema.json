@@ -99,6 +99,12 @@
       "relation": "oneToOne",
       "target": "api::salon.salon",
       "inversedBy": "docente"
+    },
+    "llegadas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::llegada.llegada",
+      "mappedBy": "docente"
     }
   }
 }

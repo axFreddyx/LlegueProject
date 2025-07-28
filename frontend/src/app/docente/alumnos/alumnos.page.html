@@ -1,63 +1,118 @@
-<!-- <app-header></app-header>
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header> -->
-
 <ion-content [fullscreen]="true" class="bg-light">
   <div class="text-center mt-3">
     <h1 class="titulo">Mis Alumnos</h1>
-    <img src="assets/img/escuela.png" width="120" alt="Logo Escuela">
+    <img src="assets/img/escuela.png" width="120" alt="Logo Escuela" />
     <p class="text-muted">Fecha: {{ fechaHoy }}</p>
   </div>
 
-  <!-- 🟡 Lista de alumnos pendientes -->
-
-  <div class="container">
-    <ion-list>
-      <ion-list-header>
-        <ion-label class="label-docente"><strong>Alumnos listos para salir</strong></ion-label>
-      </ion-list-header>
-
-      <ion-item>
-        <ion-avatar slot="start">
-          <img alt="img" src="assets/img/ejemplo.jpg" />
-        </ion-avatar>
-        <ion-label>
-          <h2>Juan Pérez</h2>
-          <p>3°A</p>
-        </ion-label>
-        <ion-button fill="clear" class="btn-principal" onclick="alert('Dejar salir Juan Pérez')">
-          Dejar salir
-        </ion-button>
+  <!-- VISTA MÓVIL -->
+  <ion-accordion-group *ngIf="isMobile" expand="first" class="px-3">
+    <ion-accordion value="listos">
+      <ion-item slot="header" class="bg-white rounded shadow-sm mb-2">
+        <ion-label class="fw-semibold text-success">✔ Alumnos listos para salir</ion-label>
       </ion-item>
+      <div slot="content" class="bg-white p-3 rounded shadow-sm mb-3">
+        <ion-list>
+          <ion-item *ngIf="alumnosSinLlegada.length === 0" class="text-center text-muted">
+            No hay alumnos listos para salir.
+          </ion-item>
+          <ion-item *ngFor="let a of alumnosSinLlegada" class="d-flex align-items-center rounded mb-2">
+            <ion-avatar slot="start" class="me-3">
+              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+            </ion-avatar>
+            <ion-label class="me-auto">
+              <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
+              <small class="text-muted">{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</small>
+            </ion-label>
+            <ion-button
+              fill="outline"
+              size="small"
+              color="success"
+              (click)="dejarSalir(a)"
+            >
+              Dejar salir
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
 
-    </ion-list>
-  </div>
-  <div class="container mt-4">
-    <ion-list>
-      <ion-list-header>
-        <ion-label class="label-docente2" ><strong>Alumnos pendientes por recoger</strong></ion-label>
-      </ion-list-header>
-
-      <ion-item>
-        <ion-avatar slot="start">
-          <img alt="img" src="assets/img/ejemplo.jpg" />
-        </ion-avatar>
-        <ion-label>
-          <h2>Luis Gómez</h2>
-          <p>3°A</p>
-        </ion-label>
+    <ion-accordion value="entregados">
+      <ion-item slot="header" class="bg-white rounded shadow-sm mb-2">
+        <ion-label class="fw-semibold text-primary">📦 Alumnos entregados</ion-label>
       </ion-item>
+      <div slot="content" class="bg-white p-3 rounded shadow-sm mb-3">
+        <ion-list>
+          <ion-item *ngIf="alumnosConLlegada.length === 0" class="text-center text-muted">
+            Por el momento no se ha entregado algun alumno.
+          </ion-item>
 
-    </ion-list>
-  </div>
+          <ion-item *ngFor="let a of alumnosConLlegada" class="d-flex align-items-center rounded mb-2">
+            <ion-avatar slot="start" class="me-3">
+              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+            </ion-avatar>
+            <ion-label>
+              <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
+              <small class="text-muted">{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</small>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <!-- VISTA ESCRITORIO -->
+  <ion-grid *ngIf="!isMobile" fixed>
+    <ion-row>
+      <ion-col size="12" size-sm="6">
+        <ion-list>
+          <ion-list-header>
+            <ion-label class="label-docente"><strong>Alumnos listos para salir</strong></ion-label>
+          </ion-list-header>
+          <div *ngIf="alumnosSinLlegada.length === 0" class="text-center text-muted">
+            No hay alumnos listos para salir.
+          </div>
+          <ion-item *ngFor="let a of alumnosSinLlegada">
+            <ion-avatar slot="start">
+              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
+              <p>{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</p>
+            </ion-label>
+            <ion-button
+              fill="clear"
+              class="btn-principal"
+              (click)="dejarSalir(a)"
+            >
+              Dejar salir
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12" size-sm="6">
+        <ion-list>
+          <ion-list-header>
+            <ion-label class="label-docente2"><strong>Alumnos entregados</strong></ion-label>
+          </ion-list-header>
+          <div *ngIf="alumnosConLlegada.length === 0" class="text-center text-muted">
+            Por el momento no se ha entregado algun alumno.
+          </div>
+          <ion-item *ngFor="let a of alumnosConLlegada">
+            <ion-avatar slot="start">
+              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
+              <p>{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <div class="text-center mt-5 text-secondary small">
     © 2025 Escuela Primaria Benito Juárez | Llegué
   </div>
-
 </ion-content>

@@ -19,7 +19,7 @@ export class LleguePage implements OnInit {
   constructor(
     private api: ApiService,
     private storage: Storage,
-    private router:Router
+    private router: Router
   ) { }
 
   setOpen(isOpen: boolean) {
@@ -65,14 +65,6 @@ export class LleguePage implements OnInit {
     }
 
     try {
-      // Espera que la API acepte un arreglo, si no, haz un loop (a continuación dejo ambas formas)
-      // Forma 1 (API acepta arreglo):
-      /*
-      const ids = this.seleccionados.map(a => a.id);
-      await this.api.llegueMultiple(ids, this.userLogged.id, token);
-      */
-
-      // Forma 2 (API solo para uno, hacer varios llamados):
       for (const alumno of this.seleccionados) {
         await this.api.llegue(alumno.id, this.userLogged.id, token);
       }
@@ -86,8 +78,8 @@ export class LleguePage implements OnInit {
     }
   }
 
-    logout() {
-    console.log("Has cerrado sesión");
+  logout() {
+    // console.log("Has cerrado sesión");
 
     // Primero borra el token
     this.storage.remove("token").then(() => {

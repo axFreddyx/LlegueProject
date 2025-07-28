@@ -27,16 +27,43 @@ export class LoginPage implements OnInit {
     this.db.create();
   }
 
-  login() {
-    let data = {
+  async login() {
+    const data = {
       identifier: this.identifier,
       password: this.password
     };
 
-    this.api.login(data).then((data: any) => {
+    await this.api.login(data).then(async (data: any) => {
       const datos = data;
-      console.log(datos);
-      this.db.set('token', `Bearer ${datos.jwt}`);
+      console.log("Login correcto:", datos);
+
+
+      // Guardar usuario básico
+      await this.db.set('token', `Bearer ${datos.jwt}`);
+
+      // Obtener rol desde /api/users/me
+      await this.api.getUserByMe().then((userWithRole: any) => {
+        console.log("Usuario con rol:", userWithRole);
+        const rol = userWithRole?.data?.role?.type;
+
+        console.log("Rol del usuario:", rol);
+
+        // Redirigir según rol
+        switch (rol) {
+          case 'admin':
+            this.router.navigateByUrl('/home');
+            break;
+          case 'docente':
+            this.router.navigateByUrl('/alumnos');
+            break;
+          case 'persona_autorizada':
+            this.router.navigateByUrl('/llegue');
+            break;
+          default:
+            this.router.navigateByUrl('/login');
+            break;
+        }
+      });
 
       this.message = 'Inicio de sesión exitoso';
       this.messageType = 'success';
@@ -45,18 +72,18 @@ export class LoginPage implements OnInit {
         this.message = '';
         this.messageType = '';
       }, 3000);
-      this.router.navigateByUrl("/home");
-    }
-    ).catch((error: any) => {
-      console.log("Algo que no debería pasar pasó");
-      console.log(error);
-      this.message = 'Ocurrió un error desconocido';
+    }).catch((error: any) => {
+      console.error("Error en login:", error);
+
+      this.message = 'Ocurrió un error al iniciar sesión';
       this.messageType = 'error';
 
       setTimeout(() => {
         this.message = '';
         this.messageType = '';
       }, 3000);
-    })
+    });
   }
+
+
 }

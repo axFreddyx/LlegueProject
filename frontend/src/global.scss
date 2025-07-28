@@ -37,6 +37,11 @@
 // @import "@ionic/angular/css/palettes/dark.system.css";
 
 
+/* 
+Has un icono para mi app de YaLlegue
+
+Con esta paleta de colores:
+
 :root {
     --primario: #004080; // Azul institucional
     --secundario: #8c180b; // Verde tipo gobierno
@@ -45,6 +50,18 @@
     --negro: #000000;
 }
 
+es para recoger alumnos, pero el sistema se llama YaLlegue
+
+que sea algo llamativo y moderno, tipo vector
+*/
+
+:root {
+    --primario: #004080; // Azul institucional
+    --secundario: #8c180b; // Verde tipo gobierno
+    --tercero: #f9a825; // Amarillo institucional
+    --blanco: #f4f4f4;
+    --negro: #000000;
+}
 
 .menu-title,
 a {
