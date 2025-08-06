@@ -12,6 +12,7 @@ export class VerPage implements OnInit {
   constructor(
     private api: ApiService,
   ) { }
+  
 
   ngOnInit() {
     this.getAlumnos();
@@ -23,6 +24,7 @@ export class VerPage implements OnInit {
     this.api.getAlumnos().then(
       (res: any) => {
         this.alumnos = res.data;
+        // console.log(this.alumnos)
       }
     ).catch((err: any) => {
       console.error(err);
