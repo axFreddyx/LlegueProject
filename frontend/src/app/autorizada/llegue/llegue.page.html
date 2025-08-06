@@ -1,15 +1,11 @@
-<ion-header class="custom-header">
-  <ion-toolbar>
-    <ion-title>{{userLogged.role.name}}</ion-title>
-    <ion-buttons slot="end">
-      <!-- <ion-button routerLink="/historial">
-        <ion-icon name="log-out-outline"></ion-icon>
-      </ion-button> -->
-      <ion-button (click)="logout()" expand="block" shape="round" color="danger">
-        <ion-icon name="log-out"></ion-icon> Cerrar Sesión
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<app-header></app-header>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Llegue</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding custom-llegue-content">
