@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No autorizado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+    .unauthorized-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .unauthorized-header {
+      background-color: #f8f9fa;
+      padding: 1rem;
+    }
+    .unauthorized-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="unauthorized-container">
+    <header class="unauthorized-header">
+      <h5 class="mb-0">Unauthorized</h5>
+    </header>
+    <main class="unauthorized-content">
+      <div>
+        <h1 class="display-4">No autorizado</h1>
+        <p class="lead">No tienes permisos para ver esta página.</p>
+        <a href="/" class="btn btn-primary mt-3">Volver al inicio</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

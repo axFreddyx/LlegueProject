@@ -1,6 +1,6 @@
 <ion-header class="custom-header">
   <ion-toolbar>
-    <ion-title>{{userLogged.role.name}}</ion-title>
+    <ion-title>¡Ya llegué!</ion-title>
     <ion-buttons slot="end">
       <!-- <ion-button routerLink="/historial">
         <ion-icon name="log-out-outline"></ion-icon>
@@ -43,23 +43,40 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-list>
-          <ion-item *ngFor="let alumno of userLogged?.alumnos" lines="none"
-            style="border-radius:10px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
-            <ion-checkbox slot="start" [(ngModel)]="alumno.seleccionado"
-              (ionChange)="toggleSeleccion(alumno)"></ion-checkbox>
-            <ion-avatar slot="start" style="margin-left: 10px;">
-              <img src="assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
-            </ion-avatar>
-            <ion-label style="margin-left: 15px;">
-              <h2 style="font-weight: 600; margin-bottom: 4px;">{{ alumno.nombre }} {{ alumno.apellidos }}</h2>
-              <p style="color: gray;">{{ alumno.salon?.grado }}° {{ alumno.salon?.grupo }}</p>
-            </ion-label>
-          </ion-item>
-          <ion-item *ngIf="!userLogged?.alumnos?.length" lines="none" style="text-align:center;">
-            <ion-label>No hay alumnos disponibles</ion-label>
-          </ion-item>
-        </ion-list>
+        <!-- <ion-item *ngFor="let alumno of alumnos" lines="none"
+          style="border-radius:10px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+          <ion-checkbox slot="start" [(ngModel)]="alumno.seleccionado"
+            (ionChange)="toggleSeleccion(alumno)"></ion-checkbox>
+          <ion-avatar slot="start" style="margin-left: 10px;">
+            <img src="assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
+          </ion-avatar>
+          <ion-label style="margin-left: 15px;">
+            <h2 style="font-weight: 600; margin-bottom: 4px;">{{ alumno.nombre }} {{ alumno.apellidos }}</h2>
+            <p style="color: gray;">{{ alumno.salon?.grado }}° {{ alumno.salon?.grupo }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="!userLogged?.alumnos?.length" lines="none" style="text-align:center;">
+          <ion-label>No hay alumnos disponibles</ion-label>
+        </ion-item> -->
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="6">
+              <ion-card *ngFor="let alumno of alumnos" class="alumno-card"
+                [class.selected]="seleccionados.includes(alumno)"
+                (click)="toggleSeleccion(alumno)">
+                <ion-card-header>
+                  <ion-avatar slot="start" class="alumno-avatar">
+                    <img src="/assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
+                  </ion-avatar>
+                  <ion-card-title>{{ alumno.nombre }} {{ alumno.apellidos }}</ion-card-title>
+                  <ion-card-subtitle>{{ alumno.salon?.grado }} ° {{ alumno.salon?.grupo }}</ion-card-subtitle>
+                </ion-card-header>
+
+              </ion-card>
+            </ion-col>
+            
+          </ion-row>
+        </ion-grid>
       </ion-content>
     </ng-template>
   </ion-modal>

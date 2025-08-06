@@ -15,6 +15,7 @@ export class LleguePage implements OnInit {
   isModalOpen = false;
   userLogged: any;
   seleccionados: any[] = [];
+  alumnos: any[] = []; 
 
   constructor(
     private api: ApiService,
@@ -44,6 +45,12 @@ export class LleguePage implements OnInit {
   getMe() {
     this.api.getUserByMe().then((res: any) => {
       this.userLogged = res.data;
+      res.data.alumnos.forEach((alumno: any) => {
+        if(alumno.publishedAt !== null) {
+          this.alumnos.push(alumno);
+          // console.log('Alumno cargado:', this.alumnos);
+        }
+      });
       console.log('Usuario cargado:', this.userLogged);
     }).catch((err: any) => {
       console.error(err);

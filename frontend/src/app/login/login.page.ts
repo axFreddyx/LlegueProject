@@ -84,6 +84,4 @@ export class LoginPage implements OnInit {
       }, 3000);
     });
   }
-
-
 }

@@ -7,8 +7,8 @@ import { ApiService } from "../services/api.service";
 })
 export class AuthGuard implements CanActivate {
   constructor(private api: ApiService, private router: Router) { }
-  async canActivate(): Promise<boolean> {
-    if (await this.api.isAuthenticated()) {
+  canActivate(): boolean {
+    if (this.api.isLoggedIn()) {
       return true;
     } else {
       this.router.navigate(['/login']);

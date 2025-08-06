@@ -31,6 +31,14 @@ export class ApiService {
     return res.data;
   }
 
+  isLoggedIn(): boolean {
+    const token = this.storage.get('token');
+    if (!token) {
+      return false;
+    }
+    return true;
+  }
+
   //#endregion
 
   //#region Alumnos
@@ -72,7 +80,7 @@ export class ApiService {
   async getUserByMe() {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
-    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos]=*`;
+    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos][populate]=*&poulate[foto]=*`;
 
     return await axios.get(url, {
       headers: headers
@@ -122,14 +130,37 @@ export class ApiService {
     });
   }
 
-  async autorizarSalida(id: string, data:any, token: string) {
-    return await axios.put(`${this.url}/llegadas/${id}`, { 
+  async autorizarSalida(id: string, data: any, token: string) {
+    return await axios.put(`${this.url}/llegadas/${id}`, {
       data: data
     }, {
       headers: { Authorization: token }
     });
   }
 
+  //#endregion
+
+  //#region Roles
+  async getUserRole(): Promise<string> {
+    const token = await this.storage.get('token');
+
+    if (!token) {
+      return '';
+    }
+
+    try {
+      const response:any = await axios.get(`${this.url}/users/me?populate=role`, {
+        headers: { Authorization: token }
+      });
+
+      return response.data.role.type.toString(); // Ej: "admin"
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+      return '';
+    }
+  }
+
+  //#endregion
   async isAuthenticated(): Promise<boolean> {
     return !!this.storage.get("token");
   }
