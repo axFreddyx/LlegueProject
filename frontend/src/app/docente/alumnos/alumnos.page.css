@@ -1,0 +1,25 @@
+.bg-light {
+  --background: #f8f9fa;
+}
+
+.titulo {
+  color: #003366;
+  font-weight: 600;
+}
+
+ion-item {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
+ion-label h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+ion-label p {
+  font-size: 0.9rem;
+  color: #555;
+}/*# sourceMappingURL=alumnos.page.css.map */

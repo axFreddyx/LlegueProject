@@ -1,15 +1,11 @@
-<ion-header class="custom-header">
-  <ion-toolbar>
-    <ion-title>¡Ya llegué!</ion-title>
-    <ion-buttons slot="end">
-      <!-- <ion-button routerLink="/historial">
-        <ion-icon name="log-out-outline"></ion-icon>
-      </ion-button> -->
-      <ion-button (click)="logout()" expand="block" shape="round" color="danger">
-        <ion-icon name="log-out"></ion-icon> Cerrar Sesión
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<app-header></app-header>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Llegue</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding custom-llegue-content">
@@ -27,58 +23,56 @@
     </ion-button>
   </div>
 
-  <ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Seleccione el/los hijo(s)</ion-title>
-          <ion-buttons slot="start">
-            <ion-button (click)="marcarLlegada()" color="dark"  
-              [disabled]="seleccionados.length === 0">Llegué</ion-button>
-            <!-- <ion-button (click)="setOpen(false)">Cerrar</ion-button> -->
-          </ion-buttons>
-          <ion-buttons slot="end">
-            <ion-button (click)="setOpen(false)">Cerrar</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <!-- <ion-item *ngFor="let alumno of alumnos" lines="none"
-          style="border-radius:10px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
-          <ion-checkbox slot="start" [(ngModel)]="alumno.seleccionado"
-            (ionChange)="toggleSeleccion(alumno)"></ion-checkbox>
-          <ion-avatar slot="start" style="margin-left: 10px;">
-            <img src="assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
-          </ion-avatar>
-          <ion-label style="margin-left: 15px;">
-            <h2 style="font-weight: 600; margin-bottom: 4px;">{{ alumno.nombre }} {{ alumno.apellidos }}</h2>
-            <p style="color: gray;">{{ alumno.salon?.grado }}° {{ alumno.salon?.grupo }}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="!userLogged?.alumnos?.length" lines="none" style="text-align:center;">
-          <ion-label>No hay alumnos disponibles</ion-label>
-        </ion-item> -->
-        <ion-grid fixed>
-          <ion-row>
-            <ion-col size="6">
-              <ion-card *ngFor="let alumno of alumnos" class="alumno-card"
-                [class.selected]="seleccionados.includes(alumno)"
-                (click)="toggleSeleccion(alumno)">
-                <ion-card-header>
-                  <ion-avatar slot="start" class="alumno-avatar">
-                    <img src="/assets/img/ejemplo.jpg" alt="Foto de {{alumno.nombre}}" />
-                  </ion-avatar>
-                  <ion-card-title>{{ alumno.nombre }} {{ alumno.apellidos }}</ion-card-title>
-                  <ion-card-subtitle>{{ alumno.salon?.grado }} ° {{ alumno.salon?.grupo }}</ion-card-subtitle>
-                </ion-card-header>
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary" class="modal-toolbar">
+        <ion-title class="ion-text-center titulo-modal">Selecciona a tus hijos</ion-title>
+        <ion-buttons slot="start">
+          <ion-button fill="solid" shape="round" (click)="marcarLlegada()" 
+                      [disabled]="seleccionados.length === 0" class="btn-llegada">
+            <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+            Llegué
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" class="btn-cerrar" (click)="setOpen(false)">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-              </ion-card>
-            </ion-col>
-            
-          </ion-row>
-        </ion-grid>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+    <ion-content class="ion-padding fondo-modal">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" sizeMd="4" sizeLg="3" *ngFor="let alumno of alumnos">
+            <ion-card class="alumno-card" 
+                      [class.selected]="seleccionados.includes(alumno)"
+                      (click)="toggleSeleccion(alumno)">
+              <ion-img src="/assets/img/ejemplo.jpg" class="alumno-foto"></ion-img>
+
+              <ion-card-content>
+                <h3 class="alumno-nombre">{{ alumno.nombre }} {{ alumno.apellidos }}</h3>
+                <p class="alumno-grado">{{ alumno.salon?.grado }}° {{ alumno.salon?.grupo }}</p>
+              </ion-card-content>
+
+              <ion-icon name="checkmark-circle" class="check-icon"
+                        *ngIf="seleccionados.includes(alumno)"></ion-icon>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="!userLogged?.alumnos?.length">
+          <ion-col size="12">
+            <ion-text color="medium" class="ion-text-center">
+              No hay alumnos disponibles.
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 </ion-content>

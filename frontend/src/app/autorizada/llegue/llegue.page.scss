@@ -8,9 +8,7 @@ ion-title {
   font-size: 1.2rem;
 }
 
-ion-button {
-  font-weight: 500;
-}
+
 
 
 .custom-llegue-content {
@@ -104,3 +102,20 @@ ion-button {
     filter: brightness(1.1);
   }
 }
+
+
+.alumno-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.alumno-card:hover {
+  transform: scale(1.02);
+}
+
+.alumno-card.selected {
+  border: 2px solid #3880ff;
+  box-shadow: 0 0 10px rgba(56, 128, 255, 0.5);
+}
+
+

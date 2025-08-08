@@ -56,7 +56,8 @@ que sea algo llamativo y moderno, tipo vector
 */
 
 :root {
-    --primario: #004080; // Azul institucional
+    --primario: #004080;
+    --ion-color-primary: #004080; // Azul institucional
     --secundario: #8c180b; // Verde tipo gobierno
     --tercero: #f9a825; // Amarillo institucional
     --blanco: #f4f4f4;
@@ -150,5 +151,80 @@ a {
 
 .label-docente2 {
     font-size: 1.5rem;
+    color: var(--secundario);
+}
+
+.fondo-modal {
+    background: var(--blanco);
+}
+
+.modal-toolbar {
+    --background: var(--primario);
+    color: var(--blanco);
+}
+
+.titulo-modal {
+    color: var(--blanco);
+    font-weight: bold;
+}
+
+.btn-llegada {
+    --background: var(--tercero);
+    --color: var(--negro);
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+.btn-cerrar {
+    --color: var(--blanco);
+}
+
+
+.alumno-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--blanco);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    &.selected {
+        border: 3px solid var(--tercero);
+    }
+
+    .check-icon {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+        color: var(--tercero);
+        background: white;
+        border-radius: 50%;
+    }
+}
+
+.alumno-foto {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-bottom: 4px solid var(--primario);
+}
+
+.alumno-nombre {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 8px 0 4px;
+    color: var(--primario);
+}
+
+.alumno-grado {
+    font-size: 0.9rem;
     color: var(--secundario);
 }

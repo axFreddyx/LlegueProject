@@ -384,7 +384,7 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    apellidos: Schema.Attribute.String & Schema.Attribute.Required;
+    apellidos: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -396,11 +396,7 @@ export interface ApiAlumnoAlumno extends Struct.CollectionTypeSchema {
       'api::alumno.alumno'
     > &
       Schema.Attribute.Private;
-    nombre: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 1;
-      }>;
+    nombre: Schema.Attribute.String;
     persona_autorizada: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
@@ -976,7 +972,7 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     alumnos: Schema.Attribute.Relation<'manyToMany', 'api::alumno.alumno'>;
-    apellidos: Schema.Attribute.String;
+    apellidos: Schema.Attribute.String & Schema.Attribute.Required;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;

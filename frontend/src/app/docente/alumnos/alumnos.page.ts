@@ -84,24 +84,33 @@ export class AlumnosPage implements OnInit {
 
   async getLlegada() {
     const token = await this.storage.get('token');
-    // console.log('Token:', token);
 
     this.api.getLlegadasBySalon(this.idSalon, token).then((res: any) => {
       const data = res.data.data;
+
+      this.reset(); // Limpiar antes de llenar de nuevo
+
       data.forEach((llegada: any) => {
-        if (llegada.llegada) {
-          this.alumnosConLlegada.push(llegada);
-        } else {
-          this.alumnosSinLlegada.push(llegada);
+        // Asegúrate de que la fecha esté bien formateada para comparar
+        const fechaLlegada = new Date(llegada.createdAt).toISOString().split('T')[0];
+
+        if (fechaLlegada === this.fechaHoy) {
+          if (llegada.llegada) {
+            this.alumnosConLlegada.push(llegada);
+          } else {
+            this.alumnosSinLlegada.push(llegada);
+          }
         }
       });
+
     }).catch((err: any) => {
       console.error('Error al obtener llegadas:', err);
       this.presentToast('Error al obtener llegadas');
     });
   }
 
-  reset(){
+
+  reset() {
     this.alumnosConLlegada = [];
     this.alumnosSinLlegada = [];
   }

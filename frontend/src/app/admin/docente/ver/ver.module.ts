@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LleguePageRoutingModule } from './llegue-routing.module';
+import { VerPageRoutingModule } from './ver-routing.module';
 
-import { LleguePage } from './llegue.page';
+import { VerPage } from './ver.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    LleguePageRoutingModule,
+    VerPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [LleguePage]
+  declarations: [VerPage]
 })
-export class LleguePageModule {}
+export class VerPageModule {}

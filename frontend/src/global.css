@@ -1,0 +1,140 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+/* 
+Has un icono para mi app de YaLlegue
+
+Con esta paleta de colores:
+
+:root {
+    --primario: #004080; // Azul institucional
+    --secundario: #8c180b; // Verde tipo gobierno
+    --tercero: #f9a825; // Amarillo institucional
+    --blanco: #f4f4f4;
+    --negro: #000000;
+}
+
+es para recoger alumnos, pero el sistema se llama YaLlegue
+
+que sea algo llamativo y moderno, tipo vector
+*/
+:root {
+  --primario: #004080;
+  --secundario: #8c180b;
+  --tercero: #f9a825;
+  --blanco: #f4f4f4;
+  --negro: #000000;
+}
+
+.menu-title,
+a {
+  color: var(--primario);
+}
+
+.custom-item {
+  color: var(--primario);
+}
+
+.custom-icon {
+  color: var(--primario);
+}
+
+.titulo-login {
+  color: var(--primario);
+}
+
+.btn-principal {
+  font-size: 1rem;
+  height: 48px;
+  color: var(--blanco);
+  background-color: var(--primario);
+  border-radius: 15px;
+}
+
+.btn-principal:hover {
+  color: var(--negro);
+  font-weight: bold;
+  background-color: var(--tercero);
+}
+
+.btn-secundario:hover {
+  color: var(--negro);
+  font-weight: bold;
+  background-color: var(--tercero);
+}
+
+.btn-secundario {
+  font-size: 1rem;
+  height: 48px;
+  color: var(--blanco);
+  background-color: var(--secundario);
+  border-radius: 15px;
+}
+
+.institucion-nombre {
+  color: var(--primario);
+}
+
+.titulo {
+  font-size: 2rem;
+  color: var(--secundario);
+  font-weight: bold;
+}
+
+.label-input {
+  font-size: 2rem;
+  color: var(--primario);
+}
+
+.img-card {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-titulo {
+  font-size: 1rem;
+  color: var(--secundario);
+}
+
+.label-docente {
+  font-size: 1.5rem;
+  color: var(--primario);
+}
+
+.label-docente2 {
+  font-size: 1.5rem;
+  color: var(--secundario);
+}/*# sourceMappingURL=global.css.map */

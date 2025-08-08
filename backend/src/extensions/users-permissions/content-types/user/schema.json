@@ -66,10 +66,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "nombre": {
-      "type": "string",
-      "required": true
-    },
     "foto": {
       "type": "media",
       "multiple": false,
@@ -84,9 +80,6 @@
       "relation": "manyToMany",
       "target": "api::alumno.alumno",
       "mappedBy": "persona_autorizada"
-    },
-    "apellidos": {
-      "type": "string"
     },
     "periodos": {
       "type": "relation",
@@ -105,6 +98,14 @@
       "relation": "oneToMany",
       "target": "api::llegada.llegada",
       "mappedBy": "docente"
+    },
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "apellidos": {
+      "type": "string",
+      "required": true
     }
   }
 }

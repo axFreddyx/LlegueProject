@@ -15,7 +15,7 @@ export class LleguePage implements OnInit {
   isModalOpen = false;
   userLogged: any;
   seleccionados: any[] = [];
-  alumnos: any[] = []; 
+  alumnos: any[] = [];
 
   constructor(
     private api: ApiService,
@@ -46,8 +46,9 @@ export class LleguePage implements OnInit {
     this.api.getUserByMe().then((res: any) => {
       this.userLogged = res.data;
       res.data.alumnos.forEach((alumno: any) => {
-        if(alumno.publishedAt !== null) {
+        if (alumno.publishedAt !== null) {
           this.alumnos.push(alumno);
+          console.log('Alumno añadido:', alumno);
           // console.log('Alumno cargado:', this.alumnos);
         }
       });
@@ -58,12 +59,15 @@ export class LleguePage implements OnInit {
   }
 
   toggleSeleccion(alumno: any) {
+    alumno.seleccionado = !alumno.seleccionado;
+
     if (alumno.seleccionado) {
       this.seleccionados.push(alumno);
     } else {
       this.seleccionados = this.seleccionados.filter(a => a.id !== alumno.id);
     }
   }
+
 
   async marcarLlegada() {
     const token = await this.storage.get('token');
@@ -79,6 +83,8 @@ export class LleguePage implements OnInit {
       console.log('Llegada marcada para:', this.seleccionados.map(a => a.nombre));
       this.setOpen(false);
       this.getMe(); // refresca datos
+      this.alumnos = []
+
 
     } catch (error) {
       console.error('Error marcando llegada:', error);

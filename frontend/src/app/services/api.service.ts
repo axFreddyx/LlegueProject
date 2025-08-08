@@ -9,17 +9,17 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class ApiService {
-  private url = environment.apiUrl;
+  private url = environment.apiUrl; // apiUrl: 'http://localhost:1337/api',
 
   constructor(private http: HttpClient, private storage: Storage) { this.initStorage(); }
 
   //#region Register y login
 
-  async register(username: string, email: string, password: string, nombre: string) {
-    return await axios.post(this.url + "/auth/local/register", { username, email, password, nombre });
+  async register(user: any, token:any) {
+    return await axios.post(this.url + "/users", user , { headers: { Authorization: token } });
   }
   private async initStorage() {
-    await this.storage.create(); // 👈 esto evita que `storage.get` falle
+    await this.storage.create(); 
   }
 
   async CrearAutorizada(data: any) {
@@ -153,11 +153,15 @@ export class ApiService {
         headers: { Authorization: token }
       });
 
-      return response.data.role.type.toString(); // Ej: "admin"
+      return response.data.role.type.toString();
     } catch (error) {
       console.error('Error fetching user role:', error);
       return '';
     }
+  }
+
+  async getRoles(token:any){
+    return await axios.get(`${this.url}/users-permissions/roles`, {headers: { Authorization: token }});
   }
 
   //#endregion

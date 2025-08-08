@@ -44,7 +44,9 @@
               <ion-icon name="school-outline" class="icono-admin"></ion-icon>
               <h5 class="card-title mt-2">Alumnos</h5>
               <p class="card-text">Consulta y edita los datos de los alumnos.</p>
-              <ion-button fill="clear" class="btn-secundario" expand="block">Ver Alumnos</ion-button>
+              <a href="/ver/alumnos">
+                <ion-button fill="clear" class="btn-secundario" expand="block">Ver Alumnos</ion-button>
+              </a>
             </div>
           </div>
         </ion-col>
@@ -56,19 +58,9 @@
               <ion-icon name="glasses-outline" class="icono-admin"></ion-icon>
               <h5 class="card-title mt-2">Docentes</h5>
               <p class="card-text">Consulta Docentes.</p>
-              <ion-button fill="clear" class="btn-principal" expand="block">Ver Docentes</ion-button>
-            </div>
-          </div>
-        </ion-col>
-
-
-        <ion-col size="12" size-lg="4" size-md="6">
-          <div class="card border-success shadow-sm h-100">
-            <div class="card-body text-center">
-              <ion-icon name="briefcase-outline" class="icono-admin"></ion-icon>
-              <h5 class="card-title mt-2">Salones Y Grupos</h5>
-              <p class="card-text">Consulta y edita los Salones y Grupos.</p>
-              <ion-button fill="clear" class="btn-secundario" expand="block">Ver Salones</ion-button>
+              <a href="/ver/docentes">
+                <ion-button fill="clear" class="btn-principal" expand="block">Ver Docentes</ion-button>
+              </a>
             </div>
           </div>
         </ion-col>
@@ -78,15 +70,30 @@
           <div class="card border-success shadow-sm h-100">
             <div class="card-body text-center">
               <ion-icon name="time-outline" class="icono-admin"></ion-icon>
-              <h5 class="card-title mt-2">Periodos</h5>
-              <p class="card-text">Consulta y edita los Periodos.</p>
-              <ion-button fill="clear" class="btn-principal" expand="block">Consultar Periodo</ion-button>
+              <ion-icon name="briefcase-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Salones Y Grupos</h5>
+              <p class="card-text">Consulta y edita los Salones y Grupos.</p>
+              <a href="/gradoygrupo">
+                <ion-button fill="clear" class="btn-secundario" expand="block">Ver Salones y Periodos</ion-button>
+              </a>
             </div>
           </div>
         </ion-col>
 
 
-        <ion-col size="12" size-lg="4" size-md="6">
+        <!-- <ion-col size="12" size-lg="4" size-md="6">
+          <div class="card border-success shadow-sm h-100">
+            <div class="card-body text-center">
+              <ion-icon name="time-outline" class="icono-admin"></ion-icon>
+              <h5 class="card-title mt-2">Periodos</h5>
+              <p class="card-text">Consulta y edita los Periodos.</p>
+              <ion-button fill="clear" class="btn-principal" expand="block">Consultar Periodo</ion-button>
+            </div>
+          </div>
+        </ion-col> -->
+
+
+        <ion-col size="12" size-lg="8" size-md="12">
           <div class="card border-success shadow-sm h-100">
             <div class="card-body text-center">
               <ion-icon name="person-add-outline" class="icono-admin"></ion-icon>

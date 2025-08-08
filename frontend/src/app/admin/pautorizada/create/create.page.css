@@ -1,0 +1,38 @@
+.custom-header {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --background: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+.custom-register {
+  --background: #f8f9fa;
+  padding: 20px;
+}
+
+ion-item {
+  --background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+}
+
+.foto-input input[type=file] {
+  padding: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  background-color: #fefefe;
+  width: 100%;
+}
+
+.preview-img {
+  max-width: 150px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}/*# sourceMappingURL=create.page.css.map */

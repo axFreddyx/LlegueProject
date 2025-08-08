@@ -1,0 +1,87 @@
+.custom-header {
+  --background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.custom-llegue-content {
+  --background: #f4f4f4;
+}
+.custom-llegue-content .llegue-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+}
+.custom-llegue-content .btn-llegue {
+  background-color: #004080;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 16px 24px;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.custom-llegue-content .btn-llegue:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.card-llegada {
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  background: #ffffff;
+  transition: transform 0.3s ease;
+}
+.card-llegada:hover {
+  transform: translateY(-4px);
+}
+.card-llegada ion-card-header {
+  margin-top: 10px;
+}
+.card-llegada ion-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+.card-llegada ion-card-subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+.card-llegada .form-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.card-llegada .btn-llegue {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  font-weight: bold;
+  color: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 200px;
+  transition: all 0.2s ease-in-out;
+}
+.card-llegada .btn-principal {
+  font-size: 0.5rem;
+  height: 10px;
+  border-radius: 15px;
+}
+.card-llegada .btn-llegue:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}/*# sourceMappingURL=llegue.page.css.map */

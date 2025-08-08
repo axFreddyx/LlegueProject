@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-create',
@@ -10,26 +11,27 @@ import { ApiService } from 'src/app/services/api.service';
 export class CreatePage implements OnInit {
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private storage: Storage
   ) { }
   // token = "";
-  persona_autorizada = {
+  user = {
     nombre: "",
     email: "",
     password: "",
     apellidos: "",
     username: "",
-    foto: "",
-    role: 'Persona Autorizada'
+    role: 0, 
+    confirmed: true, 
+    blocked: false
   }
-
-  nombre = "";
-  email = "";
-  password = "";
-  username = "";
-
+  roles: any[] = [];
+  token: any;
 
   ngOnInit() {
+    // this.token = this.storage.get('token');
+    this.getRoles();
+    
   }
 
   previewImg: string | null = null;
@@ -45,8 +47,10 @@ export class CreatePage implements OnInit {
     }
   }
 
-  crearPersona() {
-    this.api.register(this.username, this.email, this.password, this.nombre).then(res => {
+  async crearPersona() {
+    const token = await this.storage.get('token');
+
+    this.api.register(this.user, token).then(res => {
       console.log(res);
     }).catch(err => {
       console.error(err);
@@ -54,7 +58,18 @@ export class CreatePage implements OnInit {
     
   }
 
-
-
-
+  async getRoles() {
+    const token = await this.storage.get('token');
+    await this.api.getRoles(token).then((res:any) => {
+      const roles = res.data.roles;
+      roles.forEach((role: any) => {
+        if (role.type !== 'public' && role.type !== 'authenticated') {
+          this.roles.push(role)
+        }
+      });
+      console.log(this.roles);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
 }
