@@ -18,7 +18,7 @@
     <!-- Filtro por salón -->
     <ion-item>
       <ion-label>Seleccionar Salón:</ion-label>
-      <ion-select [(ngModel)]="salonSeleccionado" (ionChange)="filtrarPorSalon()">
+      <ion-select [(ngModel)]="salonSeleccionado" >
         <ion-select-option value="">Todos</ion-select-option>
         <ion-select-option *ngFor="let salon of salones" [value]="salon.id">
           {{ salon.grado }}° {{ salon.grupo }} - Aula {{ salon.aula }}

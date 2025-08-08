@@ -150,7 +150,6 @@ export class VerPage implements OnInit {
     }
   }
 
-
   async asignarAlumnos() {
     const alumnosFinales = this.getTodosLosAlumnos(); // todos los actuales sin duplicados
     const alumnoIds = alumnosFinales.map(a => a.id);
@@ -169,8 +168,6 @@ export class VerPage implements OnInit {
         console.error('Error al asignar alumnos:', err);
       });
   }
-
-
 
   getTodosLosAlumnos(): any[] {
     const asignados = Array.isArray(this.persona?.alumnos) ? this.persona.alumnos : [];
@@ -197,6 +194,4 @@ export class VerPage implements OnInit {
   esAlumnoAsignadoBD(id: number): boolean {
     return this.persona.alumnos?.some((a: any) => a.id === id);
   }
-
-
 }

@@ -21,32 +21,6 @@ export class VerPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.getSalones();
-    this.filtrarPorSalon(); // Inicializa la lista
+    
   }
-
-  async getSalones() {
-    const token = await this.storage.get('token');
-    this.api.getSalones(token).then((res: any) => {
-      this.salones = res.data;
-
-      // Aplana los alumnos de todos los salones y les agrega su info de salón
-      this.alumnos = [].concat(...this.salones.map((salon: any) => {
-        return salon.alumnos.map((a: any) => ({ ...a, salon }));
-      }));
-
-      this.filtrarPorSalon(); // Aplica filtro inicial
-    }).catch((err: any) => {
-      console.error(err);
-    });
-  }
-
-  filtrarPorSalon() {
-    if (this.salonSeleccionado) {
-      this.alumnosFiltrados = this.alumnos.filter(a => a.salon.id === this.salonSeleccionado);
-    } else {
-      this.alumnosFiltrados = this.alumnos;
-    }
-  }
-
 }

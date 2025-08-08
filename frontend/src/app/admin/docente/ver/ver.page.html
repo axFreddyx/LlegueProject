@@ -12,42 +12,64 @@
     <div class="container">
         <h1 class="titulo text-center">Ver Docentes</h1>
 
-        <ion-list lines="full">
-            <!-- Alumno 1 -->
-            <ion-item>
+        <ion-list lines="none">
+            <ion-item class="docente-item" *ngFor="let d of docentes">
                 <ion-avatar slot="start">
-                    <img src="assets/img/alumnos/ana.jpg" alt="Ana López">
+                    <img src="assets/img/ejemplo.jpg" alt="Ana López" />
                 </ion-avatar>
                 <ion-label>
-                    <h2>Ana López</h2>
-                    <p>ID: 001 | Edad: 20 años</p>
-                    <p>Grado y Grupo 3°A</p>
-                </ion-label>
-            </ion-item>
-
-            <!-- Alumno 2 -->
-            <ion-item>
-                <ion-avatar slot="start">
-                    <img src="assets/img/alumnos/carlos.jpg" alt="Carlos Ruiz">
-                </ion-avatar>
-                <ion-label>
-                    <h2>Carlos Ruiz</h2>
-                    <p>ID: 002 | Edad: 22 años</p>
-                    <p>Grado y Grupo 3°A</p>
-                </ion-label>
-            </ion-item>
-
-            <!-- Alumno 3 -->
-            <ion-item>
-                <ion-avatar slot="start">
-                    <img src="assets/img/alumnos/lucia.jpg" alt="Lucía Méndez">
-                </ion-avatar>
-                <ion-label>
-                    <h2>Lucía Méndez</h2>
-                    <p>ID: 003 | Edad: 19 años</p>
-                    <p>Grado y Grupo 3°A</p>
+                    <h2>{{d.nombre}} {{d.apellidos}}</h2>
+                    <p>ID: {{d.id}}</p>
+                    <p>
+                        Grado y Grupo:
+                        <span *ngIf="d.salon === null" class="text-danger">No asignado</span>
+                        <span *ngIf="d.salon !== null">{{d.salon.grado}} {{d.salon.grupo}}</span>
+                    </p>
+                    <div class="acciones">
+                        <ion-button size="small" fill="outline" color="primary">
+                            📝 Editar
+                        </ion-button>
+                        <ion-button size="small" fill="outline" color="danger">
+                            ❌ Eliminar
+                        </ion-button>
+                        <ion-button (click)="openModal(d)" size="small" fill="outline" color="warning">
+                            🏫 Asignar Salón
+                        </ion-button>
+                    </div>
                 </ion-label>
             </ion-item>
         </ion-list>
     </div>
+
+    <ion-modal trigger="open-modal">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar color="primary">
+                    <ion-title>Salones Disponibles</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="cancel()" color="light">Cerrar</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+
+            <ion-content class="ion-padding modal-salones-content">
+                <div class="salones-container">
+                    <ion-card *ngFor="let salon of salones" class="salon-card" (click)="openAlert(salon)">
+                        <ion-card-header>
+                            <ion-card-title>{{ salon.grado }} ° {{salon.grupo}}</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <p class="alumnos-text">Total de alumnos: {{ salon.totalAlumnos }}</p>
+                        </ion-card-content>
+                    </ion-card>
+                </div>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+
+    <ion-alert trigger="present-alert" header="¿Deseas asignar {{salon?.grado}} ° {{salon?.grupo}} al docente {{docente?.nombre}} {{docente?.apellidos}}?"  [buttons]="alertButtons"
+        ></ion-alert>
+
 </ion-content>
+
+<!-- header="¿Deseas asignar {{salon.grado}} ° {{salon.grupo}} al docente {{docente.nombre}} {{docente.apellidos}}?" -->

@@ -15,11 +15,11 @@ export class ApiService {
 
   //#region Register y login
 
-  async register(user: any, token:any) {
-    return await axios.post(this.url + "/users", user , { headers: { Authorization: token } });
+  async register(user: any, token: any) {
+    return await axios.post(this.url + "/users", user, { headers: { Authorization: token } });
   }
   private async initStorage() {
-    await this.storage.create(); 
+    await this.storage.create();
   }
 
   async CrearAutorizada(data: any) {
@@ -43,8 +43,8 @@ export class ApiService {
 
   //#region Alumnos
 
-  async getAlumnos() {
-    return await axios.get(`${this.url}/alumnos?populate=*`);
+  async getAlumnos(token: any) {
+    return await axios.get(`${this.url}/alumnos?populate=*`, { headers: { Authorization: token } });
   }
 
   async getAlumno(id: string) {
@@ -87,15 +87,31 @@ export class ApiService {
     });
   }
 
-  //Función para traer usuarios con rol de "Persona Autorizada"
+  //Función para traer usuarios con rol específico
+
+  // Glosario de roles con id:
+  // 3: Persona Autorizada
+  // 4: Docente
+  // 5: Admin
+
   async getUsersByRole(id: number) {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
-    const url = `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*`;
+    let url = "";
+    if (id === 3) {
+      url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*`;
+    } else if (id === 4) {
+      url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[salon][populate]=*&populate[foto]=*`;
+    }
 
     return await axios.get(url, { headers: headers });
   }
 
+  async updateUser(data: any, id: number) {
+    const token = await this.storage.get('token');
+    return await axios.put(`${this.url}/users/${id}`, { data }, { headers: { Authorization: token } });
+    // console.log(`${this.url}/users/${id}`, data);
+  }
   //#endregion
 
   //#region Salones
@@ -149,7 +165,7 @@ export class ApiService {
     }
 
     try {
-      const response:any = await axios.get(`${this.url}/users/me?populate=role`, {
+      const response: any = await axios.get(`${this.url}/users/me?populate=role`, {
         headers: { Authorization: token }
       });
 
@@ -160,8 +176,8 @@ export class ApiService {
     }
   }
 
-  async getRoles(token:any){
-    return await axios.get(`${this.url}/users-permissions/roles`, {headers: { Authorization: token }});
+  async getRoles(token: any) {
+    return await axios.get(`${this.url}/users-permissions/roles`, { headers: { Authorization: token } });
   }
 
   //#endregion
