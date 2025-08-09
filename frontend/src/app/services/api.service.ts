@@ -109,7 +109,7 @@ export class ApiService {
 
   async updateUser(data: any, id: number) {
     const token = await this.storage.get('token');
-    return await axios.put(`${this.url}/users/${id}`, { data }, { headers: { Authorization: token } });
+    return await axios.put(`${this.url}/users/${id}`, data , { headers: { Authorization: token } });
     // console.log(`${this.url}/users/${id}`, data);
   }
   //#endregion

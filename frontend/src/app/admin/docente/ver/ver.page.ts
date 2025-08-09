@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { IonModal } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ver',
@@ -14,7 +15,8 @@ export class VerPage implements OnInit {
 
   constructor(
     private api: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router
   ) { }
 
   public alertButtons = [
@@ -43,7 +45,6 @@ export class VerPage implements OnInit {
 
   idDocente!: number;
 
-
   data: any = {
     salon: {},
   }
@@ -67,19 +68,26 @@ export class VerPage implements OnInit {
     console.log('Asignando salón:', this.data, 'al docente con ID:', this.idDocente);
     // await this.api.updateUser(this.data, this.idDocente)
     await this.api.updateUser(this.data, this.idDocente).then((res: any) => {
-      // console.log('Docente updated successfully:', res.data);
+      console.log('Docente updated successfully:', res.data);
+      this.modal.dismiss(null, 'confirm');
       this.docentes = [];
       this.getDocentes();
     }).catch((err: any) => {
       console.error('Error updating docente:', err.response?.data || err);
     });
   }
-  
+
   async getSalones() {
     const token = await this.storage.get('token');
 
     this.api.getSalones(token).then((res: any) => {
-      this.salones = res.data.data;
+
+      const data = res.data.data;
+      this.salones = data.filter((element: any) => {
+        const docente = element.docente;
+        return docente === null || docente === undefined || docente === '';
+      });
+
 
       for (let i = 0; i < this.salones.length; i++) {
         this.salones[i].totalAlumnos = this.salones[i]?.alumnos?.length || 0;
@@ -118,4 +126,8 @@ export class VerPage implements OnInit {
     console.log(this.data); // para verificar que solo tenga { salon: id }
   }
 
+  redirectToAddDocente() {
+    // Por ejemplo, usando el router de Angular:
+    this.router.navigate(['/create/cuenta'], { queryParams: { role: 'docente' } });
+  }
 }

@@ -60,9 +60,10 @@
         <ion-col size="12">
           <ion-item>
             <ion-label class="label-input" position="stacked">Rol</ion-label>
-            <ion-select [(ngModel)]="user.role" value="role" placeholder="Seleccione Rol" >
-              <ion-select-option *ngFor="let role of roles" value="{{role.id}}">{{role.name}}</ion-select-option>
-              
+            <ion-select [(ngModel)]="user.role" placeholder="Seleccione Rol">
+              <ion-select-option  *ngFor="let role of roles" [value]="role.id">
+                {{role.name}}
+              </ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>

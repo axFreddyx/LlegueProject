@@ -11,6 +11,10 @@
 <ion-content class="ion-padding">
     <div class="container">
         <h1 class="titulo text-center">Ver Docentes</h1>
+        <ion-button (click)="redirectToAddDocente()" expand="block" shape="round">
+            <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+            <span>Agregar Docente</span>
+        </ion-button>
 
         <ion-list lines="none">
             <ion-item class="docente-item" *ngFor="let d of docentes">
@@ -47,12 +51,29 @@
                 <ion-toolbar color="primary">
                     <ion-title>Salones Disponibles</ion-title>
                     <ion-buttons slot="end">
-                        <ion-button (click)="cancel()" color="light">Cerrar</ion-button>
+                        <ion-button (click)="cancel()" color="light" fill="solid" shape="round" size="small"
+                            aria-label="Cerrar modal">
+                            <ion-icon name="close-outline"></ion-icon>
+                            Cerrar
+                        </ion-button>
+
                     </ion-buttons>
                 </ion-toolbar>
             </ion-header>
 
             <ion-content class="ion-padding modal-salones-content">
+                <div class="salones-header">
+                    <h2>Salones Disponibles</h2>
+                    <p>Selecciona un salón para asignar al docente <b>{{docente?.nombre}} {{docente?.apellidos}}</b></p>
+                </div>
+                <ion-card *ngIf="salones.length === 0" class="no-salones-card">
+                    <ion-card-header>
+                        <ion-card-title>No hay salones disponibles</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Actualmente no hay salones disponibles para asignar.</p>
+                    </ion-card-content>
+                </ion-card>
                 <div class="salones-container">
                     <ion-card *ngFor="let salon of salones" class="salon-card" (click)="openAlert(salon)">
                         <ion-card-header>
@@ -67,8 +88,9 @@
         </ng-template>
     </ion-modal>
 
-    <ion-alert trigger="present-alert" header="¿Deseas asignar {{salon?.grado}} ° {{salon?.grupo}} al docente {{docente?.nombre}} {{docente?.apellidos}}?"  [buttons]="alertButtons"
-        ></ion-alert>
+    <ion-alert trigger="present-alert"
+        header="¿Deseas asignar {{salon?.grado}} ° {{salon?.grupo}} al docente {{docente?.nombre}} {{docente?.apellidos}}?"
+        [buttons]="alertButtons"></ion-alert>
 
 </ion-content>
 

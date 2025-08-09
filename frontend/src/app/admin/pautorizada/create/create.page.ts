@@ -21,17 +21,18 @@ export class CreatePage implements OnInit {
     password: "",
     apellidos: "",
     username: "",
-    role: 0, 
-    confirmed: true, 
+    role: 0,
+    confirmed: true,
     blocked: false
   }
   roles: any[] = [];
   token: any;
 
-  ngOnInit() {
-    // this.token = this.storage.get('token');
-    this.getRoles();
-    
+  roleParameter: any;
+
+  async ngOnInit() {
+    await this.getRoles();            // Espera a que carguen los roles
+    this.getRoleByParameter();        // Luego procesa el parámetro y asigna el role
   }
 
   previewImg: string | null = null;
@@ -55,21 +56,39 @@ export class CreatePage implements OnInit {
     }).catch(err => {
       console.error(err);
     });
-    
+
   }
 
   async getRoles() {
     const token = await this.storage.get('token');
-    await this.api.getRoles(token).then((res:any) => {
+    try {
+      const res: any = await this.api.getRoles(token);
       const roles = res.data.roles;
       roles.forEach((role: any) => {
         if (role.type !== 'public' && role.type !== 'authenticated') {
-          this.roles.push(role)
+          this.roles.push(role);
         }
       });
-      console.log(this.roles);
-    }).catch(err => {
+      console.log('Roles cargados:', this.roles);
+    } catch (err) {
       console.error(err);
-    });
+    }
+  }
+
+  getRoleByParameter() {
+    const urlParams = new URLSearchParams(window.location.search);
+    this.roleParameter = urlParams.get('role');
+    console.log('roleParameter:', this.roleParameter);
+
+    if (this.roleParameter) {
+      // Busca el rol dentro de los roles cargados (puedes buscar por id o name)
+      const matchedRole = this.roles.find(r => r.id === this.roleParameter || r.type.toLowerCase() === this.roleParameter.toLowerCase());
+      if (matchedRole) {
+        this.user.role = matchedRole.id;  // Asigna el id para que se seleccione en el ion-select
+        console.log('Role asignado:', this.user.role);
+      } else {
+        console.warn('No se encontró un rol que coincida con:', this.roleParameter);
+      }
+    }
   }
 }
