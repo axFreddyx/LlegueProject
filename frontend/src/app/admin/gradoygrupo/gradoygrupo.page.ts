@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
+import { ApiService } from 'src/app/services/api.service';
+
+
 @Component({
   selector: 'app-gradoygrupo',
   templateUrl: './gradoygrupo.page.html',
@@ -9,30 +13,33 @@ import { OverlayEventDetail } from '@ionic/core/components';
 export class GradoygrupoPage implements OnInit {
 
   constructor(
+    private storage: Storage,
+    private api: ApiService,
+    private router: Router,
 
   ) { }
+  token = "";
 
-  isModalOpen = false;
+  salones: any = [] = [];
 
+  async ngOnInit() {
+    this.storage.create();
+    this.token = await this.storage.get('token');
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+    this.getSalones();
   }
 
-  onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
-    this.isModalOpen = false;
+
+
+  async getSalones() {
+    this.salones = [];
+    this.api.verSalones(this.token).then(res => {
+      const data = (res.data as any).data;  // cast a any para evitar error
+      this.salones = data;
+      console.log(this.salones);
+    });
   }
 
-  ngOnInit() {
-  }
-  gradosEjemplo = [
-    { nombre: '1°', grupos: ['A', 'B'] },
-    { nombre: '2°', grupos: ['A'] },
-    { nombre: '3°', grupos: ['A', 'B', 'C'] },
-    { nombre: '4°', grupos: ['A', 'B',] },
-    { nombre: '5°', grupos: ['A', 'B',] },
-    { nombre: '6°', grupos: ['A',] },
-  ];
 
 
 }

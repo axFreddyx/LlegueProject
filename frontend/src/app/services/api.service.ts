@@ -109,7 +109,7 @@ export class ApiService {
 
   async updateUser(data: any, id: number) {
     const token = await this.storage.get('token');
-    return await axios.put(`${this.url}/users/${id}`, data , { headers: { Authorization: token } });
+    return await axios.put(`${this.url}/users/${id}`, data, { headers: { Authorization: token } });
     // console.log(`${this.url}/users/${id}`, data);
   }
   //#endregion
@@ -119,6 +119,12 @@ export class ApiService {
   async getSalones(token: any) {
     return await axios.get(`${this.url}/salons?populate[alumnos][populate]=*&populate[docente]=true&populate[periodo]=true`, {
       headers: { Authorization: token }
+    });
+  }
+
+  async verSalones(token: string) {
+    return await axios.get(`${this.url}/salons`, {
+      headers: { Authorization: `${token}` }
     });
   }
 
@@ -184,4 +190,6 @@ export class ApiService {
   async isAuthenticated(): Promise<boolean> {
     return !!this.storage.get("token");
   }
+
+
 }
