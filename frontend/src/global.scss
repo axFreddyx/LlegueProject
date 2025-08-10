@@ -151,6 +151,24 @@ a,
   --color: var(--blanco);
 }
 
+.cuenta-btn {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--secundario));
+  --background-hover: linear-gradient(135deg, var(--tercero), var(--tercero-light));
+  --box-shadow: 0 8px 20px rgba(58, 107, 203, 0.5);
+  --color: #fff;
+  --color-hover: #000000;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 14px 36px;
+  // border-radius: 10px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  // box-shadow: 0 6px 15px rgba(0, 64, 128, 0.3);
+  display: inline-flex;
+  align-items: center;
+  // gap: 12px;
+}
+
 /* =========================================
    🖼️ IMÁGENES Y AVATARES
    ========================================= */
@@ -739,4 +757,88 @@ PERFIL-PAGE
   .perfil-info p {
     font-size: 1rem;
   }
+}
+
+/* =========================================
+LLEGADAS-PAGE
+   ========================================= */
+.llegadas-content {
+  background: #f9fafb;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.titulo {
+  color: var(--primario);
+  font-weight: 700;
+  font-size: 2.4rem;
+}
+
+.llegadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.llegada-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgb(0 64 128 / 0.1);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  transition: box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.llegada-card:hover {
+  box-shadow: 0 8px 20px rgb(0 64 128 / 0.2);
+}
+
+.llegada-avatar img {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid var(--primario);
+}
+
+.llegada-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--secundario);
+}
+
+.llegada-info p {
+  margin: 4px 0 8px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.llegada-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.status-llego {
+  color: #2e7d32;
+  /* Verde */
+}
+
+.status-en-camino {
+  color: #f9a825;
+  /* Amarillo */
+}
+
+.status-no-llego {
+  color: #c62828;
+  /* Rojo */
+}
+
+.llegada-status ion-icon {
+  font-size: 1.3rem;
 }

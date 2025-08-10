@@ -102,8 +102,9 @@ export class ApiService {
       url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*`;
     } else if (id === 4) {
       url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[salon][populate]=*&populate[foto]=*`;
+    } else if (id === 5) {
+      url += `${this.url}/users?filters[role][id][$eq]=${id}`;
     }
-
     return await axios.get(url, { headers: headers });
   }
 
@@ -157,6 +158,12 @@ export class ApiService {
       data: data
     }, {
       headers: { Authorization: token }
+    });
+  }
+
+  async getLLegueGlobal(token: string) {
+    return await axios.get(`${this.url}/llegadas`, {
+      headers: { Authorization: `${token}` }
     });
   }
 

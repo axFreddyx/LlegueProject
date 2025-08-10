@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -12,7 +14,9 @@ export class CreatePage implements OnInit {
 
   constructor(
     private api: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
   // token = "";
   user = {
@@ -33,6 +37,16 @@ export class CreatePage implements OnInit {
   async ngOnInit() {
     await this.getRoles();            // Espera a que carguen los roles
     this.getRoleByParameter();        // Luego procesa el parámetro y asigna el role
+
+    const currentUrl = this.router.url.toLowerCase();
+
+    if (currentUrl.includes('/ver/admins')) {
+      this.user.role = 3; // Admin
+    } else if (currentUrl.includes('/ver/padres')) {
+      this.user.role = 4; // Persona Autorizada
+    } else if (currentUrl.includes('/ver/docentes')) {
+      this.user.role = 5; // Docente
+    }
   }
 
   previewImg: string | null = null;

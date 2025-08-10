@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="text-center">
+      <div class="header-title">
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="llegadas-content">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h1 class="titulo">Estado de Llegada de Padres y Tutores</h1>
+    </div>
+
+    <div class="llegadas-grid">
+      <div class="llegada-card" *ngFor="let alumno of llegadas">
+        <div class="llegada-avatar">
+          <img [src]="alumno.foto || 'assets/img/default-avatar.png'" alt="Foto alumno" />
+        </div>
+        <div class="llegada-info">
+          <h3>{{ alumno.nombre }}</h3>
+          <p>{{ alumno.grado }}° {{ alumno.grupo }}</p>
+          <div class="llegada-status" [ngClass]="{
+            'status-llego': alumno.estado === 'llego',
+            'status-en-camino': alumno.estado === 'en camino',
+            'status-no-llego': alumno.estado === 'no llego'
+          }">
+            <ion-icon [name]="
+                alumno.estado === 'llego' ? 'checkmark-circle' : 
+                alumno.estado === 'en camino' ? 'time-outline' : 
+                'close-circle'"></ion-icon>
+            {{ alumno.estado | titlecase }}
+          </div>
+          <small *ngIf="alumno.hora">{{ alumno.hora }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
