@@ -55,117 +55,89 @@ es para recoger alumnos, pero el sistema se llama YaLlegue
 que sea algo llamativo y moderno, tipo vector
 */
 
+/* =========================================
+   🎨 VARIABLES GLOBALES
+   ========================================= */
 :root {
   --primario: #004080;
-  --ion-color-primary: #004080; // Azul institucional
-  --secundario: #8c180b; // Verde tipo gobierno
-  --tercero: #f9a825; // Amarillo institucional
+  /* Azul institucional */
+  --ion-color-primary: #004080;
+  /* Azul institucional */
+  --secundario: #8c180b;
+  /* Verde tipo gobierno */
+  --tercero: #f9a825;
+  --tercero-light: #f1e7d6;
+  /* Amarillo institucional */
   --blanco: #f4f4f4;
   --negro: #000000;
 }
 
-.menu-title,
+/* =========================================
+   🔗 ENLACES Y TEXTOS BÁSICOS
+   ========================================= */
 a {
-
-  color: var(--primario);
-
+  text-decoration: none;
 }
 
-.custom-item {
-
-  color: var(--primario);
-
-}
-
-.custom-icon {
-  color: var(--primario);
-}
-
-.titulo-login {
-  color: var(--primario);
-}
-
-.btn-principal {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--primario);
-  border-radius: 15px;
-}
-
-.btn-principal:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--secundario);
-  border-radius: 15px;
-}
-
-.institucion-nombre {
-
-  color: var(--primario);
-
-}
-
-.titulo {
-  font-size: 2rem;
-  color: var(--secundario);
-  font-weight: bold;
-}
-
-.label-input {
-  font-size: 2rem;
-  color: var(--primario);
-}
-
-.img-card {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.card-titulo {
-  font-size: 1rem;
-  color: var(--secundario);
-}
-
+.menu-title,
+a,
+.custom-item,
+.custom-icon,
+.titulo-login,
+.institucion-nombre,
+.label-input,
 .label-docente {
-  font-size: 1.5rem;
   color: var(--primario);
 }
 
 .label-docente2 {
-  font-size: 1.5rem;
   color: var(--secundario);
 }
 
-.fondo-modal {
-  background: var(--blanco);
-}
-
-.modal-toolbar {
-  --background: var(--primario);
-  color: var(--blanco);
-}
-
-.titulo-modal {
-  color: var(--blanco);
+.titulo {
+  font-size: 2rem;
   font-weight: bold;
+  color: var(--primario);
+  margin-bottom: 24px;
+}
+
+.titulo2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--primario);
+  margin-bottom: 24px;
+}
+
+.logo-title {
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+/* =========================================
+   🖱️ BOTONES
+   ========================================= */
+.btn-principal,
+.btn-secundario {
+  font-size: 1rem;
+  height: 48px;
+  color: var(--blanco);
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-principal {
+  background-color: var(--primario);
+  --background-hover: var(--secundario);
+  --color-hover: var(--blanco);
+}
+
+.btn-secundario {
+  background-color: var(--secundario);
+  --background-hover: var(--primario);
+  --color-hover: var(--blanco);
 }
 
 .btn-llegada {
@@ -179,6 +151,30 @@ a {
   --color: var(--blanco);
 }
 
+/* =========================================
+   🖼️ IMÁGENES Y AVATARES
+   ========================================= */
+.img-card {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+ion-avatar img {
+  border-radius: 50%;
+  border: 2px solid var(--primario);
+}
+
+/* =========================================
+   📦 TARJETAS Y LISTAS
+   ========================================= */
+.card-titulo {
+  font-size: 1rem;
+  color: var(--secundario);
+}
 
 .alumno-card {
   position: relative;
@@ -189,25 +185,25 @@ a {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s;
   cursor: pointer;
   text-align: center;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  }
+.alumno-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 
-  &.selected {
-    border: 3px solid var(--tercero);
-  }
+.alumno-card.selected {
+  border: 3px solid var(--tercero);
+}
 
-  .check-icon {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 24px;
-    color: var(--tercero);
-    background: white;
-    border-radius: 50%;
-  }
+.alumno-card .check-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  color: var(--tercero);
+  background: white;
+  border-radius: 50%;
 }
 
 .alumno-foto {
@@ -229,22 +225,19 @@ a {
   color: var(--secundario);
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 16px;
-  background-color: var(--blanco);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* =========================================
+   📋 CONTENEDORES Y LAYOUT
+   ========================================= */
+.acciones {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.titulo {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--primario);
-  margin-bottom: 24px;
-}
-
+/* =========================================
+   📑 IONIC - ITEMS Y LABELS
+   ========================================= */
 ion-item {
   --background: white;
   border-radius: 12px;
@@ -258,11 +251,6 @@ ion-item:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-ion-avatar img {
-  border-radius: 50%;
-  border: 2px solid var(--primario);
-}
-
 ion-label h2 {
   font-weight: 600;
   color: var(--negro);
@@ -273,20 +261,6 @@ ion-label p {
   margin: 2px 0;
   color: #333;
   font-size: 0.95rem;
-}
-
-ion-header {
-  --background: var(--primario);
-  color: white;
-}
-
-ion-title {
-  color: white;
-  font-weight: bold;
-}
-
-ion-toolbar {
-  --background: var(--primario);
 }
 
 .docente-item {
@@ -302,106 +276,32 @@ ion-toolbar {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.acciones {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-
-/* Fondo y estructura general del modal */
-.modal-salones-content {
+/* =========================================
+   🖼️ MODALES
+   ========================================= */
+.fondo-modal {
   background: var(--blanco);
-  border-radius: 16px 16px 0 0;
-  animation: slideUp 0.3s ease;
 }
 
-/* Contenedor de salones con grid elegante */
-.salones-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
-  padding-bottom: 1rem;
-}
-
-/* Estilo de cada tarjeta */
-.salon-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.salon-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-/* Título del salón */
-.salon-card ion-card-title {
-  font-size: 1.2rem;
-  color: var(--primario);
-  font-weight: bold;
-}
-
-/* Texto de alumnos */
-.alumnos-text {
-  font-size: 0.95rem;
-  color: #333;
-  margin-bottom: 0.75rem;
-}
-
-/* Botón "Asignar" */
-.salon-card ion-button {
-  --background: var(--secundario);
-  --background-hover: #a31d10;
-  --border-radius: 8px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-/* Header del modal */
-ion-toolbar[color="primary"] {
+.modal-toolbar {
   --background: var(--primario);
-  --color: var(--blanco);
-  border-bottom: 2px solid var(--tercero);
+  color: var(--blanco);
 }
 
-ion-toolbar ion-title {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* Botón cerrar */
-ion-toolbar ion-button[color="light"] {
-  --color: var(--tercero);
+.titulo-modal {
+  color: var(--blanco);
   font-weight: bold;
 }
 
-/* Animación de entrada */
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Fondo modal */
 .modal-salones-content {
   background-color: var(--blanco);
   color: var(--negro);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px 16px 0 0;
+  animation: slideUp 0.3s ease;
 }
 
-/* Header personalizado */
+/* Header del modal */
 .salones-header h2 {
   color: var(--primario);
   font-weight: 700;
@@ -412,33 +312,27 @@ ion-toolbar ion-button[color="light"] {
 .salones-header p {
   color: var(--negro);
   font-size: 1rem;
-  margin-top: 0;
   margin-bottom: 1.5rem;
 }
 
-/* Botón cerrar */
-ion-button[color="light"] {
-  --background: var(--secundario);
-  --color: var(--blanco);
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 6px 12px;
-  transition: background-color 0.3s ease;
-}
-ion-button[color="light"]:hover {
-  --background: var(--tercero);
-  --color: var(--negro);
+/* =========================================
+   🏫 SALONES - CARDS Y GRID
+   ========================================= */
+.salones-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1rem;
 }
 
-/* Tarjetas de salón */
 .salon-card {
   border-radius: 12px;
+  background-color: #fff;
+  border-left: 6px solid var(--primario);
   box-shadow: 0 4px 8px rgba(0, 64, 128, 0.15);
   margin-bottom: 15px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 6px solid var(--primario);
-  background-color: #fff;
 }
 
 .salon-card:hover {
@@ -446,21 +340,18 @@ ion-button[color="light"]:hover {
   box-shadow: 0 8px 20px rgba(0, 64, 128, 0.3);
 }
 
-/* Título en tarjeta */
 .salon-card ion-card-title {
-  color: var(--primario);
-  font-weight: 700;
   font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primario);
 }
 
-/* Texto alumnos */
 .alumnos-text {
   font-size: 0.95rem;
-  color: var(--secundario);
   font-weight: 600;
+  color: var(--secundario);
 }
 
-/* Card para "No hay salones" */
 .no-salones-card {
   border-radius: 12px;
   background-color: var(--tercero);
@@ -474,4 +365,378 @@ ion-button[color="light"]:hover {
 .no-salones-card ion-card-title {
   font-size: 1.4rem;
   margin-bottom: 0.3rem;
+}
+
+/* =========================================
+   🎬 ANIMACIONES
+   ========================================= */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   🏠 HOME CARDS - PANEL ADMIN
+   ========================================= */
+.home-card {
+  background: var(--tercero-light);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 64, 128, 0.08);
+  transition: all 0.25s ease-in-out;
+  border-left: 6px solid var(--secundario);
+  border-right: 6px solid var(--secundario);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+.home-card:hover {
+  transform: translateY(-8px) scale(1.03) rotateX(3deg) rotateY(-2deg);
+  box-shadow: 0 15px 35px rgba(0, 64, 128, 0.25), 0 0 25px rgba(0, 128, 255, 0.4);
+  animation: cardGlow 1.5s infinite alternate ease-in-out;
+  border-left: 6px solid var(--tercero);
+}
+
+/* Efecto de brillo animado en el borde */
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 15px 35px rgba(0, 64, 128, 0.25), 0 0 10px rgba(0, 128, 255, 0.4);
+  }
+
+  100% {
+    box-shadow: 0 18px 45px rgba(0, 64, 128, 0.35), 0 0 25px rgba(0, 128, 255, 0.7);
+  }
+}
+
+/* Header con degradado dinámico */
+.home-card:hover ion-card-header {
+  background: linear-gradient(270deg, rgba(0, 64, 128, 0.05), rgba(249, 168, 37, 0.08), rgba(0, 64, 128, 0.05));
+  background-size: 400% 400%;
+  animation: headerGradient 3s ease infinite;
+  border-radius: 16px 16px 0 0;
+}
+
+@keyframes headerGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Icono con rebote y giro */
+.home-card-icon {
+  font-size: 2.2rem;
+  color: var(--primario);
+  margin-top: 4px;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.home-card:hover .home-card-icon {
+  animation: iconBounce 0.8s ease forwards;
+  color: var(--tercero);
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  30% {
+    transform: scale(1.3) rotate(-8deg);
+  }
+
+  50% {
+    transform: scale(1.15) rotate(8deg);
+  }
+
+  70% {
+    transform: scale(1.25) rotate(-5deg);
+  }
+
+  100% {
+    transform: scale(1.15) rotate(0deg);
+  }
+}
+
+/* =========================================
+  SALONES-PAGE
+   ========================================= */
+.salones-row {
+  align-items: center;
+  row-gap: 15px;
+}
+
+.salones-input {
+  --background: #fff;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--secundario);
+  font-size: 1rem;
+  transition: all 0.25s ease-in-out;
+}
+
+.salones-input:focus-within {
+  border-color: var(--primario);
+  box-shadow: 0 0 8px rgba(0, 64, 128, 0.15);
+}
+
+.salones-btn-col {
+  margin-top: 10px;
+}
+
+.salones-btn-principal {
+  --background: var(--primario);
+  --background-hover: var(--tercero);
+  --border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 16px rgba(0, 64, 128, 0.2);
+  transition: all 0.25s ease-in-out;
+}
+
+.salones-btn-principal:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 64, 128, 0.3);
+}
+
+.salon-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--blanco);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 64, 128, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.salon-titulo2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primario);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.salon-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.salon-list-header {
+  background-color: var(--tercero);
+  color: var(--negro);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.salon-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: background-color 0.25s ease;
+}
+
+.salon-item:hover {
+  background-color: rgba(249, 168, 37, 0.15);
+}
+
+.salon-col {
+  flex: 1;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--primario);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.salon-action {
+  flex: 0.8;
+  color: var(--secundario);
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.salon-action:hover {
+  color: var(--tercero);
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+  .salon-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .salon-col {
+    flex: unset;
+    width: 100%;
+    text-align: center;
+  }
+
+  .salon-list-header {
+    display: none;
+    /* Oculta encabezado en móvil */
+  }
+}
+
+.salon-icon-edit {
+  color: var(--primario);
+}
+
+.salon-icon-delete {
+  color: var(--secundario);
+}
+
+.salon-icon-edit,
+.salon-icon-delete {
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.salon-icon-edit:hover {
+  color: var(--tercero);
+}
+
+.salon-icon-delete:hover {
+  color: #e74c3c;
+  /* rojo para borrar */
+}
+
+/* =========================================
+PERFIL-PAGE
+   ========================================= */
+
+.perfil-content {
+  background: #f8f9fa;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 100%;
+}
+
+.perfil-container {
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 900px;
+}
+
+.perfil-left {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 20px 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.perfil-avatar img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.perfil-avatar img:hover {
+  transform: scale(1.05);
+}
+
+.perfil-nombre {
+  font-weight: 900;
+  font-size: 1.9rem;
+  color: #004080;
+  margin-bottom: 4px;
+}
+
+.perfil-badge {
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.3em 0.9em;
+  letter-spacing: 0.04em;
+}
+
+.perfil-member {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.perfil-right {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 30px 30px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.perfil-subtitle {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #004080;
+  margin: 0;
+}
+
+.perfil-edit-btn {
+  --border-radius: 10px;
+  --box-shadow: 0 4px 8px rgba(0, 64, 128, 0.2);
+}
+
+.perfil-info p {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  color: #222;
+}
+
+.perfil-info p strong {
+  color: #004080;
+  width: 130px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .perfil-left {
+    padding-bottom: 15px;
+  }
+
+  .perfil-avatar img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .perfil-nombre {
+    font-size: 1.5rem;
+  }
+
+  .perfil-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .perfil-info p {
+    font-size: 1rem;
+  }
 }

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreatePageRoutingModule } from './create-routing.module';
 
 import { CreatePage } from './create.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+// import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     CreatePageRoutingModule,
-    ComponentsModule
+    // ComponentsModule
   ],
   declarations: [CreatePage]
 })

@@ -70,7 +70,15 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     loadChildren: () => import('./screen/unauthorized/unauthorized.module').then(m => m.UnauthorizedPageModule)
+  },  {
+    path: 'periodos',
+    loadChildren: () => import('./admin/periodos/periodos.module').then( m => m.PeriodosPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
   }
+
 ];
 
 @NgModule({

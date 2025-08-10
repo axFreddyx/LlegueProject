@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
+import { ApiService } from 'src/app/services/api.service';
+
+interface Salon {
+  aula: string;
+  grado: number;
+  grupo: string;
+}
+
 @Component({
   selector: 'app-gradoygrupo',
   templateUrl: './gradoygrupo.page.html',
@@ -8,31 +17,34 @@ import { OverlayEventDetail } from '@ionic/core/components';
 })
 export class GradoygrupoPage implements OnInit {
 
-  constructor(
+  token = "";
+  salones: Salon[] = [];
 
+  constructor(
+    private storage: Storage,
+    private api: ApiService,
+    private router: Router,
   ) { }
 
-  isModalOpen = false;
-
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  async ngOnInit() {
+    await this.storage.create();
+    this.token = await this.storage.get('token');
+    await this.getSalones();
   }
 
-  onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
-    this.isModalOpen = false;
+  async getSalones() {
+    this.salones = [];
+    try {
+      const res = await this.api.verSalones(this.token);
+      const data = (res.data as any).data as Salon[];
+      this.salones = data.sort((a: Salon, b: Salon) => {
+        return a.grado !== b.grado
+          ? a.grado - b.grado
+          : a.grupo.toLowerCase().localeCompare(b.grupo.toLowerCase());
+      });
+      console.log(this.salones);
+    } catch (error) {
+      console.error('Error cargando salones:', error);
+    }
   }
-
-  ngOnInit() {
-  }
-  gradosEjemplo = [
-    { nombre: '1°', grupos: ['A', 'B'] },
-    { nombre: '2°', grupos: ['A'] },
-    { nombre: '3°', grupos: ['A', 'B', 'C'] },
-    { nombre: '4°', grupos: ['A', 'B',] },
-    { nombre: '5°', grupos: ['A', 'B',] },
-    { nombre: '6°', grupos: ['A',] },
-  ];
-
-
 }

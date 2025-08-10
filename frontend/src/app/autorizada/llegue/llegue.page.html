@@ -1,11 +1,20 @@
-<app-header></app-header>
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button autoHide="false"></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Llegue</ion-title>
-    </ion-toolbar>
+  <ion-toolbar color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-menu-button menu="menuId"></ion-menu-button>
+    </ion-buttons> -->
+    <ion-title class="text-center">
+      <div class="header-title">
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/perfil" title="Mi perfil">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding custom-llegue-content">

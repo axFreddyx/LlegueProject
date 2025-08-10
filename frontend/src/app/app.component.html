@@ -1,3 +1,31 @@
+<!-- app.component.html -->
+
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu contentId="main-content" menuId="menuId" side="start">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="menu-container">
+        <ion-list class="menu-items">
+          <ion-item class="item-menu" routerLink="/home">Inicio</ion-item>
+          <ion-item class="item-menu" routerLink="/periodos">Periodos Escolares</ion-item>
+          <ion-item class="item-menu" routerLink="/gradoygrupo">Salones y Grupos</ion-item>
+          <ion-item class="item-menu" routerLink="/ver/alumnos">Alumnos</ion-item>
+          <ion-item class="item-menu" routerLink="/ver/docentes">Docentes</ion-item>
+          <ion-item class="item-menu" routerLink="/ver/padres">Padres</ion-item>
+          <!-- otros items -->
+        </ion-list>
+
+        <ion-item class="btn-logout" (click)="logout()">Cerrar Sesión</ion-item>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>
