@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
 
+interface Salon {
+  aula: string;
+  grado: number;
+  grupo: string;
+}
 
 @Component({
   selector: 'app-gradoygrupo',
@@ -12,34 +17,34 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class GradoygrupoPage implements OnInit {
 
+  token = "";
+  salones: Salon[] = [];
+
   constructor(
     private storage: Storage,
     private api: ApiService,
     private router: Router,
-
   ) { }
-  token = "";
-
-  salones: any = [] = [];
 
   async ngOnInit() {
-    this.storage.create();
+    await this.storage.create();
     this.token = await this.storage.get('token');
-
-    this.getSalones();
+    await this.getSalones();
   }
-
-
 
   async getSalones() {
     this.salones = [];
-    this.api.verSalones(this.token).then(res => {
-      const data = (res.data as any).data;  // cast a any para evitar error
-      this.salones = data;
+    try {
+      const res = await this.api.verSalones(this.token);
+      const data = (res.data as any).data as Salon[];
+      this.salones = data.sort((a: Salon, b: Salon) => {
+        return a.grado !== b.grado
+          ? a.grado - b.grado
+          : a.grupo.toLowerCase().localeCompare(b.grupo.toLowerCase());
+      });
       console.log(this.salones);
-    });
+    } catch (error) {
+      console.error('Error cargando salones:', error);
+    }
   }
-
-
-
 }

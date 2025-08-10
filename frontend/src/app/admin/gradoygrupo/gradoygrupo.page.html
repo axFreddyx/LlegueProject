@@ -9,6 +9,11 @@
         <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/perfil" title="Mi perfil">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -54,7 +59,7 @@
 
         <ion-item *ngFor="let s of salones" class="salon-item">
           <ion-label class="salon-col">{{ s.aula }}</ion-label>
-          <ion-label class="salon-col">{{ s.grado }}</ion-label>
+          <ion-label class="salon-col">{{ s.grado }}°</ion-label>
           <ion-label class="salon-col">{{ s.grupo }}</ion-label>
           <ion-label class="salon-col salon-action">
             <ion-icon name="pencil-outline" class="salon-icon-edit"></ion-icon>
@@ -62,7 +67,6 @@
           <ion-label class="salon-col salon-action">
             <ion-icon name="trash-outline" class="salon-icon-delete"></ion-icon>
           </ion-label>
-
         </ion-item>
       </ion-list>
     </div>
