@@ -275,18 +275,17 @@ ion-label p {
   font-size: 0.95rem;
 }
 
-ion-header {
-  --background: var(--primario);
-  color: white;
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
 }
 
-ion-title {
-  color: white;
-  font-weight: bold;
-}
-
-ion-toolbar {
-  --background: var(--primario);
+.span-title {
+  color: var(--blanco);
+  // -webkit-text-stroke: #000000 .5px;
 }
 
 .docente-item {
@@ -425,6 +424,7 @@ ion-button[color="light"] {
   padding: 6px 12px;
   transition: background-color 0.3s ease;
 }
+
 ion-button[color="light"]:hover {
   --background: var(--tercero);
   --color: var(--negro);

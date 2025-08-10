@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LleguePageRoutingModule } from './llegue-routing.module';
 
 import { LleguePage } from './llegue.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+// import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     LleguePageRoutingModule,
-    ComponentsModule
+    // ComponentsModule
   ],
   declarations: [LleguePage]
 })

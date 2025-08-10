@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VerPageRoutingModule } from './ver-routing.module';
 
 import { VerPage } from './ver.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+// import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     VerPageRoutingModule,
-    ComponentsModule
+    // ComponentsModule
   ],
   declarations: [VerPage]
 })

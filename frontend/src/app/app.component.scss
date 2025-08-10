@@ -1,0 +1,27 @@
+.btn-logout {
+    --background: #e74c3c;
+    /* rojo fuerte */
+    --color: #ffffff;
+    /* letras blancas */
+    font-weight: bold;
+    // border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.item-menu {
+    --background: transparent;
+    --color: var(--ion-color-dark);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
