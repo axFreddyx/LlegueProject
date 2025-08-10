@@ -5,10 +5,15 @@
     </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
-        <!-- <img src="assets/imgs/utzac-logo.jpg" alt="" class="logo-title"> -->
-        <span class="span-title">Panel Administrativo</span>
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/perfil" title="Mi perfil">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +26,7 @@
     <!-- Filtro por salón -->
     <ion-item>
       <ion-label>Seleccionar Salón:</ion-label>
-      <ion-select [(ngModel)]="salonSeleccionado" >
+      <ion-select [(ngModel)]="salonSeleccionado">
         <ion-select-option value="">Todos</ion-select-option>
         <ion-select-option *ngFor="let salon of salones" [value]="salon.id">
           {{ salon.grado }}° {{ salon.grupo }} - Aula {{ salon.aula }}
@@ -33,7 +38,9 @@
     <ion-list lines="full">
       <ion-item *ngFor="let alumno of alumnosFiltrados">
         <ion-avatar slot="start">
-          <img alt="image" [src]="alumno.foto?.url ? 'http://localhost:1337' + alumno.foto.url : 'assets/img/ejemplo.jpg'" [alt]="alumno.nombre">
+          <img alt="image"
+            [src]="alumno.foto?.url ? 'http://localhost:1337' + alumno.foto.url : 'assets/img/ejemplo.jpg'"
+            [alt]="alumno.nombre">
         </ion-avatar>
         <ion-label>
           <h2>{{ alumno.nombre }} {{ alumno.apellidos }}</h2>

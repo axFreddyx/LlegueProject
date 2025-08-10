@@ -5,13 +5,17 @@
     </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
-        <!-- <img src="assets/imgs/utzac-logo.jpg" alt="" class="logo-title"> -->
-        <!-- <span class="span-title"></span> -->
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/perfil" title="Mi perfil">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <div class="container text-center">
     <h1 class="titulo">

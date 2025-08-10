@@ -24,7 +24,7 @@ export class AppComponent {
   }
 
   toggleMenu() {
-    const hideMenuRoutes = ['/login'];
+    const hideMenuRoutes = ['/login', 'llegue', 'alumnos'];
     const isHiddenPage = hideMenuRoutes.includes(this.router.url);
 
     this.menuCtrl.enable(!isHiddenPage);

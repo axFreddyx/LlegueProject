@@ -73,6 +73,10 @@ const routes: Routes = [
   },  {
     path: 'periodos',
     loadChildren: () => import('./admin/periodos/periodos.module').then( m => m.PeriodosPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
   }
 
 ];
