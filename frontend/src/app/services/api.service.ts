@@ -112,6 +112,12 @@ export class ApiService {
     return await axios.put(`${this.url}/users/${id}`, data , { headers: { Authorization: token } });
     // console.log(`${this.url}/users/${id}`, data);
   }
+
+  async deleteUser(id: number) {
+    const token = await this.storage.get('token');
+    return await axios.delete(`${this.url}/users/${id}`, { headers: { Authorization: token } });
+  }
+
   //#endregion
 
   //#region Salones
@@ -146,7 +152,7 @@ export class ApiService {
     });
   }
 
-  async autorizarSalida(id: string, data: any, token: string) {
+  async gestionarSalida(id: string, data: any, token: string) {
     return await axios.put(`${this.url}/llegadas/${id}`, {
       data: data
     }, {

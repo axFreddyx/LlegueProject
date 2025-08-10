@@ -60,7 +60,6 @@ export class AlumnosPage implements OnInit {
     }
   }
 
-  // Quiero que muestre los alumnos que la llegada sea false y en otra true. que las almacene en alumnosSinLlegada y alumnosConLlegada respectivamente
   async getMe() {
     await this.api.getUserByMe().then((res: any) => {
       console.log('Usuario cargado:', res.data);
@@ -108,8 +107,7 @@ export class AlumnosPage implements OnInit {
       this.presentToast('Error al obtener llegadas');
     });
   }
-
-
+  // Reiniciar las listas de alumnos
   reset() {
     this.alumnosConLlegada = [];
     this.alumnosSinLlegada = [];
@@ -122,7 +120,7 @@ export class AlumnosPage implements OnInit {
       llegada: true,
       docente: this.idMe,
     }
-    this.api.autorizarSalida(llegada.documentId, data, token).then((res: any) => {
+    this.api.gestionarSalida(llegada.documentId, data, token).then((res: any) => {
       this.presentToast(`Alumno ${llegada.alumno.nombre} se ha entregado a su conocido.`);
       // Actualizar las listas de alumnos
       this.reset();
