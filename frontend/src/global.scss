@@ -55,117 +55,75 @@ es para recoger alumnos, pero el sistema se llama YaLlegue
 que sea algo llamativo y moderno, tipo vector
 */
 
+/* =========================================
+   🎨 VARIABLES GLOBALES
+   ========================================= */
 :root {
   --primario: #004080;
-  --ion-color-primary: #004080; // Azul institucional
-  --secundario: #8c180b; // Verde tipo gobierno
-  --tercero: #f9a825; // Amarillo institucional
+  /* Azul institucional */
+  --ion-color-primary: #004080;
+  /* Azul institucional */
+  --secundario: #8c180b;
+  /* Verde tipo gobierno */
+  --tercero: #f9a825;
+  /* Amarillo institucional */
   --blanco: #f4f4f4;
   --negro: #000000;
 }
 
-.menu-title,
+/* =========================================
+   🔗 ENLACES Y TEXTOS BÁSICOS
+   ========================================= */
 a {
-
-  color: var(--primario);
-
+  text-decoration: none;
 }
 
-.custom-item {
-
-  color: var(--primario);
-
-}
-
-.custom-icon {
-  color: var(--primario);
-}
-
-.titulo-login {
-  color: var(--primario);
-}
-
-.btn-principal {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--primario);
-  border-radius: 15px;
-}
-
-.btn-principal:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--secundario);
-  border-radius: 15px;
-}
-
-.institucion-nombre {
-
-  color: var(--primario);
-
-}
-
-.titulo {
-  font-size: 2rem;
-  color: var(--secundario);
-  font-weight: bold;
-}
-
-.label-input {
-  font-size: 2rem;
-  color: var(--primario);
-}
-
-.img-card {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.card-titulo {
-  font-size: 1rem;
-  color: var(--secundario);
-}
-
+.menu-title,
+a,
+.custom-item,
+.custom-icon,
+.titulo-login,
+.institucion-nombre,
+.label-input,
 .label-docente {
-  font-size: 1.5rem;
   color: var(--primario);
 }
 
 .label-docente2 {
-  font-size: 1.5rem;
   color: var(--secundario);
 }
 
-.fondo-modal {
-  background: var(--blanco);
-}
-
-.modal-toolbar {
-  --background: var(--primario);
-  color: var(--blanco);
-}
-
-.titulo-modal {
-  color: var(--blanco);
+.titulo {
+  font-size: 2rem;
   font-weight: bold;
+  color: var(--primario);
+  margin-bottom: 24px;
+}
+
+/* =========================================
+   🖱️ BOTONES
+   ========================================= */
+.btn-principal,
+.btn-secundario {
+  font-size: 1rem;
+  height: 48px;
+  color: var(--blanco);
+  border-radius: 15px;
+}
+
+.btn-principal {
+  background-color: var(--primario);
+}
+
+.btn-secundario {
+  background-color: var(--secundario);
+}
+
+.btn-principal:hover,
+.btn-secundario:hover {
+  color: var(--negro);
+  font-weight: bold;
+  background-color: var(--tercero);
 }
 
 .btn-llegada {
@@ -179,6 +137,30 @@ a {
   --color: var(--blanco);
 }
 
+/* =========================================
+   🖼️ IMÁGENES Y AVATARES
+   ========================================= */
+.img-card {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+ion-avatar img {
+  border-radius: 50%;
+  border: 2px solid var(--primario);
+}
+
+/* =========================================
+   📦 TARJETAS Y LISTAS
+   ========================================= */
+.card-titulo {
+  font-size: 1rem;
+  color: var(--secundario);
+}
 
 .alumno-card {
   position: relative;
@@ -189,25 +171,25 @@ a {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s;
   cursor: pointer;
   text-align: center;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  }
+.alumno-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 
-  &.selected {
-    border: 3px solid var(--tercero);
-  }
+.alumno-card.selected {
+  border: 3px solid var(--tercero);
+}
 
-  .check-icon {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 24px;
-    color: var(--tercero);
-    background: white;
-    border-radius: 50%;
-  }
+.alumno-card .check-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  color: var(--tercero);
+  background: white;
+  border-radius: 50%;
 }
 
 .alumno-foto {
@@ -229,22 +211,19 @@ a {
   color: var(--secundario);
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 16px;
-  background-color: var(--blanco);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* =========================================
+   📋 CONTENEDORES Y LAYOUT
+   ========================================= */
+.acciones {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.titulo {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--primario);
-  margin-bottom: 24px;
-}
-
+/* =========================================
+   📑 IONIC - ITEMS Y LABELS
+   ========================================= */
 ion-item {
   --background: white;
   border-radius: 12px;
@@ -258,11 +237,6 @@ ion-item:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-ion-avatar img {
-  border-radius: 50%;
-  border: 2px solid var(--primario);
-}
-
 ion-label h2 {
   font-weight: 600;
   color: var(--negro);
@@ -273,19 +247,6 @@ ion-label p {
   margin: 2px 0;
   color: #333;
   font-size: 0.95rem;
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 100%;
-}
-
-.span-title {
-  color: var(--blanco);
-  // -webkit-text-stroke: #000000 .5px;
 }
 
 .docente-item {
@@ -301,106 +262,32 @@ ion-label p {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.acciones {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-
-/* Fondo y estructura general del modal */
-.modal-salones-content {
+/* =========================================
+   🖼️ MODALES
+   ========================================= */
+.fondo-modal {
   background: var(--blanco);
-  border-radius: 16px 16px 0 0;
-  animation: slideUp 0.3s ease;
 }
 
-/* Contenedor de salones con grid elegante */
-.salones-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
-  padding-bottom: 1rem;
-}
-
-/* Estilo de cada tarjeta */
-.salon-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.salon-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-/* Título del salón */
-.salon-card ion-card-title {
-  font-size: 1.2rem;
-  color: var(--primario);
-  font-weight: bold;
-}
-
-/* Texto de alumnos */
-.alumnos-text {
-  font-size: 0.95rem;
-  color: #333;
-  margin-bottom: 0.75rem;
-}
-
-/* Botón "Asignar" */
-.salon-card ion-button {
-  --background: var(--secundario);
-  --background-hover: #a31d10;
-  --border-radius: 8px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-/* Header del modal */
-ion-toolbar[color="primary"] {
+.modal-toolbar {
   --background: var(--primario);
-  --color: var(--blanco);
-  border-bottom: 2px solid var(--tercero);
+  color: var(--blanco);
 }
 
-ion-toolbar ion-title {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* Botón cerrar */
-ion-toolbar ion-button[color="light"] {
-  --color: var(--tercero);
+.titulo-modal {
+  color: var(--blanco);
   font-weight: bold;
 }
 
-/* Animación de entrada */
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Fondo modal */
 .modal-salones-content {
   background-color: var(--blanco);
   color: var(--negro);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px 16px 0 0;
+  animation: slideUp 0.3s ease;
 }
 
-/* Header personalizado */
+/* Header del modal */
 .salones-header h2 {
   color: var(--primario);
   font-weight: 700;
@@ -411,34 +298,27 @@ ion-toolbar ion-button[color="light"] {
 .salones-header p {
   color: var(--negro);
   font-size: 1rem;
-  margin-top: 0;
   margin-bottom: 1.5rem;
 }
 
-/* Botón cerrar */
-ion-button[color="light"] {
-  --background: var(--secundario);
-  --color: var(--blanco);
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 6px 12px;
-  transition: background-color 0.3s ease;
+/* =========================================
+   🏫 SALONES - CARDS Y GRID
+   ========================================= */
+.salones-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1rem;
 }
 
-ion-button[color="light"]:hover {
-  --background: var(--tercero);
-  --color: var(--negro);
-}
-
-/* Tarjetas de salón */
 .salon-card {
   border-radius: 12px;
+  background-color: #fff;
+  border-left: 6px solid var(--primario);
   box-shadow: 0 4px 8px rgba(0, 64, 128, 0.15);
   margin-bottom: 15px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 6px solid var(--primario);
-  background-color: #fff;
 }
 
 .salon-card:hover {
@@ -446,21 +326,18 @@ ion-button[color="light"]:hover {
   box-shadow: 0 8px 20px rgba(0, 64, 128, 0.3);
 }
 
-/* Título en tarjeta */
 .salon-card ion-card-title {
-  color: var(--primario);
-  font-weight: 700;
   font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primario);
 }
 
-/* Texto alumnos */
 .alumnos-text {
   font-size: 0.95rem;
-  color: var(--secundario);
   font-weight: 600;
+  color: var(--secundario);
 }
 
-/* Card para "No hay salones" */
 .no-salones-card {
   border-radius: 12px;
   background-color: var(--tercero);
@@ -474,4 +351,19 @@ ion-button[color="light"]:hover {
 .no-salones-card ion-card-title {
   font-size: 1.4rem;
   margin-bottom: 0.3rem;
+}
+
+/* =========================================
+   🎬 ANIMACIONES
+   ========================================= */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
