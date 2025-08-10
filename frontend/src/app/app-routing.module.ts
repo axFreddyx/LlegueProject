@@ -70,7 +70,11 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     loadChildren: () => import('./screen/unauthorized/unauthorized.module').then(m => m.UnauthorizedPageModule)
+  },  {
+    path: 'periodos',
+    loadChildren: () => import('./admin/periodos/periodos.module').then( m => m.PeriodosPageModule)
   }
+
 ];
 
 @NgModule({
