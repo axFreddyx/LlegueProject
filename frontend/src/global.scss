@@ -601,12 +601,14 @@ ion-label p {
   }
 }
 
-.salon-icon-edit{
+.salon-icon-edit {
   color: var(--primario);
 }
-.salon-icon-delete{
-    color: var(--secundario);
+
+.salon-icon-delete {
+  color: var(--secundario);
 }
+
 .salon-icon-edit,
 .salon-icon-delete {
   font-size: 1.3rem;
@@ -621,4 +623,120 @@ ion-label p {
 .salon-icon-delete:hover {
   color: #e74c3c;
   /* rojo para borrar */
+}
+
+/* =========================================
+PERFIL-PAGE
+   ========================================= */
+
+.perfil-content {
+  background: #f8f9fa;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 100%;
+}
+
+.perfil-container {
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 900px;
+}
+
+.perfil-left {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 20px 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.perfil-avatar img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.perfil-avatar img:hover {
+  transform: scale(1.05);
+}
+
+.perfil-nombre {
+  font-weight: 900;
+  font-size: 1.9rem;
+  color: #004080;
+  margin-bottom: 4px;
+}
+
+.perfil-badge {
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.3em 0.9em;
+  letter-spacing: 0.04em;
+}
+
+.perfil-member {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.perfil-right {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 30px 30px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.perfil-subtitle {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #004080;
+  margin: 0;
+}
+
+.perfil-edit-btn {
+  --border-radius: 10px;
+  --box-shadow: 0 4px 8px rgba(0, 64, 128, 0.2);
+}
+
+.perfil-info p {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  color: #222;
+}
+
+.perfil-info p strong {
+  color: #004080;
+  width: 130px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .perfil-left {
+    padding-bottom: 15px;
+  }
+
+  .perfil-avatar img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .perfil-nombre {
+    font-size: 1.5rem;
+  }
+
+  .perfil-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .perfil-info p {
+    font-size: 1rem;
+  }
 }
