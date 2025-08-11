@@ -168,7 +168,6 @@ a,
   align-items: center;
   // gap: 12px;
 }
-
 /* =========================================
    🖼️ IMÁGENES Y AVATARES
    ========================================= */
@@ -867,7 +866,7 @@ LLEGADAS-PAGE
 .llegada-card {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -880,7 +879,7 @@ LLEGADAS-PAGE
 
 .llegada-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .llegada-img img {
@@ -912,6 +911,7 @@ LLEGADAS-PAGE
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -923,6 +923,7 @@ LLEGADAS-PAGE
     flex-direction: column;
     text-align: center;
   }
+
   .llegada-img img {
     width: 120px;
     height: 120px;
