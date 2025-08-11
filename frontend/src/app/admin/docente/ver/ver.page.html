@@ -1,24 +1,32 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button menu="menuId"></ion-menu-button>
-    </ion-buttons>
-    <ion-title class="text-center">
-      <div class="header-title">
-        <img src="assets/img/escuela.png" alt="" class="logo-title">
-        <!-- <span class="span-title">Panel Administrativo</span> -->
-      </div>
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/perfil" title="Mi perfil">
-        <ion-icon name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button menu="menuId"></ion-menu-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+            <div class="header-title">
+                <img src="assets/img/escuela.png" alt="" class="logo-title">
+                <!-- <span class="span-title">Panel Administrativo</span> -->
+            </div>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button routerLink="/perfil" title="Mi perfil">
+                <ion-icon name="person-circle-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
     <div class="container">
+
+        <div class="text-center">
+            <ion-button class="cuenta-btn" fill="solid" size="large" routerLink="/create/cuenta">
+                <ion-icon slot="start" name="person-add-outline"></ion-icon>
+                Agregar Docente
+            </ion-button>
+        </div>
+
         <h1 class="titulo text-center">Ver Docentes</h1>
         <ion-button (click)="redirectToAddDocente()" expand="block" shape="round">
             <ion-icon name="add-circle-outline" slot="start"></ion-icon>

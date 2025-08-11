@@ -70,14 +70,23 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     loadChildren: () => import('./screen/unauthorized/unauthorized.module').then(m => m.UnauthorizedPageModule)
-  },  {
+  },
+  {
     path: 'periodos',
     loadChildren: () => import('./admin/periodos/periodos.module').then( m => m.PeriodosPageModule)
   },
   {
     path: 'perfil',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'ver/admins',
+    loadChildren: () => import('./admin/users-admin/users-admin.module').then( m => m.UsersAdminPageModule)
+  },  {
+    path: 'llegue-global',
+    loadChildren: () => import('./admin/llegue-global/llegue-global.module').then( m => m.LlegueGlobalPageModule)
   }
+
 
 ];
 
