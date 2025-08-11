@@ -929,3 +929,40 @@ LLEGADAS-PAGE
     height: 120px;
   }
 }
+
+
+
+// PERIODOS
+.periodos-input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #3880ff; /* color azul Ionic por defecto */
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #222;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  -webkit-appearance: none; /* para quitar estilos nativos en iOS/Chrome */
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.periodos-input:hover {
+  border-color: #3171e0;
+}
+
+.periodos-input:focus {
+  border-color: #222fff;
+  box-shadow: 0 0 6px 2px rgba(56,128,255,0.4);
+  background-color: #fff;
+  color: #000;
+}
+
+/* Para que el calendario no tape el borde redondeado en Chrome */
+.periodos-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(34%) sepia(83%) saturate(6291%) hue-rotate(205deg) brightness(92%) contrast(91%);
+  padding-right: 0.5rem;
+}

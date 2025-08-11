@@ -231,5 +231,19 @@ export class ApiService {
     return !!this.storage.get("token");
   }
 
+  //#region Periodos
+  async getPeriodos(token: any) {
+    return await axios.get(`${this.url}/periodos`,
+      {
+        headers: { Authorization: token },
+        params: {
+          sort: 'createdAt:desc',
+          populate: '*'
+        }
+      });
+  }
+
+  //#endregion
+
 
 }
