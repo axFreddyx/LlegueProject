@@ -59,12 +59,15 @@ export class ApiService {
     return await axios.post(`${this.url}/alumnos`, { data });
   }
 
-  async updateAlumno(id: string, data: any) {
-    return await axios.put(`${this.url}/alumnos/${id}`, { data });
+  async updateAlumno(id: string, data: any, token: string) {
+    return await axios.put(`${this.url}/alumnos/${id}`,  {"data":data} , {
+      headers: { Authorization: token } 
+    });
   }
 
-  async deleteAlumno(id: string) {
-    return await axios.delete(`${this.url}/alumnos/${id}`);
+  async deleteAlumno(id: string, token: string) {
+    return await axios.delete(`${this.url}/alumnos/${id}`, { headers: { Authorization: token }});
+      
   }
 
   async asignarAlumnosAPersona(idPersona: number, alumno: number[], token: string) {
@@ -131,6 +134,23 @@ export class ApiService {
   async verSalones(token: string) {
     return await axios.get(`${this.url}/salons`, {
       headers: { Authorization: `${token}` }
+    });
+  }
+
+  async updateSalon(id: string, data: any, token: string) {
+    return await axios.put(`${this.url}/salons/${id}`, { data: data }, {
+      headers: { Authorization: token }
+    });
+  }
+
+  async createSalon(data: any, token: string) {
+    return await axios.post(`${this.url}/salons`, { data: data }, {
+      headers: { Authorization: token }
+    });
+  }
+  async deleteSalon(id: string, token: string) {
+    return await axios.delete(`${this.url}/salons/${id}`, {
+      headers: { Authorization: token }
     });
   }
 

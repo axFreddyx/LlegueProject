@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class VerPage implements OnInit {
-  @ViewChild(IonModal) modal!: IonModal;
-
+  @ViewChild(IonModal) modal!: IonModal; 
   constructor(
     private api: ApiService,
     private storage: Storage,
@@ -22,6 +21,7 @@ export class VerPage implements OnInit {
   public alertButtons = [
     {
       text: 'Cancelar',
+    
       role: 'cancel',
       handler: () => {
         console.log('Cancelado');
@@ -65,7 +65,6 @@ export class VerPage implements OnInit {
   }
 
   async asignarSalon() {
-    console.log('Asignando salón:', this.data, 'al docente con ID:', this.idDocente);
     // await this.api.updateUser(this.data, this.idDocente)
     await this.api.updateUser(this.data, this.idDocente).then((res: any) => {
       console.log('Docente updated successfully:', res.data);

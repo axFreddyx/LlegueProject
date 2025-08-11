@@ -34,3 +34,24 @@ ion-label p {
   color: #666;
   margin: 2px 0;
 }
+
+.no-salones-card{
+  margin: 0 auto;
+}
+
+.select-all-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 5px 16px; /* Igual alineación que los checkboxes */
+  border-bottom: 1px solid #ccc; /* Línea separadora */
+  user-select: none; /* No seleccionar texto al click */
+  gap: 8px;
+}
+
+.select-all-label {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ion-color-primary);
+  user-select: none;
+}

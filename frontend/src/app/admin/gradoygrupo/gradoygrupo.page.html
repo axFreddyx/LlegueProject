@@ -6,7 +6,6 @@
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="" class="logo-title">
-        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
     <ion-buttons slot="end">
@@ -27,19 +26,50 @@
       <ion-grid fixed>
         <ion-row class="salones-row">
           <ion-col size="12" size-md="4">
-            <ion-input class="salones-input" type="text" placeholder="Aula"></ion-input>
+            <ion-input class="salones-input" type="number" (ionInput)="formatAula($event)" (ionChange)="change($event)"
+              [(ngModel)]="data.aula" placeholder="Aula"></ion-input>
           </ion-col>
+
           <ion-col size="12" size-md="4">
-            <ion-input class="salones-input" type="text" placeholder="Grado"></ion-input>
+            <ion-input class="salones-input" (ionChange)="change($event)" [(ngModel)]="data.grado" type="number"
+              placeholder="Grado"></ion-input>
           </ion-col>
+
           <ion-col size="12" size-md="4">
-            <ion-input class="salones-input" type="text" placeholder="Grupo"></ion-input>
+            <ion-input [(ngModel)]="data.grupo"
+              (ionInput)="data.grupo = $event.detail.value ? $event.detail.value.toUpperCase() : ''"
+              class="salones-input"
+              placeholder="Grupo">
+            </ion-input>
+
           </ion-col>
-          <ion-col size="12" size-md="12" class="salones-btn-col">
-            <ion-button expand="block" class="btn-principal">
+
+          <!-- Botones cuando NO está editando -->
+          <ion-col size="12" size-md="12" class="salones-btn-col" *ngIf="!isEditing">
+            <ion-button [disabled]="!dataExisting" (click)="create()" expand="block" class="btn-principal">
               <ion-icon slot="start" name="add-circle-outline"></ion-icon>
               Agregar Salón
             </ion-button>
+          </ion-col>
+
+          <!-- Botones cuando está editando -->
+          <ion-col size="12" class="salones-btn-col" *ngIf="isEditing">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" size-md="6">
+                  <ion-button expand="block" class="btn-principal" (click)="update()">
+                    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                    Actualizar Salón
+                  </ion-button>
+                </ion-col>
+                <ion-col size="12" size-md="6">
+                  <ion-button expand="block" color="medium" (click)="cancel()">
+                    <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+                    Cancelar
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -57,23 +87,28 @@
           <ion-label class="salon-col salon-action">Borrar</ion-label>
         </ion-item>
 
+        <ion-item *ngIf="salones.length === 0" lines="none" class="no-salones-message">
+          <ion-icon name="alert-circle-outline" slot="start" class="no-salones-icon"></ion-icon>
+          <ion-label>
+            No hay salones creados aún. ¡Comienza agregando uno para gestionar tu espacio!
+          </ion-label>
+        </ion-item>
+
         <ion-item *ngFor="let s of salones" class="salon-item">
           <ion-label class="salon-col">{{ s.aula }}</ion-label>
           <ion-label class="salon-col">{{ s.grado }}°</ion-label>
           <ion-label class="salon-col">{{ s.grupo }}</ion-label>
           <ion-label class="salon-col salon-action">
-            <ion-icon name="pencil-outline" class="salon-icon-edit"></ion-icon>
+            <ion-icon name="pencil-outline" (click)="selectEditar(s)" class="salon-icon-edit"></ion-icon>
           </ion-label>
           <ion-label class="salon-col salon-action">
-            <ion-icon name="trash-outline" class="salon-icon-delete"></ion-icon>
+            <ion-icon name="trash-outline" (click)="openAlert(s)" class="salon-icon-delete"></ion-icon>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
 
-
   </div>
 
-
-
+  <ion-alert trigger="present-alert" header="¿Estas seguro de eliminar este salon?" [buttons]="alertButtons"></ion-alert>
 </ion-content>
