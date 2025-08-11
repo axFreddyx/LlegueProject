@@ -60,14 +60,14 @@ export class ApiService {
   }
 
   async updateAlumno(id: string, data: any, token: string) {
-    return await axios.put(`${this.url}/alumnos/${id}`,  {"data":data} , {
-      headers: { Authorization: token } 
+    return await axios.put(`${this.url}/alumnos/${id}`, { "data": data }, {
+      headers: { Authorization: token }
     });
   }
 
   async deleteAlumno(id: string, token: string) {
-    return await axios.delete(`${this.url}/alumnos/${id}`, { headers: { Authorization: token }});
-      
+    return await axios.delete(`${this.url}/alumnos/${id}`, { headers: { Authorization: token } });
+
   }
 
   async asignarAlumnosAPersona(idPersona: number, alumno: number[], token: string) {
@@ -189,9 +189,16 @@ export class ApiService {
 
   async getLLegueGlobal(token: string) {
     return await axios.get(`${this.url}/llegadas`, {
-      headers: { Authorization: `${token}` }
+      headers: { Authorization: token },
+      params: {
+        sort: 'createdAt:desc',
+        populate: '*'
+      }
+
     });
   }
+
+
 
   //#endregion
 

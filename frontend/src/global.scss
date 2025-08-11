@@ -842,3 +842,89 @@ LLEGADAS-PAGE
 .llegada-status ion-icon {
   font-size: 1.3rem;
 }
+
+
+
+
+// LLEGADAS
+.llegadas-content {
+  --background: #f8f9fa;
+  padding: 20px;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.llegadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.llegada-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  gap: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.llegada-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.llegada-img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.llegada-info {
+  flex: 1;
+}
+
+.llegada-alumno {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin-bottom: 10px;
+}
+
+.llegada-datos div {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  margin-bottom: 5px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .llegada-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .llegada-img img {
+    width: 120px;
+    height: 120px;
+  }
+}
