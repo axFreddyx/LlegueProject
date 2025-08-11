@@ -85,6 +85,14 @@ const routes: Routes = [
   },  {
     path: 'llegue-global',
     loadChildren: () => import('./admin/llegue-global/llegue-global.module').then( m => m.LlegueGlobalPageModule)
+  },
+  {
+    path: 'editar',
+    loadChildren: () => import('./admin/alumnos/editar/editar.module').then( m => m.EditarPageModule)
+  },
+  {
+    path: 'editar',
+    loadChildren: () => import('./admin/docente/editar/editar.module').then( m => m.EditarPageModule)
   }
 
 
