@@ -31,20 +31,6 @@
         <ion-row>
 
           <ion-col size="12" size-md="6">
-            <ion-card class="home-card text-center" routerLink="/periodos">
-              <ion-card-header>
-                <div class="home-card-header">
-                  <ion-card-title class="home-card-title">Docentes</ion-card-title>
-                  <ion-icon name="person-outline" class="home-card-icon"></ion-icon>
-                </div>
-              </ion-card-header>
-              <ion-card-content>
-                Gestiona a los maestros: registrar, modificar información o eliminar registros.
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-
-          <ion-col size="12" size-md="6">
             <ion-card class="home-card text-center" routerLink="/gradoygrupo">
               <ion-card-header>
                 <div class="home-card-header">
@@ -56,15 +42,8 @@
                 Permite registrar, actualizar o quitar salones de clases según sea necesario. </ion-card-content>
             </ion-card>
           </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
 
-    <div class="container mt-1">
-      <ion-grid fixed>
-        <ion-row>
-
-          <ion-col size="12" size-md="4">
+          <ion-col size="12" size-md="6">
             <ion-card class="home-card text-center" routerLink="/ver/alumnos">
               <ion-card-header>
                 <div class="home-card-header">
@@ -78,6 +57,27 @@
             </ion-card>
           </ion-col>
 
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="container mt-1">
+      <ion-grid fixed>
+        <ion-row>
+
+          <ion-col size="12" size-md="4">
+            <ion-card class="home-card text-center" routerLink="/ver/docentes">
+              <ion-card-header>
+                <div class="home-card-header">
+                  <ion-card-title class="home-card-title">Docentes</ion-card-title>
+                  <ion-icon name="person-outline" class="home-card-icon"></ion-icon>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                Gestiona a los maestros: registrar, modificar información o eliminar registros.
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
 
           <ion-col size="12" size-md="4">
             <ion-card class="home-card text-center" routerLink="/ver/padres">
