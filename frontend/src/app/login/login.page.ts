@@ -29,10 +29,9 @@ export class LoginPage implements OnInit {
   async presentToast(message: string, type: 'success' | 'error') {
     const toast = await this.toastController.create({
       message,
-      duration: 2500,
+      duration: 1500,
       position: 'top',
-      color: 'light', 
-      cssClass: type === 'success' ? 'toast-success' : 'toast-error'
+      color: type === 'success' ? 'success' : 'danger' 
     });
     await toast.present();
   }
@@ -46,12 +45,9 @@ export class LoginPage implements OnInit {
     await this.api.login(data).then(async (data: any) => {
       console.log("Login correcto:", data);
 
-      // Guardar token
       await this.db.set('token', `Bearer ${data.jwt}`);
 
-      // Obtener rol
       await this.api.getUserByMe().then((userWithRole: any) => {
-        console.log("Usuario con rol:", userWithRole);
         const rol = userWithRole?.data?.role?.type;
 
         switch (rol) {
@@ -70,13 +66,10 @@ export class LoginPage implements OnInit {
         }
       });
 
-      // Mensaje de éxito
       this.presentToast('Inicio de sesión exitoso', 'success');
 
     }).catch((error: any) => {
       console.error("Error en login:", error);
-
-      // Mensaje de error
       this.presentToast('Ocurrió un error al iniciar sesión', 'error');
     });
   }
