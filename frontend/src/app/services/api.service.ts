@@ -47,7 +47,7 @@ export class ApiService {
     return await axios.get(`${this.url}/alumnos?populate=*`, { headers: { Authorization: token } });
   }
 
-  async getAlumno(id: string) {
+  async getAlumno(id: any) {
     return await axios.get(`${this.url}/alumnos/${id}?populate=*`);
   }
 

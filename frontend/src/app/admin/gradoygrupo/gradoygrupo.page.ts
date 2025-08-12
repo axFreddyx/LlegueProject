@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastController } from '@ionic/angular'; 
 
 interface Salon {
   aula: string;
@@ -25,18 +26,14 @@ export class GradoygrupoPage implements OnInit {
   salonSelected:any;
 
   public alertButtons = [
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-
-    },
+    { text: 'Cancelar', role: 'cancel' },
     {
       text: 'Eliminar',
       role: 'confirm',
       handler: () => {
         if (this.salonSelected) {
           this.delete(this.salonSelected);
-          this.salonSelected = null; // Reset after deletion
+          this.salonSelected = null;
         }
       }
     },
@@ -46,12 +43,13 @@ export class GradoygrupoPage implements OnInit {
     private storage: Storage,
     private api: ApiService,
     private router: Router,
+    private toastController: ToastController 
   ) { }
 
   data: any = {
     grado: 0,
     grupo: ''.toUpperCase(),
-    aula: '' // Quiero que cuando se ingrese el aula empieze desde el 0 cuando sean numeros de 1 digito (1 al 9)
+    aula: ''
   }
 
   async ngOnInit() {
@@ -60,13 +58,24 @@ export class GradoygrupoPage implements OnInit {
     await this.getSalones();
   }
 
+  // Helper de toast (verde/rojo/amarillo)
+  private async presentToast(
+    message: string,
+    color: 'success' | 'danger' | 'warning' = 'danger',
+    duration = 2200
+  ) {
+    const t = await this.toastController.create({
+      message,
+      duration,
+      position: 'top',
+      color
+    });
+    await t.present();
+  }
+
   formatAula(event: any) {
     let value = event.detail.value || '';
-
-    // Quitamos ceros iniciales antes de procesar
     value = value.replace(/^0+/, '');
-
-    // Si es un número de 1 dígito, agregamos el 0 delante
     if (/^\d$/.test(value)) {
       this.data.aula = '0' + value;
     } else {
@@ -87,6 +96,7 @@ export class GradoygrupoPage implements OnInit {
       console.log(this.salones);
     } catch (error) {
       console.error('Error cargando salones:', error);
+      this.presentToast('Error al cargar salones.', 'danger'); 
     }
   }
 
@@ -105,7 +115,8 @@ export class GradoygrupoPage implements OnInit {
       this.getSalones();
       this.cancel();
     }).catch(error => {
-      console.error('Error creating salon:', error);
+      console.error('Error creando salón:', error);
+      this.presentToast('No se pudo crear el salón.', 'danger'); 
     });
   }
 
@@ -114,7 +125,8 @@ export class GradoygrupoPage implements OnInit {
       this.getSalones();
       this.cancel();
     }).catch(error => {
-      console.error('Error updating salon:', error);
+      console.error('Error actualizando salón:', error);
+      this.presentToast('No se pudo actualizar el salón.', 'danger'); 
     });
   }
 
@@ -123,7 +135,8 @@ export class GradoygrupoPage implements OnInit {
       this.salones = [];
       this.getSalones();
     }).catch(error => {
-      console.error('Error deleting salon:', error);
+      console.error('Error eliminando salón:', error);
+      this.presentToast('No se pudo eliminar el salón.', 'danger'); 
     });
   }
 
@@ -134,6 +147,7 @@ export class GradoygrupoPage implements OnInit {
       aula: ''
     };
     this.isEditing = false;
+    this.idSalon = '';
   }
 
   change(event: any) {
@@ -147,5 +161,4 @@ export class GradoygrupoPage implements OnInit {
       alert.present();
     }
   }
-
 }

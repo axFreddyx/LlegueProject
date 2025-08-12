@@ -45,9 +45,6 @@
         <label (click)="toggleSelectAllLabel()" class="select-all-label">
           Seleccionar todos
         </label>
-        <ion-button size="small" fill="outline" color="primary">
-          📝 Editar
-        </ion-button>
         <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
           ❌ Eliminar
         </ion-button>
@@ -81,7 +78,7 @@
             <span *ngIf="a.salon !== null">{{a.salon.grado}} {{a.salon.grupo}}</span>
           </p>
           <div class="acciones">
-            <ion-button *ngIf="!isSelecting" size="small" fill="outline" color="primary">
+            <ion-button routerLink="/editar/alumno/{{a.documentId}}" *ngIf="!isSelecting" size="small" fill="outline" color="primary">
               📝 Editar
             </ion-button>
             <ion-button (click)="openAlertDelete(a)" *ngIf="!isSelecting" size="small" fill="outline" color="danger">

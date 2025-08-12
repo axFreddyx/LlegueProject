@@ -5,14 +5,12 @@
       <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
 
-
-
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="" class="logo-title">
-        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
+
     <ion-buttons slot="end">
       <ion-button routerLink="/perfil" title="Mi perfil">
         <ion-icon name="person-circle-outline"></ion-icon>
@@ -22,29 +20,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <div class="header-editar text-center">
-      <h1 class="titulo">
-        Editar Alumno
-      </h1>
-    </div>
+  <div class="container text-center ion-padding">
 
-    <div class="container-editar text-center">
-      <div class="image-preview-editar">
-        <img src="https://via.placeholder.com/120" alt="Foto perfil" />
-      </div>
-      <div class="inputs-group-editar">
-        <ion-input class="editar-input" type="text" placeholder="Nombre"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Apellidos"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Personas Autorizadas"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Salón"></ion-input>
-      </div>
-    </div>
-    <ion-button expand="block" class="btn-principal">
-      Editar
-    </ion-button>
+    <!-- Título y descripción -->
+    <h1 class="titulo">Actualizar Alumno</h1>
+    <p>Complete la información para actualizar a {{alumno.nombre}} {{alumno.apellidos}} en el sistema.</p>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120" class="ion-margin-bottom">
 
+    <!-- Formulario -->
+    <ion-grid fixed>
+      <ion-row>
 
+        <!-- Nombre -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label position="stacked">Nombre(s)</ion-label>
+            <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)"></ion-input>
+          </ion-item>
+        </ion-col>
 
+        <!-- Apellidos -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label position="stacked">Apellidos</ion-label>
+            <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <!-- Foto -->
+        <!-- <ion-col size="12">
+          <ion-item lines="none" class="foto-input ion-padding-vertical">
+            <label for="foto" class="btn btn-foto">Subir foto de perfil</label>
+            <input type="file" class="d-none" accept="image/*" id="foto" placeholder="Subir foto del alumno"
+              (change)="onFileChange($event)" />
+          </ion-item> -->
+
+          <!-- Vista previa -->
+          <!-- <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
+            <img alt="Vista previa" [src]="previewImg" class="preview-img" />
+          </div>
+        </ion-col> -->
+
+        <!-- Botón principal -->
+        <ion-col size="12">
+          <ion-button expand="block" (click)="update()" class="btn-principal" shape="round" fill="clear">
+            Actualizar Alumno
+            <ion-icon name="checkmark-circle-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

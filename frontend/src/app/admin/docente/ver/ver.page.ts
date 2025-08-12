@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
-import { IonModal } from '@ionic/angular';
+import { IonModal, ToastController } from '@ionic/angular'; 
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,20 +12,19 @@ import { Router } from '@angular/router';
 })
 export class VerPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal; 
+
   constructor(
     private api: ApiService,
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController 
   ) { }
 
   public alertButtons = [
     {
       text: 'Cancelar',
-    
       role: 'cancel',
-      handler: () => {
-        console.log('Cancelado');
-      },
+      handler: () => { console.log('Cancelado'); },
     },
     {
       text: 'Confirmar',
@@ -45,14 +44,27 @@ export class VerPage implements OnInit {
 
   idDocente!: number;
 
-  data: any = {
-    salon: {},
-  }
+  data: any = { salon: {} };
 
   ngOnInit() {
     this.getDocentes();
     this.getSalones();
     console.log(this.salon);
+  }
+
+  // helper toast 
+  private async presentToast(
+    message: string,
+    color: 'danger' | 'warning' | 'success' = 'danger',
+    duration = 2200
+  ) {
+    const t = await this.toastController.create({
+      message,
+      duration,
+      position: 'top',
+      color
+    });
+    await t.present();
   }
 
   async getDocentes() {
@@ -61,18 +73,20 @@ export class VerPage implements OnInit {
       this.docentes = res.data;
     }).catch((err: any) => {
       console.error('Error fetching docentes:', err);
+      this.presentToast('Error al cargar docentes.', 'danger'); 
     });
   }
 
   async asignarSalon() {
-    // await this.api.updateUser(this.data, this.idDocente)
     await this.api.updateUser(this.data, this.idDocente).then((res: any) => {
       console.log('Docente updated successfully:', res.data);
       this.modal.dismiss(null, 'confirm');
       this.docentes = [];
       this.getDocentes();
+      this.presentToast('Salón asignado correctamente.', 'success');
     }).catch((err: any) => {
-      console.error('Error updating docente:', err.response?.data || err);
+      console.error('Error updating docente:', err?.response?.data || err);
+      this.presentToast('No se pudo asignar el salón.', 'danger'); 
     });
   }
 
@@ -80,53 +94,44 @@ export class VerPage implements OnInit {
     const token = await this.storage.get('token');
 
     this.api.getSalones(token).then((res: any) => {
-
       const data = res.data.data;
       this.salones = data.filter((element: any) => {
         const docente = element.docente;
         return docente === null || docente === undefined || docente === '';
       });
 
-
       for (let i = 0; i < this.salones.length; i++) {
         this.salones[i].totalAlumnos = this.salones[i]?.alumnos?.length || 0;
       }
 
       console.log(this.salones);
+
+      // avisar si no hay salones disponibles:
+      // if (this.salones.length === 0) this.presentToast('No hay salones disponibles.', 'warning');
     }).catch((err: any) => {
       console.error('Error fetching salones:', err);
+      this.presentToast('Error al cargar salones.', 'danger'); 
     });
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    this.modal.dismiss(null, 'confirm');
-  }
+  cancel() { this.modal.dismiss(null, 'cancel'); }
+  confirm() { this.modal.dismiss(null, 'confirm'); }
 
   openModal(d: any) {
     this.modal.present();
     this.idDocente = d.id;  // d.id debe ser número
-
     this.docente = d;
     console.log(this.docente);
-
   }
 
   openAlert(salon: any) {
     document.querySelector('ion-alert')?.present();
-
-    // Guardamos solo la referencia que Strapi entiende
-    this.data = { salon: salon.id };
-
+    this.data = { salon: salon.id }; // referencia para Strapi
     this.salon = salon;
-    console.log(this.data); // para verificar que solo tenga { salon: id }
+    console.log(this.data);
   }
 
   redirectToAddDocente() {
-    // Por ejemplo, usando el router de Angular:
     this.router.navigate(['/create/cuenta'], { queryParams: { role: 'docente' } });
   }
 }

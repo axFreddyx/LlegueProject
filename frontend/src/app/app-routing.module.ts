@@ -88,7 +88,7 @@ const routes: Routes = [
     loadChildren: () => import('./admin/llegue-global/llegue-global.module').then( m => m.LlegueGlobalPageModule)
   },
   {
-    path: 'editar/alumno',
+    path: 'editar/alumno/:id',
     loadChildren: () => import('./admin/alumnos/editar/editar.module').then( m => m.EditarPageModule)
   },
   {

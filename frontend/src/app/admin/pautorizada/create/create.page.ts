@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular'; // <-- NUEVO
 
 @Component({
   selector: 'app-create',
@@ -16,8 +17,10 @@ export class CreatePage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController // <-- NUEVO
   ) { }
+
   // token = "";
   user = {
     nombre: "",
@@ -67,8 +70,13 @@ export class CreatePage implements OnInit {
 
     this.api.register(this.user, token).then(res => {
       console.log(res);
+      // this.presentToast('Usuario creado correctamente.', 'success');
+      // Puedes redirigir si quieres:
+      // this.router.navigateByUrl('/ver/usuarios');
     }).catch(err => {
       console.error(err);
+      const msg = err?.error?.error?.message || err?.error?.message || 'No se pudo crear el usuario.';
+      this.presentToast(msg, 'danger');
     });
 
   }
@@ -84,8 +92,10 @@ export class CreatePage implements OnInit {
         }
       });
       console.log('Roles cargados:', this.roles);
+
     } catch (err) {
       console.error(err);
+      this.presentToast('Error al cargar roles.', 'danger'); 
     }
   }
 
@@ -95,14 +105,30 @@ export class CreatePage implements OnInit {
     console.log('roleParameter:', this.roleParameter);
 
     if (this.roleParameter) {
-      // Busca el rol dentro de los roles cargados (puedes buscar por id o name)
-      const matchedRole = this.roles.find(r => r.id === this.roleParameter || r.type.toLowerCase() === this.roleParameter.toLowerCase());
+      const matchedRole = this.roles.find(r =>
+        r.id === this.roleParameter || r.type.toLowerCase() === this.roleParameter.toLowerCase()
+      );
       if (matchedRole) {
-        this.user.role = matchedRole.id;  // Asigna el id para que se seleccione en el ion-select
+        this.user.role = matchedRole.id;
         console.log('Role asignado:', this.user.role);
       } else {
         console.warn('No se encontró un rol que coincida con:', this.roleParameter);
       }
     }
+  }
+
+  // helper de toast (verde/rojo/amarillo) 
+  private async presentToast(
+    message: string,
+    color: 'success' | 'danger' | 'warning' = 'success',
+    duration = 1500
+  ) {
+    const t = await this.toastController.create({
+      message,
+      duration,
+      position: 'top',
+      color
+    });
+    await t.present();
   }
 }
