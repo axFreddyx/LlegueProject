@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
-import { IonAlert, IonModal } from '@ionic/angular';
+import { IonAlert, IonModal, ToastController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-ver',
@@ -20,56 +20,33 @@ export class VerPage implements OnInit {
   alumno: any;
   alumnosFiltrados: any[] = [];
   alumnosSeleccionados: any[] = [];
-  salonSeleccionado: string = ''; // ID o nombre del salón seleccionado
+  salonSeleccionado: string = '';
   idAlumno!: string;
   cantidadAlumnos: number = 0;
 
   isSelecting: boolean = false;
   allSelected = false;
 
-  data: any = {
-    salon: {},
-  }
+  data: any = { salon: {} };
 
   public alertButtons = [
-    {
-      text: 'Cancelar',
-
-      role: 'cancel',
-      handler: () => {
-      },
-    },
-    {
-      text: 'Confirmar',
-      role: 'confirm',
-      handler: () => {
-        this.asignarSalon();
-      },
-    },
+    { text: 'Cancelar', role: 'cancel', handler: () => {} },
+    { text: 'Confirmar', role: 'confirm', handler: () => { this.asignarSalon(); } },
   ];
 
   public alertButtonsDelete = [
-    {
-      text: 'Cancelar',
-
-      role: 'cancel',
-      handler: () => {
-      },
-    },
+    { text: 'Cancelar', role: 'cancel', handler: () => {} },
     {
       text: 'Confirmar',
       role: 'confirm',
       handler: () => {
         if (this.isSelecting) {
-          this.alumnosSeleccionados.forEach(alumno => {
-            this.eliminar(alumno);
-          });
+          this.alumnosSeleccionados.forEach(alumno => this.eliminar(alumno));
           this.notSelectingAlumnos();
         } else {
           this.eliminar(this.alumno);
           this.alumno = null;
         }
-        // this.eliminar();
       },
     },
   ];
@@ -78,8 +55,9 @@ export class VerPage implements OnInit {
 
   constructor(
     private api: ApiService,
-    private storage: Storage
-  ) { }
+    private storage: Storage,
+    private toastController: ToastController 
+  ) {}
 
   async ngOnInit() {
     this.token = await this.storage.get('token');
@@ -87,11 +65,23 @@ export class VerPage implements OnInit {
     this.getSalones();
   }
 
+  // helper toast 
+  private async presentToast(message: string, duration = 2200) {
+    const t = await this.toastController.create({
+      message,
+      duration,
+      position: 'top',
+      color: 'danger' // rojo por defecto para errores
+    });
+    await t.present();
+  }
+
   async getAlumnos() {
     await this.api.getAlumnos(this.token).then((res: any) => {
       this.alumnos = res.data.data;
     }).catch((err: any) => {
       console.error('Error fetching alumnos:', err);
+      this.presentToast('Error al cargar alumnos.');
     });
   }
 
@@ -103,6 +93,7 @@ export class VerPage implements OnInit {
       }
     }).catch((err: any) => {
       console.error('Error fetching salones:', err);
+      this.presentToast('Error al cargar salones.');
     });
   }
 
@@ -112,7 +103,8 @@ export class VerPage implements OnInit {
       this.alumnos = [];
       this.getAlumnos();
     }).catch((err: any) => {
-      console.error('Error updating alumno:', err.response?.data || err);
+      console.error('Error updating alumno:', err?.response?.data || err);
+      this.presentToast('No se pudo asignar el salón.');
     });
   }
 
@@ -129,69 +121,56 @@ export class VerPage implements OnInit {
 
   openModal(alumno: any) {
     this.alumno = alumno;
-    this.idAlumno = alumno.documentId; // Asegúrate de que el ID del alumno sea un número
+    this.idAlumno = alumno.documentId;
     this.modal.present();
   }
 
-  redirectToAddAlumno() {
+  redirectToAddAlumno() {}
 
-  }
-
-  selectingAlumnos() {
-    this.isSelecting = true
-  }
+  selectingAlumnos() { this.isSelecting = true; }
 
   selectAlumnos(alumno: any) {
     if (alumno.selected) {
-      // Agregar si no está
       if (!this.alumnosSeleccionados.some(a => a.id === alumno.id)) {
         this.alumnosSeleccionados.push(alumno);
       }
     } else {
-      // Remover si está
       this.alumnosSeleccionados = this.alumnosSeleccionados.filter(a => a.id !== alumno.id);
     }
-
-    // Actualizar el estado del checkbox "Seleccionar todos"
     this.allSelected = this.alumnos.length === this.alumnosSeleccionados.length;
   }
 
   notSelectingAlumnos() {
     this.isSelecting = false;
     this.alumnosSeleccionados = [];
-
-    // Limpiar selección en cada alumno (su propiedad 'selected')
-    this.alumnos.forEach(alumno => {
-      alumno.selected = false;
-    });
+    this.alumnos.forEach(alumno => { alumno.selected = false; });
   }
 
   clickAlumno(alumno: any) {
     this.selectAlumnos(alumno);
     alumno.selected = !alumno.selected;
-    console.log(this.alumnosSeleccionados)
+    console.log(this.alumnosSeleccionados);
   }
 
   eliminar(alumno: any) {
     this.api.deleteAlumno(alumno.id, this.token).then(() => {
       this.alumnos = this.alumnos.filter(a => a.id !== alumno.id);
     }).catch((err: any) => {
-      console.error('Error deleting alumno:', err.response?.data || err);
+      console.error('Error deleting alumno:', err?.response?.data || err);
+      this.presentToast('No se pudo eliminar el alumno.');
     });
   }
 
   openAlertDelete(alumno: any = null) {
     if (alumno) {
       this.alumno = alumno;
-      this.idAlumno = alumno.documentId; // o alumno.id según uses
+      this.idAlumno = alumno.documentId;
       this.alertHeaderDelete = `¿Deseas eliminar al alumno ${alumno.nombre} ${alumno.apellidos}?`;
     } else {
       this.alumno = null;
       this.cantidadAlumnos = this.alumnosSeleccionados.length;
       this.alertHeaderDelete = `¿Deseas eliminar ${this.cantidadAlumnos} alumno(s)?`;
     }
-
-    // Presenta el alert
     this.deleteAlert?.present();
   }
 
@@ -199,21 +178,11 @@ export class VerPage implements OnInit {
     const checked = event.detail.checked;
     this.allSelected = checked;
     this.alumnos.forEach(alumno => alumno.selected = checked);
-
-    if (checked) {
-      // Añadir todos a seleccionados
-      this.alumnosSeleccionados = [...this.alumnos];
-    } else {
-      // Vaciar seleccionados
-      this.alumnosSeleccionados = [];
-    }
+    this.alumnosSeleccionados = checked ? [...this.alumnos] : [];
   }
 
   toggleSelectAllLabel() {
     this.allSelected = !this.allSelected;
     this.toggleSelectAll({ detail: { checked: this.allSelected } });
   }
-
-
-
 }

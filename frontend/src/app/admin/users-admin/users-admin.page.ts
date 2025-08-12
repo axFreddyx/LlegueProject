@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-users-admin',
@@ -13,6 +14,7 @@ export class UsersAdminPage implements OnInit {
   constructor(
     private api: ApiService,
     private storage: Storage,
+    private toastController: ToastController
   ) { }
 
   token = "";
@@ -39,10 +41,18 @@ export class UsersAdminPage implements OnInit {
       .catch((err: any) => {
         console.error('Error al obtener administradores:', err);
         this.administradores = [];
+        this.presentToast('Error al cargar administradores.', 'danger'); 
       });
+    }
+
+  private async presentToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const t = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'top',
+      color
+    });
+    await t.present();
   }
-
-
-
 
 }
