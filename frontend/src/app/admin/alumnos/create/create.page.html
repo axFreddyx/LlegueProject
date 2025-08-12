@@ -3,12 +3,13 @@
     <ion-buttons slot="start">
       <ion-menu-button menu="menuId"></ion-menu-button>
     </ion-buttons>
+
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="" class="logo-title">
-        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
+
     <ion-buttons slot="end">
       <ion-button routerLink="/perfil" title="Mi perfil">
         <ion-icon name="person-circle-outline"></ion-icon>
@@ -17,14 +18,15 @@
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content [fullscreen]="true">
-  <div class="container text-center">
-    <h1 class="titulo">
-      Crear Alumno
-    </h1>
-    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
+  <div class="container text-center ion-padding">
+
+    <!-- Título y descripción -->
+    <h1 class="titulo">Crear Alumno</h1>
+    <p>Complete la información para registrar un nuevo alumno en el sistema.</p>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120" class="ion-margin-bottom">
+
+    <!-- Formulario -->
     <ion-grid fixed>
       <ion-row>
 
@@ -32,7 +34,7 @@
         <ion-col size="12" size-md="6">
           <ion-item>
             <ion-label position="stacked">Nombre(s)</ion-label>
-            <ion-input type="text" placeholder="Nombre(s)"></ion-input>
+            <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)"></ion-input>
           </ion-item>
         </ion-col>
 
@@ -40,45 +42,60 @@
         <ion-col size="12" size-md="6">
           <ion-item>
             <ion-label position="stacked">Apellidos</ion-label>
-            <ion-input type="text" placeholder="Apellidos"></ion-input>
-          </ion-item>
-        </ion-col>
-        <!-- Contraseña -->
-        <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label position="stacked">Persona Autorizada</ion-label>
-            <ion-input type="text" placeholder="Persona Autorizada"></ion-input>
-          </ion-item>
-        </ion-col>
-
-
-        <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label position="stacked">Salón</ion-label>
-            <ion-input type="text" placeholder="Salón"></ion-input>
+            <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Foto -->
         <ion-col size="12">
-          <ion-item lines="none" class="foto-input">
-            <ion-label position="stacked">Foto de perfil</ion-label>
-            <input type="file" accept="image/*" (change)="onFileChange($event)" />
+          <ion-item lines="none" class="foto-input ion-padding-vertical">
+            <label for="foto" class="btn btn-foto">Subir foto de perfil</label>
+            <input type="file" class="d-none" accept="image/*" id="foto" placeholder="Subir foto del alumno"
+              (change)="onFileChange($event)" />
           </ion-item>
+
+          <!-- Vista previa -->
           <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
-            <img [src]="previewImg" class="preview-img" />
+            <img alt="Vista previa" [src]="previewImg" class="preview-img" />
           </div>
         </ion-col>
 
-        <!-- Botón -->
+        <!-- Botón agregar otro -->
         <ion-col size="12">
-          <ion-button expand="block" class="btn-principal" shape="round" fill="clear">
-            Crear Cuenta
+          <ion-button expand="block" *ngIf="data.nombre && data.apellidos" (click)="ingresarOtroAlumno()" class="btn-secundario w-100" fill="clear"
+            shape="round">
+            Ingresar otro alumno
+            <ion-icon name="add-circle-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+        <!-- Lista de alumnos -->
+        <ion-col size="12" *ngIf="isIngresado && alumnosIngresados.length > 0">
+          <ion-label>Alumnos ingresados</ion-label>
+          <ion-list>
+            <!-- Aquí se listarán -->
+            <ion-item *ngFor="let alumno of alumnosIngresados">
+              <ion-label>
+                {{ alumno.nombre }} {{ alumno.apellidos }}
+              </ion-label>
+              <ion-button fill="clear" slot="end"
+                (click)="alumnosIngresados.splice(alumnosIngresados.indexOf(alumno), 1)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+
+        <!-- Botón principal -->
+        <ion-col size="12">
+          <ion-button expand="block" (click)="save()" class="btn-principal" shape="round" fill="clear">
+            Ingresar Alumno
+            <ion-icon name="checkmark-circle-outline" slot="end"></ion-icon>
           </ion-button>
         </ion-col>
 
       </ion-row>
     </ion-grid>
-  </div>
 
+  </div>
 </ion-content>

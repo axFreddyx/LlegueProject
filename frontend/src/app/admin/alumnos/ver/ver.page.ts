@@ -133,21 +133,15 @@ export class VerPage implements OnInit {
     this.modal.present();
   }
 
-  redirectToAddAlumno() {
-
-  }
-
   selectingAlumnos() {
     this.isSelecting = true
   }
 
   selectAlumnos(alumno: any) {
-    if (alumno.selected) {
-      // Agregar si no está
-      if (!this.alumnosSeleccionados.some(a => a.id === alumno.id)) {
-        this.alumnosSeleccionados.push(alumno);
-      }
-    } else {
+    // Agregar si no está
+    if (!this.alumnosSeleccionados.some(a => a.id === alumno.id)) {
+      this.alumnosSeleccionados.push(alumno);
+    }else{
       // Remover si está
       this.alumnosSeleccionados = this.alumnosSeleccionados.filter(a => a.id !== alumno.id);
     }
@@ -172,9 +166,10 @@ export class VerPage implements OnInit {
     console.log(this.alumnosSeleccionados)
   }
 
-  eliminar(alumno: any) {
-    this.api.deleteAlumno(alumno.id, this.token).then(() => {
-      this.alumnos = this.alumnos.filter(a => a.id !== alumno.id);
+  async eliminar(alumno: any) {
+    await this.api.deleteAlumno(alumno.documentId, this.token).then((res:any) => {
+      this.alumnos = this.alumnos.filter(a => a.id !== alumno.id); // Actualiza la lista localmente
+      console.log('Alumno eliminado:', alumno);
     }).catch((err: any) => {
       console.error('Error deleting alumno:', err.response?.data || err);
     });
@@ -213,7 +208,4 @@ export class VerPage implements OnInit {
     this.allSelected = !this.allSelected;
     this.toggleSelectAll({ detail: { checked: this.allSelected } });
   }
-
-
-
 }

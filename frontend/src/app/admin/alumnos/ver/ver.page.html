@@ -20,21 +20,15 @@
 <ion-content class="ion-padding">
   <div class="container">
 
-    <div class="text-center">
+    <h1 class="titulo text-center">Ver Alumnos</h1>
+     <div class="text-center">
       <ion-button class="cuenta-btn" fill="solid" size="large" routerLink="/create/alumnos">
         <ion-icon slot="start" name="person-add-outline"></ion-icon>
         Inscribir Alumno
       </ion-button>
     </div>
-
-    <h1 class="titulo text-center">Ver Alumnos</h1>
-    <ion-button (click)="redirectToAddAlumno()" expand="block" shape="round">
-      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-      <span>Ingresar Alumnos</span>
-    </ion-button>
-
     <ion-list lines="none">
-      <ion-button (click)="selectingAlumnos()" *ngIf="!isSelecting" expand="block" fill="clear" shape="round">
+      <ion-button (click)="selectingAlumnos()" *ngIf="!isSelecting && alumnos.length !== 0" expand="block" fill="clear" shape="round">
         <ion-icon name="checkmark-outline" slot="start"></ion-icon>
         Seleccionar alumnos
       </ion-button>
@@ -43,7 +37,13 @@
         <ion-icon name="close-outline" slot="start"></ion-icon>
         Cancelar selección
       </ion-button>
-      <div class="acciones" *ngIf="isSelecting">
+      <div class="acciones" *ngIf="isSelecting && alumnos.length !== 0">
+        <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected" (ionChange)="toggleSelectAll($event)"
+          aria-label="Seleccionar todos los alumnos">
+        </ion-checkbox>
+        <label (click)="toggleSelectAllLabel()" class="select-all-label">
+          Seleccionar todos
+        </label>
         <ion-button size="small" fill="outline" color="primary">
           📝 Editar
         </ion-button>
@@ -53,13 +53,15 @@
         <ion-button size="small" fill="outline" color="warning">
           🏫 Asignar Salón
         </ion-button>
-        <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected" (ionChange)="toggleSelectAll($event)"
-          aria-label="Seleccionar todos los alumnos">
-        </ion-checkbox>
-        <label (click)="toggleSelectAllLabel()" class="select-all-label">
-          Seleccionar todos
-        </label>
       </div>
+      <ion-card>
+        <ion-card-header *ngIf="alumnos.length === 0">
+          <ion-card-title>No hay alumnos inscritos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content *ngIf="alumnos.length === 0">
+          <p>Aún no hay alumnos inscritos. Puedes inscribir nuevos alumnos haciendo clic en el botón "Inscribir Alumno" arriba.</p>
+        </ion-card-content>
+      </ion-card>
       <ion-item class="docente-item" *ngFor="let a of alumnos" (click)="isSelecting ? clickAlumno(a) : null">
         <!-- CHECKBOX -->
         <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
@@ -81,7 +83,7 @@
             <ion-button *ngIf="!isSelecting" size="small" fill="outline" color="primary">
               📝 Editar
             </ion-button>
-            <ion-button *ngIf="!isSelecting" size="small" fill="outline" color="danger">
+            <ion-button (click)="openAlertDelete(a)" *ngIf="!isSelecting" size="small" fill="outline" color="danger">
               ❌ Eliminar
             </ion-button>
             <ion-button *ngIf="!isSelecting" (click)="openModal(a)" size="small" fill="outline" color="warning">
@@ -144,6 +146,6 @@
   <!-- <ion-alert id="delete" trigger="present-alert"
     [header]="alertHeaderDelete"
     [buttons]="alertButtonsDelete"></ion-alert> -->
-  <ion-alert #deleteAlert [header]="alertHeaderDelete" [buttons]="alertButtons"></ion-alert>
+  <ion-alert #deleteAlert [header]="alertHeaderDelete" [buttons]="alertButtonsDelete"></ion-alert>
 
 </ion-content>
