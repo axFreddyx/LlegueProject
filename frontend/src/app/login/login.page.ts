@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -15,16 +15,25 @@ export class LoginPage implements OnInit {
   constructor(
     private api: ApiService,
     private router: Router,
-    private db: Storage
+    private db: Storage,
+    private toastController: ToastController
   ) { }
 
   identifier = '';
   password = '';
-  message = ''; // Para mostrar el mensaje
-  messageType = ''; // Tipo de mensaje ('success', 'error')
 
   ngOnInit() {
     this.db.create();
+  }
+
+  async presentToast(message: string, type: 'success' | 'error') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'top',
+      color: type === 'success' ? 'success' : 'danger' 
+    });
+    await toast.present();
   }
 
   async login() {
@@ -34,21 +43,13 @@ export class LoginPage implements OnInit {
     };
 
     await this.api.login(data).then(async (data: any) => {
-      const datos = data;
-      console.log("Login correcto:", datos);
+      console.log("Login correcto:", data);
 
+      await this.db.set('token', `Bearer ${data.jwt}`);
 
-      // Guardar usuario básico
-      await this.db.set('token', `Bearer ${datos.jwt}`);
-
-      // Obtener rol desde /api/users/me
       await this.api.getUserByMe().then((userWithRole: any) => {
-        console.log("Usuario con rol:", userWithRole);
         const rol = userWithRole?.data?.role?.type;
 
-        console.log("Rol del usuario:", rol);
-
-        // Redirigir según rol
         switch (rol) {
           case 'admin':
             this.router.navigateByUrl('/home');
@@ -65,23 +66,11 @@ export class LoginPage implements OnInit {
         }
       });
 
-      this.message = 'Inicio de sesión exitoso';
-      this.messageType = 'success';
+      this.presentToast('Inicio de sesión exitoso', 'success');
 
-      setTimeout(() => {
-        this.message = '';
-        this.messageType = '';
-      }, 3000);
     }).catch((error: any) => {
       console.error("Error en login:", error);
-
-      this.message = 'Ocurrió un error al iniciar sesión';
-      this.messageType = 'error';
-
-      setTimeout(() => {
-        this.message = '';
-        this.messageType = '';
-      }, 3000);
+      this.presentToast('Ocurrió un error al iniciar sesión', 'error');
     });
   }
 }

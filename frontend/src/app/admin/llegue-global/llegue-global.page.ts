@@ -26,9 +26,11 @@ export class LlegueGlobalPage implements OnInit {
 
 
   async getLlegadas(){
+    this.llegadas = [];
     this.api.getLLegueGlobal(this.token).then(res =>{
-      console.log(res.data as any);
-      this.llegadas = (res.data as any).data;
+    const data = res.data as any;
+    this.llegadas = data.data;
+    console.log(this.llegadas);
     }).catch(err=>{
       console.log(err);
     })

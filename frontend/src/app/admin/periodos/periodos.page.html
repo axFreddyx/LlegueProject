@@ -2,6 +2,7 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button menu="menuId"></ion-menu-button>
+      <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
@@ -13,5 +14,71 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="periodos-header text-center">
+      <h1 class="titulo">Periodos</h1>
+    </div>
+  </div>
+
+  <div class="container mb-4 text-center">
+    <ion-grid fixed>
+      <ion-row>
+
+        <ion-col size="12" size-md="6">
+          <input type="date" class="periodos-input">
+        </ion-col>
+
+        <ion-col size="12" size-md="6">
+          <input type="date" class="periodos-input">
+        </ion-col>
+
+        <!--FREDY, PARA EL DIRECTOR QUE SEA POR EL ID QUE ESTA CON SESION INICIADA -->
+
+        <!-- Botones cuando NO está editando -->
+        <ion-col size="12" size-md="12" class="salones-btn-col">
+          <ion-button expand="block" class="btn-principal">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            Agregar Periodo
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="container text-center">
+    <h2 class="titulo2">Lista de Periodos</h2>
+
+    <div class="container">
+
+      <ion-list class="salon-list">
+        <ion-item class="salon-item salon-list-header">
+          <ion-label class="salon-col">Ciclo</ion-label>
+          <ion-label class="salon-col">Director</ion-label>
+          <ion-label class="salon-col salon-action">Editar</ion-label>
+          <ion-label class="salon-col salon-action">Borrar</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="periodos.length === 0" lines="none" class="no-salones-message">
+          <ion-icon name="alert-circle-outline" slot="start" class="no-salones-icon"></ion-icon>
+          <ion-label>
+            No hay periodos creados aún. ¡Comienza agregando uno para gestionar tu espacio!
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngFor="let p of periodos" class="salon-item">
+          <ion-label class="salon-col">{{ p.ciclo }}</ion-label>
+          <ion-label class="salon-col">{{ p.director.nombre }}</ion-label>
+          <ion-label class="salon-col salon-action">
+            <ion-icon name="pencil-outline" class="salon-icon-edit"></ion-icon>
+          </ion-label>
+          <ion-label class="salon-col salon-action">
+            <ion-icon name="trash-outline" class="salon-icon-delete"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
 
 </ion-content>

@@ -82,9 +82,18 @@ const routes: Routes = [
   {
     path: 'ver/admins',
     loadChildren: () => import('./admin/users-admin/users-admin.module').then( m => m.UsersAdminPageModule)
-  },  {
+  },
+  {
     path: 'llegue-global',
     loadChildren: () => import('./admin/llegue-global/llegue-global.module').then( m => m.LlegueGlobalPageModule)
+  },
+  {
+    path: 'editar/alumno',
+    loadChildren: () => import('./admin/alumnos/editar/editar.module').then( m => m.EditarPageModule)
+  },
+  {
+    path: 'editar/cuenta',
+    loadChildren: () => import('./admin/docente/editar/editar.module').then( m => m.EditarPageModule)
   }
 
 

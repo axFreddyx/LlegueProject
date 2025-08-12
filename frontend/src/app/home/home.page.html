@@ -2,6 +2,7 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button menu="menuId"></ion-menu-button>
+      <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
@@ -44,15 +45,15 @@
           </ion-col>
 
           <ion-col size="12" size-md="6">
-            <ion-card class="home-card text-center" routerLink="/ver/alumnos">
+            <ion-card class="home-card text-center" routerLink="/periodos">
               <ion-card-header>
                 <div class="home-card-header">
-                  <ion-card-title class="home-card-title">Alumnos</ion-card-title>
-                  <ion-icon name="people-outline" class="home-card-icon"></ion-icon>
+                  <ion-card-title class="home-card-title">Periodos</ion-card-title>
+                  <ion-icon name="time-outline" class="home-card-icon"></ion-icon>
                 </div>
               </ion-card-header>
               <ion-card-content>
-                Administra la lista de estudiantes: inscribir nuevos, actualizar datos o dar de baja.
+                Administra las fechas de peridos existentes en el sistema según sea necesario.
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -75,6 +76,21 @@
               </ion-card-header>
               <ion-card-content>
                 Gestiona a los maestros: registrar, modificar información o eliminar registros.
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+
+          <ion-col size="12" size-md="4">
+            <ion-card class="home-card text-center" routerLink="/ver/alumnos">
+              <ion-card-header>
+                <div class="home-card-header">
+                  <ion-card-title class="home-card-title">Alumnos</ion-card-title>
+                  <ion-icon name="people-outline" class="home-card-icon"></ion-icon>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                Administra la lista de estudiantes: inscribir nuevos, actualizar datos o dar de baja.
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -108,11 +124,11 @@
             </ion-card>
           </ion-col>
 
-          <ion-col size="12">
+          <ion-col size="12" size-md="8">
             <ion-card class="home-card text-center">
               <a href="/llegue-global" target="_blank" class="text-center ion-activatable ripple-parent">
-                  <ion-card-title class="home-card-title">Panel de Llegue Global</ion-card-title>
-                  <ion-icon name="walk-outline" class="home-card-icon"></ion-icon>
+                <ion-card-title class="home-card-title">Panel de Llegue Global</ion-card-title>
+                <ion-icon name="walk-outline" class="home-card-icon"></ion-icon>
                 <div class="home-card-content">
                   Muestra llegadas globales en otra pestaña
                 </div>
