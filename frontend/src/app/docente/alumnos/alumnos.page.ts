@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
+import { Router, NavigationEnd } from '@angular/router';
 
 interface Alumno {
   id: number;
@@ -35,7 +36,8 @@ export class AlumnosPage implements OnInit {
   constructor(
     private toastCtrl: ToastController,
     private api: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -152,5 +154,18 @@ export class AlumnosPage implements OnInit {
       position: 'bottom',
       color: type,
     }).then(toast => toast.present());
+  }
+
+  logout() {
+    console.log("Has cerrado sesión");
+
+    this.storage.remove("token").then(() => {
+      // Mostrar mensaje antes de redirigir
+      this.presentToast('Has cerrado sesión correctamente', 'success');
+
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 1500);
+    });
   }
 }

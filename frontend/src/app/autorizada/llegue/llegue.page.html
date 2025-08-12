@@ -1,8 +1,10 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <!-- <ion-buttons slot="start">
-      <ion-menu-button menu="menuId"></ion-menu-button>
-    </ion-buttons> -->
+    <ion-buttons slot="start">
+      <ion-button title="Mi perfil" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="" class="logo-title">

@@ -138,10 +138,15 @@ export class LleguePage implements OnInit {
   }
 
   logout() {
+    console.log("Has cerrado sesión");
+
     this.storage.remove("token").then(() => {
+      // Mostrar mensaje antes de redirigir
+      this.presentToast('Has cerrado sesión correctamente', 'success');
+
       setTimeout(() => {
         this.router.navigateByUrl('/login');
-      }, 1000);
+      }, 1500);
     });
   }
 }
