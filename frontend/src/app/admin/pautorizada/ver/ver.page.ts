@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
+import { IonAlert, ToastController } from '@ionic/angular';
+import { IonModal } from '@ionic/angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ver',
@@ -11,11 +14,18 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class VerPage implements OnInit {
 
+  @ViewChild('modal') modal!: IonModal;
+  @ViewChild('deleteAlert') deleteAlert?: IonAlert;
+
   isModalOpen = false;
   personas: any[] = [];
   salones: any[] = [];
   alumnos: any[] = [];
   persona: any = [];
+  token = "";
+  idPersona!: number;
+  cantidadPersonas = 0;
+
 
   // searchTerm: string = '';
   filteredSalones: any[] = [];
@@ -23,10 +33,39 @@ export class VerPage implements OnInit {
   alumnoSearchTerm: string = '';
   alumnoSeleccionado: any = null;
 
+  personasSeleccionados: any[] = [];  //Selected section
+
+  isSelecting = false; //Selected section
+  allSelected = false; //Selected section
+
+  alertHeaderDelete = "";
+
+  alertButtons = [
+    { text: 'Cancelar', role: 'cancel' },
+    { text: 'Confirmar', role: 'confirm', handler: () => this.asignarAlumnos() }
+  ];
+  alertButtonsDelete = [
+    { text: 'Cancelar', role: 'cancel' },
+    {
+      text: 'Confirmar',
+      role: 'confirm',
+      handler: () => {
+        if (this.persona) {
+          this.eliminar(this.persona);
+          this.persona = null;
+        } else if (this.personasSeleccionados.length > 0) {
+          this.eliminarSeleccionados();
+        }
+      }
+    }
+  ];
+
 
   constructor(
     private api: ApiService,
     private storage: Storage,
+    private toastController: ToastController,
+    private router: Router
   ) { }
 
   setOpen(isOpen: boolean, persona: [] = []) {
@@ -40,6 +79,7 @@ export class VerPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.token = await this.storage.get("token");
     this.getPersonasAutorizadas();
     this.getSalones();
   }
@@ -194,4 +234,121 @@ export class VerPage implements OnInit {
   esAlumnoAsignadoBD(id: number): boolean {
     return this.persona.alumnos?.some((a: any) => a.id === id);
   }
+
+  async eliminarSeleccionados() {
+    await Promise.all(this.personasSeleccionados.map(p =>
+      this.api.deleteUser(p.id)
+        .then(() => this.personas = this.personas.filter(per => per.id !== p.id))
+        .catch(err => {
+          console.error('Error deleting docente:', err);
+          this.presentToast(`No se pudo eliminar a ${p.nombre}.`, 'error');
+        })
+    ));
+    this.presentToast(`${this.personasSeleccionados.length} docente(s) eliminados.`, 'success');
+    this.notSelectingPersonas();
+  }
+
+  // Toast helper
+  private async presentToast(message: string, type: 'success' | 'error' = 'error') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2200,
+      position: 'top',
+      color: type === 'success' ? 'success' : 'danger'
+    });
+    await toast.present();
+  }
+
+  selectingPersonas() { //Selected section
+    this.isSelecting = true;
+  }
+
+  selectPersonas(persona: any) { //Selected section
+    const exists = this.personasSeleccionados.some(a => a.id === persona.id);
+    this.personasSeleccionados = exists
+      ? this.personasSeleccionados.filter(a => a.id !== persona.id)
+      : [...this.personasSeleccionados, persona];
+    persona.selected = !exists;
+    this.allSelected = this.personas.length === this.personasSeleccionados.length;
+  }
+
+  notSelectingPersonas() { //Selected section
+    this.isSelecting = false;
+    this.allSelected = false;
+    this.personasSeleccionados = [];
+    this.personas.forEach(p => p.selected = false);
+  }
+
+  toggleSelectAll(event: any) { //Selected section
+    const checked = event.detail.checked;
+    this.allSelected = checked;
+    this.personas.forEach(p => p.selected = checked);
+    this.personasSeleccionados = checked ? [...this.personas] : [];
+  }
+
+  toggleSelectAllLabel() { //Selected section
+    this.allSelected = !this.allSelected;
+    this.toggleSelectAll({ detail: { checked: this.allSelected } });
+  }
+
+  openAlertDelete(persona: any = null) {
+    // Establece el texto del header para la alerta
+    this.alertHeaderDelete = persona ?
+      `¿Eliminar a ${persona.nombre}?` :
+      `¿Eliminar ${this.personasSeleccionados.length} personas seleccionadas?`;
+
+    // Guarda la persona o personas seleccionadas para eliminar en una variable
+    this.persona = persona;
+
+    // Presenta la alerta y deja que el handler de confirmación se encargue de eliminar
+    this.deleteAlert?.present();
+  }
+
+
+  redirect() {
+    this.router.navigate(['/create/cuenta'], { queryParams: { role: 'persona_autorizada' } });
+  }
+
+  redirectToEditPersona(p:any){
+    this.router.navigate([`/editar/cuenta/${p.id}`], { queryParams: { role: 'persona_autorizada' } });
+  }
+
+
+  openModalVarios() {
+    this.modal.present();
+  }
+
+  clickPersona_autorizada(perosna: any) { //Selected section
+    this.selectPersonas(perosna);
+  }
+
+  openModal(persona: any) {
+    this.persona = persona;
+    this.idPersona = persona.documentId;
+    this.modal.present();
+  }
+
+  cancel() {
+    this.modal.dismiss();
+    this.persona = null;
+  }
+
+  openAlert(salon: any) {
+    // this.salon = salon;
+    // this.data = { salon: salon.id };
+    document.querySelector('ion-alert')?.present();
+  }
+ async eliminar(persona: any) {
+    // Implementar llamada API para eliminar docente (similar a eliminar alumno)
+    // Supongamos que tienes api.deleteUser:
+    try {
+      await this.api.deleteUser(persona.id);
+      this.personas = this.personas.filter(p => p.id !== persona.id);
+      this.presentToast(`Docente ${persona.nombre} eliminado.`, 'success');
+    } catch (err) {
+      console.error('Error deleting docente:', err);
+      this.presentToast('No se pudo eliminar el docente.', 'error');
+    }
+  }
+
 }

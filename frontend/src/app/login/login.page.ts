@@ -21,17 +21,19 @@ export class LoginPage implements OnInit {
 
   identifier = '';
   password = '';
+  token = ""
 
-  ngOnInit() {
+  async ngOnInit() {
     this.db.create();
+    this.token = await this.db.get("token");
   }
-
+  
   async presentToast(message: string, type: 'success' | 'error') {
     const toast = await this.toastController.create({
       message,
       duration: 1500,
       position: 'top',
-      color: type === 'success' ? 'success' : 'danger' 
+      color: type === 'success' ? 'success' : 'danger'
     });
     await toast.present();
   }

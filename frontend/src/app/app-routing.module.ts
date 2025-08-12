@@ -92,10 +92,9 @@ const routes: Routes = [
     loadChildren: () => import('./admin/alumnos/editar/editar.module').then( m => m.EditarPageModule)
   },
   {
-    path: 'editar/cuenta',
+    path: 'editar/cuenta/:id',
     loadChildren: () => import('./admin/docente/editar/editar.module').then( m => m.EditarPageModule)
   }
-
 
 ];
 

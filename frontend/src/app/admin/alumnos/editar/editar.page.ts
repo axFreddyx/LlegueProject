@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-editar',
@@ -10,72 +11,72 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class EditarPage implements OnInit {
 
-  constructor(
-    private api: ApiService,
-    private storage: Storage
-  ) { }
-
-  async ngOnInit() {
-    this.token = await this.storage.get('token');
-    this.getAlumno()
-  }
-
   previewImg: string | null = null;
-  isIngresado: boolean = false;
+  isIngresado = false;
   token = "";
   idAlumno!: string;
   alumno: any = {};
+  data = { nombre: "", apellidos: "" };
 
-  data = {
-    nombre: "",
-    apellidos: "",
+  constructor(
+    private api: ApiService,
+    private storage: Storage,
+    private toastController: ToastController
+  ) {}
+
+  async ngOnInit() {
+    this.token = await this.storage.get('token');
+    this.getAlumno();
   }
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewImg = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => this.previewImg = reader.result as string;
+    reader.readAsDataURL(file);
   }
 
   async update() {
-    // Funcion para guardar un alumno
-    await this.api.updateAlumno(this.idAlumno, this.data, this.token).then((res: any) => {
+    try {
+      await this.api.updateAlumno(this.idAlumno, this.data, this.token);
+      this.presentToast("El alumno se ha actualizado correctamente.", "success");
       this.getAlumno();
-    }).catch((err: any) => {
-      console.error('Error creating alumno:', err.response?.data || err);
-    });
+    } catch (err: any) {
+      console.error('Error updating alumno:', err.response?.data || err);
+      this.presentToast("Ocurrió un error al actualizar el alumno.", "error");
+    }
   }
 
-  getAlumno() {
-    // Obtener el ID del alumno desde la URL
-    const url = window.location.href;
-    const id = url.split('/').pop();
-
-    // Llamar al servicio para obtener los datos del alumno
-    this.api.getAlumno(id).then((res: any) => {
+  async getAlumno() {
+    try {
+      const id = window.location.href.split('/').pop();
+      const res: any = await this.api.getAlumno(id);
       this.alumno = res.data.data;
       this.data = {
         nombre: this.alumno.nombre,
         apellidos: this.alumno.apellidos
       };
-
-      this.idAlumno = res.data.data.documentId;
-      // this.previewImg = res.data.attributes.foto ? res.data.attributes.foto : null;
-    }).catch((err: any) => {
+      this.idAlumno = this.alumno.documentId;
+    } catch (err: any) {
       console.error('Error fetching alumno:', err.response?.data || err);
-    });
+      this.presentToast("No se pudo obtener la información del alumno.", "error");
+    }
   }
 
   reset() {
-    this.data = {
-      nombre: "",
-      apellidos: "",
-    };
+    this.data = { nombre: "", apellidos: "" };
+    this.previewImg = null;
   }
 
+  async presentToast(message: string, type: 'success' | 'error') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'top',
+      color: type === 'success' ? 'success' : 'danger'
+    });
+    await toast.present();
+  }
 }

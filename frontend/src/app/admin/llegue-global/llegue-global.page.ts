@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
-import { ToastController } from '@ionic/angular'; 
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-llegue-global',
@@ -14,15 +14,19 @@ export class LlegueGlobalPage implements OnInit {
   constructor(
     private api: ApiService,
     private storage: Storage,
-    private toastController: ToastController 
+    private toastController: ToastController
   ) { }
+
+  fechaHoy = new Date().toISOString().split('T')[0];
 
   llegadas: any[] = [];
   token = "";
+  salon: any = {};
 
   async ngOnInit() {
     this.storage.create();
     this.token = await this.storage.get('token');
+  
     this.getLlegadas();
   }
 
@@ -42,15 +46,41 @@ export class LlegueGlobalPage implements OnInit {
   }
 
   async getLlegadas() {
-    this.llegadas = [];
     this.api.getLLegueGlobal(this.token).then(res => {
-      const data = res.data as any;
-      this.llegadas = data.data;
-      console.log(this.llegadas);
+      const data: any = res.data;
+      const todasLlegadas = data.data;
+
+      // Filtrar solo llegadas del día actual
+      this.llegadas = todasLlegadas.filter((l: any) => {
+        if (!l.createdAt) return false;
+
+        const fechaLlegada = new Date(l.createdAt);
+        return (
+          fechaLlegada.getFullYear() === new Date().getFullYear() &&
+          fechaLlegada.getMonth() === new Date().getMonth() &&
+          fechaLlegada.getDate() === new Date().getDate()
+        );
+      });
+
+
+        this.getLLegada();
     }).catch(err => {
       console.log(err);
-      this.presentToast('Error al cargar llegadas.', 'danger'); 
+      this.presentToast('Error al cargar llegadas.', 'danger');
     });
   }
 
+  getSalonByAlumno(llegada:any){
+    console.log(llegada.alumno.salon)
+    const salon = llegada;
+    console.log(salon)
+    this.salon = salon;
+    
+  }
+
+  getLLegada(){
+    this.llegadas.forEach((l:any)=>{
+      this.getSalonByAlumno(l);
+    })
+  }
 }

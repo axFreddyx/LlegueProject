@@ -1,4 +1,18 @@
 .input-grupo {
   border: 1px solid black;
   border-radius: 15px;
+}
+
+.no-salones-message {
+  justify-content: center;
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  padding: 20px 0;
+}
+
+.no-salones-icon {
+  font-size: 24px;
+  color: #bbb;
+  margin-right: 10px;
 }/*# sourceMappingURL=gradoygrupo.page.css.map */

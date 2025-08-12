@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -46,74 +47,122 @@ es para recoger alumnos, pero el sistema se llama YaLlegue
 
 que sea algo llamativo y moderno, tipo vector
 */
+/* =========================================
+   🎨 VARIABLES GLOBALES
+   ========================================= */
 :root {
   --primario: #004080;
+  /* Azul institucional */
+  --ion-color-primary: #004080;
+  /* Azul institucional */
   --secundario: #8c180b;
+  --ion-color-secundario: #8c180b;
+  /* Verde tipo gobierno */
   --tercero: #f9a825;
+  --tercero-light: #f1e7d6;
+  /* Amarillo institucional */
   --blanco: #f4f4f4;
   --negro: #000000;
 }
 
-.menu-title,
+/* =========================================
+   🔗 ENLACES Y TEXTOS BÁSICOS
+   ========================================= */
 a {
+  text-decoration: none;
+}
+
+.menu-title,
+a,
+.custom-item,
+.custom-icon,
+.titulo-login,
+.institucion-nombre,
+.label-input,
+.label-docente {
   color: var(--primario);
 }
 
-.custom-item {
-  color: var(--primario);
-}
-
-.custom-icon {
-  color: var(--primario);
-}
-
-.titulo-login {
-  color: var(--primario);
-}
-
-.btn-principal {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--primario);
-  border-radius: 15px;
-}
-
-.btn-principal:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario:hover {
-  color: var(--negro);
-  font-weight: bold;
-  background-color: var(--tercero);
-}
-
-.btn-secundario {
-  font-size: 1rem;
-  height: 48px;
-  color: var(--blanco);
-  background-color: var(--secundario);
-  border-radius: 15px;
-}
-
-.institucion-nombre {
-  color: var(--primario);
+.label-docente2 {
+  color: var(--secundario);
 }
 
 .titulo {
   font-size: 2rem;
-  color: var(--secundario);
   font-weight: bold;
-}
-
-.label-input {
-  font-size: 2rem;
   color: var(--primario);
+  margin-bottom: 24px;
 }
 
+.titulo2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--primario);
+  margin-bottom: 24px;
+}
+
+.logo-title {
+  height: 40px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 50%;
+}
+
+/* =========================================
+   🖱️ BOTONES
+   ========================================= */
+.btn-principal,
+.btn-secundario {
+  font-size: 1rem;
+  height: 48px;
+  color: var(--blanco);
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-principal {
+  background-color: var(--primario);
+  --background-hover: var(--secundario);
+  --color-hover: var(--blanco);
+}
+
+.btn-secundario {
+  background-color: var(--secundario);
+  --background-hover: var(--primario);
+  --color-hover: var(--blanco);
+}
+
+.btn-llegada {
+  --background: var(--tercero);
+  --color: var(--negro);
+  font-weight: 500;
+  border-radius: 20px;
+}
+
+.btn-cerrar {
+  --color: var(--blanco);
+}
+
+.cuenta-btn {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--secundario));
+  --background-hover: linear-gradient(135deg, var(--tercero), var(--tercero-light));
+  --box-shadow: 0 8px 20px rgba(58, 107, 203, 0.5);
+  --color: #fff;
+  --color-hover: #000000;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 14px 36px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* =========================================
+   🖼️ IMÁGENES Y AVATARES
+   ========================================= */
 .img-card {
   width: 100px;
   height: 100px;
@@ -124,17 +173,946 @@ a {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+ion-avatar img {
+  border-radius: 50%;
+  border: 2px solid var(--primario);
+}
+
+/* =========================================
+   📦 TARJETAS Y LISTAS
+   ========================================= */
 .card-titulo {
   font-size: 1rem;
   color: var(--secundario);
 }
 
-.label-docente {
-  font-size: 1.5rem;
+.alumno-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--blanco);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.alumno-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.alumno-card.selected {
+  border: 3px solid var(--tercero);
+}
+
+.alumno-card .check-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  color: var(--tercero);
+  background: white;
+  border-radius: 50%;
+}
+
+.alumno-foto {
+  width: 100%;
+  height: 160px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-bottom: 4px solid var(--primario);
+}
+
+.alumno-nombre {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 8px 0 4px;
   color: var(--primario);
 }
 
-.label-docente2 {
-  font-size: 1.5rem;
+.alumno-grado {
+  font-size: 0.9rem;
   color: var(--secundario);
+}
+
+/* =========================================
+   📋 CONTENEDORES Y LAYOUT
+   ========================================= */
+.acciones {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* =========================================
+   📑 IONIC - ITEMS Y LABELS
+   ========================================= */
+ion-item {
+  --background: white;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+ion-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+ion-label h2 {
+  font-weight: 600;
+  color: var(--negro);
+  font-size: 1.2rem;
+}
+
+ion-label p {
+  margin: 2px 0;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.docente-item {
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 8px 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.docente-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   🖼️ MODALES
+   ========================================= */
+.fondo-modal {
+  background: var(--blanco);
+}
+
+.modal-toolbar {
+  --background: var(--primario);
+  color: var(--blanco);
+}
+
+.titulo-modal {
+  color: var(--blanco);
+  font-weight: bold;
+}
+
+.modal-salones-content {
+  background-color: var(--blanco);
+  color: var(--negro);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px 16px 0 0;
+  animation: slideUp 0.3s ease;
+}
+
+/* Header del modal */
+.salones-header h2 {
+  color: var(--primario);
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.salones-header p {
+  color: var(--negro);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   🏫 SALONES - CARDS Y GRID
+   ========================================= */
+.salones-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.salon-card {
+  border-radius: 12px;
+  background-color: #fff;
+  border-left: 6px solid var(--primario);
+  box-shadow: 0 4px 8px rgba(0, 64, 128, 0.15);
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.salon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.3);
+}
+
+.salon-card ion-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primario);
+}
+
+.alumnos-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--secundario);
+}
+
+.no-salones-card {
+  border-radius: 12px;
+  background-color: var(--tercero);
+  color: var(--negro);
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(249, 168, 37, 0.4);
+}
+
+.no-salones-card ion-card-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+
+/* =========================================
+   🎬 ANIMACIONES
+   ========================================= */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* =========================================
+   🏠 HOME CARDS - PANEL ADMIN
+   ========================================= */
+.home-card {
+  background: var(--tercero-light);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 64, 128, 0.08);
+  transition: all 0.25s ease-in-out;
+  border-left: 6px solid var(--secundario);
+  border-right: 6px solid var(--secundario);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+.home-card:hover {
+  transform: translateY(-8px) scale(1.03) rotateX(3deg) rotateY(-2deg);
+  box-shadow: 0 15px 35px rgba(0, 64, 128, 0.25), 0 0 25px rgba(0, 128, 255, 0.4);
+  animation: cardGlow 1.5s infinite alternate ease-in-out;
+  border-left: 6px solid var(--tercero);
+}
+
+/* Efecto de brillo animado en el borde */
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 15px 35px rgba(0, 64, 128, 0.25), 0 0 10px rgba(0, 128, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 18px 45px rgba(0, 64, 128, 0.35), 0 0 25px rgba(0, 128, 255, 0.7);
+  }
+}
+/* Header con degradado dinámico */
+.home-card:hover ion-card-header {
+  background: linear-gradient(270deg, rgba(0, 64, 128, 0.05), rgba(249, 168, 37, 0.08), rgba(0, 64, 128, 0.05));
+  background-size: 400% 400%;
+  animation: headerGradient 3s ease infinite;
+  border-radius: 16px 16px 0 0;
+}
+
+@keyframes headerGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* Icono con rebote y giro */
+.home-card-icon {
+  font-size: 2.2rem;
+  color: var(--primario);
+  margin-top: 4px;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.home-card:hover .home-card-icon {
+  animation: iconBounce 0.8s ease forwards;
+  color: var(--tercero);
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(1.3) rotate(-8deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(8deg);
+  }
+  70% {
+    transform: scale(1.25) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1.15) rotate(0deg);
+  }
+}
+/* =========================================
+  SALONES-PAGE
+   ========================================= */
+.salones-row {
+  align-items: center;
+  row-gap: 15px;
+}
+
+.salones-input {
+  --background: #fff;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--secundario);
+  font-size: 1rem;
+  transition: all 0.25s ease-in-out;
+}
+
+.salones-input:focus-within {
+  border-color: var(--primario);
+  box-shadow: 0 0 8px rgba(0, 64, 128, 0.15);
+}
+
+.salones-btn-col {
+  margin-top: 10px;
+}
+
+.salones-btn-principal {
+  --background: var(--primario);
+  --background-hover: var(--tercero);
+  --border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 16px rgba(0, 64, 128, 0.2);
+  transition: all 0.25s ease-in-out;
+}
+
+.salones-btn-principal:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 64, 128, 0.3);
+}
+
+.salon-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--blanco);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 64, 128, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.salon-titulo2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primario);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.salon-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.salon-list-header {
+  background-color: var(--tercero);
+  color: var(--negro);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.salon-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: background-color 0.25s ease;
+}
+
+.salon-item:hover {
+  background-color: rgba(249, 168, 37, 0.15);
+}
+
+.salon-col {
+  flex: 1;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--primario);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.salon-action {
+  flex: 0.8;
+  color: var(--secundario);
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: color 0.3s ease;
+}
+
+.salon-action:hover {
+  color: var(--tercero);
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+  .salon-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .salon-col {
+    flex: unset;
+    width: 100%;
+    text-align: center;
+  }
+  .salon-list-header {
+    display: none;
+    /* Oculta encabezado en móvil */
+  }
+}
+.salon-icon-edit {
+  color: var(--primario);
+}
+
+.salon-icon-delete {
+  color: var(--secundario);
+}
+
+.salon-icon-edit,
+.salon-icon-delete {
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.salon-icon-edit:hover {
+  color: var(--tercero);
+}
+
+.salon-icon-delete:hover {
+  color: #e74c3c;
+  /* rojo para borrar */
+}
+
+/* =========================================
+PERFIL-PAGE
+   ========================================= */
+.perfil-content {
+  background: #f8f9fa;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 100%;
+}
+
+.perfil-container {
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 900px;
+}
+
+.perfil-left {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 20px 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.perfil-avatar img {
+  width: 220px;
+  height: 220px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.perfil-avatar img:hover {
+  transform: scale(1.05);
+}
+
+.perfil-nombre {
+  font-weight: 900;
+  font-size: 1.9rem;
+  color: #004080;
+  margin-bottom: 4px;
+}
+
+.perfil-badge {
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.3em 0.9em;
+  letter-spacing: 0.04em;
+}
+
+.perfil-member {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.perfil-right {
+  background: white;
+  border-radius: 12px;
+  padding: 25px 30px 30px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.perfil-subtitle {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #004080;
+  margin: 0;
+}
+
+.perfil-edit-btn {
+  --border-radius: 10px;
+  --box-shadow: 0 4px 8px rgba(0, 64, 128, 0.2);
+}
+
+.perfil-info p {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  color: #222;
+}
+
+.perfil-info p strong {
+  color: #004080;
+  width: 130px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .perfil-left {
+    padding-bottom: 15px;
+  }
+  .perfil-avatar img {
+    width: 160px;
+    height: 160px;
+  }
+  .perfil-nombre {
+    font-size: 1.5rem;
+  }
+  .perfil-subtitle {
+    font-size: 1.3rem;
+  }
+  .perfil-info p {
+    font-size: 1rem;
+  }
+}
+/* =========================================
+LLEGADAS-PAGE
+   ========================================= */
+.llegadas-content {
+  background: #f9fafb;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.titulo {
+  color: var(--primario);
+  font-weight: 700;
+  font-size: 2.4rem;
+}
+
+.llegadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.llegada-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 64, 128, 0.1);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  transition: box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.llegada-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.2);
+}
+
+.llegada-avatar img {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 2px solid var(--primario);
+}
+
+.llegada-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--secundario);
+}
+
+.llegada-info p {
+  margin: 4px 0 8px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.llegada-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.status-llego {
+  color: #2e7d32;
+  /* Verde */
+}
+
+.status-en-camino {
+  color: #f9a825;
+  /* Amarillo */
+}
+
+.status-no-llego {
+  color: #c62828;
+  /* Rojo */
+}
+
+.llegada-status ion-icon {
+  font-size: 1.3rem;
+}
+
+.llegadas-content {
+  --background: #f8f9fa;
+  padding: 20px;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.llegadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.llegada-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  gap: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.llegada-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.llegada-img img {
+  width: 100px;
+  height: 100px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 8px;
+}
+
+.llegada-info {
+  flex: 1;
+}
+
+.llegada-alumno {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin-bottom: 10px;
+}
+
+.llegada-datos div {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  margin-bottom: 5px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 768px) {
+  .llegada-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .llegada-img img {
+    width: 120px;
+    height: 120px;
+  }
+}
+.periodos-input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #3880ff;
+  /* color azul Ionic por defecto */
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #222;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  -webkit-appearance: none;
+  /* para quitar estilos nativos en iOS/Chrome */
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.periodos-input:hover {
+  border-color: #3171e0;
+}
+
+.periodos-input:focus {
+  border-color: #222fff;
+  box-shadow: 0 0 6px 2px rgba(56, 128, 255, 0.4);
+  background-color: #fff;
+  color: #000;
+}
+
+/* Para que el calendario no tape el borde redondeado en Chrome */
+.periodos-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(34%) sepia(83%) saturate(6291%) hue-rotate(205deg) brightness(92%) contrast(91%);
+  padding-right: 0.5rem;
+}
+
+.container-editar {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.image-preview-editar {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border: 2px solid var(--ion-color-primary, #3880ff);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.image-preview-editar img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+
+.inputs-group-editar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editar-input {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border-radius: 6px;
+  background: #fff;
+  border-color: var(--ion-color-primary-shade, #3171e0);
+  border: 1.5px solid var(--ion-color-primary-shade, #3171e0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  height: 44px;
+  font-size: 1rem;
+}
+
+.editar-input:focus {
+  border: 2px solid red;
+  box-shadow: 0 0 6px 2px rgba(255, 0, 0, 0.4);
+}
+
+ion-modal {
+  --background: var(--tercero-light);
+  --border-radius: 12px;
+  max-width: 480px;
+  margin: auto;
+}
+
+ion-header {
+  background: var(--primario);
+  color: var(--blanco);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+ion-title {
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+ion-toolbar {
+  --background: transparent;
+}
+
+ion-buttons ion-button[color=danger] {
+  --background: var(--secundario);
+  --color: var(--blanco);
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0 12px;
+  transition: background-color 0.3s ease;
+}
+
+ion-buttons ion-button[color=danger]:hover {
+  --background: #6b1209;
+}
+
+ion-content {
+  padding: 20px;
+  color: var(--negro);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ion-item {
+  --background: var(--blanco);
+  margin: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 64, 128, 0.1);
+}
+
+ion-label strong {
+  color: var(--primario);
+  font-size: 1.1rem;
+}
+
+ion-input {
+  --padding-start: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1.5px solid var(--tercero);
+  transition: border-color 0.3s ease;
+}
+
+ion-input:focus {
+  border-color: var(--primario);
+  box-shadow: 0 0 5px var(--primario);
+}
+
+ion-accordion ion-item[slot=header] {
+  background: var(--tercero-light);
+  border-radius: 8px;
+  font-weight: 600;
+  color: var(--primario);
+}
+
+ion-accordion ion-item[slot=header]:hover {
+  background: var(--tercero);
+  color: var(--blanco);
+}
+
+ion-badge[color=success] {
+  background: var(--primario);
+  color: var(--blanco);
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+ion-button[color=primary][fill=outline] {
+  border-color: var(--primario);
+  color: var(--primario);
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ion-button[color=primary][fill=outline]:hover {
+  background-color: var(--primario);
+  color: var(--blanco);
+}
+
+ion-button[color=danger][fill=clear] {
+  color: var(--secundario);
+  font-weight: 600;
+}
+
+ion-list-header ion-label {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primario);
+  border-bottom: 2px solid var(--tercero);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.btn-principal {
+  background: var(--primario);
+  color: var(--blanco);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  margin-top: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-principal:hover {
+  background: #002b5c;
 }/*# sourceMappingURL=global.css.map */

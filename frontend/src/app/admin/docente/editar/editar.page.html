@@ -4,9 +4,6 @@
       <ion-menu-button menu="menuId"></ion-menu-button>
       <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
-
-
-
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="" class="logo-title">
@@ -20,31 +17,78 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <div class="header-editar text-center">
-      <h1 class="titulo">
-        Editar Cuenta
-      </h1>
-    </div>
+  <div class="container text-center">
+    <h1 class="titulo">
+      Actualizar Cuenta de {{docente.nombre}} {{docente.apellidos}}
+    </h1>
+    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
+    <ion-grid fixed>
+      <ion-row>
 
-    <div class="container-editar text-center">
-      <div class="image-preview-editar">
-        <img src="https://via.placeholder.com/120" alt="Foto perfil" />
-      </div>
-      <div class="inputs-group-editar">
-        <ion-input class="editar-input" type="text" placeholder="Nombre"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Apellidos"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Personas Autorizadas"></ion-input>
-        <ion-input class="editar-input" type="text" placeholder="Salón"></ion-input>
-      </div>
-    </div>
-    <ion-button expand="block" class="btn-principal">
-      Editar
-    </ion-button>
+        <!-- Nombre -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label class="label-input" position="stacked">Nombre(s)</ion-label>
+            <ion-input type="text" placeholder="Nombre(s)" [(ngModel)]="user.nombre"></ion-input>
+          </ion-item>
+        </ion-col>
 
+        <!-- Apellidos -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label class="label-input" position="stacked">Apellidos</ion-label>
+            <ion-input type="text" placeholder="Apellidos" [(ngModel)]="user.apellidos"></ion-input>
+          </ion-item>
+        </ion-col>
 
+        <!-- Usuario -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label class="label-input" position="stacked">Usuario</ion-label>
+            <ion-input type="text" placeholder="Usuario" [(ngModel)]="user.username"></ion-input>
+          </ion-item>
+        </ion-col>
 
+        <!-- Correo -->
+        <ion-col size="12" size-md="6">
+          <ion-item>
+            <ion-label class="label-input" position="stacked">Correo Electrónico</ion-label>
+            <ion-input type="email" placeholder="Email" [(ngModel)]="user.email"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-item>
+            <ion-label class="label-input" position="stacked">Rol</ion-label>
+            <ion-select [(ngModel)]="user.role" placeholder="Seleccione Rol">
+              <ion-select-option *ngFor="let role of roles" [value]="role.id">
+                {{role.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <!-- Foto
+        <ion-col size="12">
+          <ion-item lines="none" class="foto-input">
+            <ion-label class="label-input" position="stacked">Foto de perfil</ion-label>
+            <input type="file" accept="image/*" (change)="onFileChange($event)" placeholder="Foto de perfil" [(ngModel)]="user.foto" />
+          </ion-item>
+          <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
+            <img alt="img" [src]="previewImg" class="preview-img" />
+          </div>
+        </ion-col> -->
+        
+        <!-- Botón -->
+        <ion-col size="12">
+          <ion-button expand="block" (click)="update()" shape="round" fill="clear" class="btn-principal" (click)="update()">
+            Editar Cuenta
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
   </div>
+
 </ion-content>

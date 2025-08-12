@@ -24,6 +24,7 @@ export class AlumnosPage implements OnInit {
   salon: any = [];
 
   isMobile: boolean = false;
+  token = ""
 
   idSalon: any;
   idMe: any;
@@ -38,6 +39,7 @@ export class AlumnosPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.token = await this.storage.get("token");
     this.changeResolution();
     this.detectDevice();
     await this.getMe();
@@ -77,14 +79,13 @@ export class AlumnosPage implements OnInit {
 
     }).catch((err: any) => {
       console.error(err);
-      this.presentToast('Error al cargar usuario');
+      this.presentToast('Error al cargar usuario', "error");
     });
   }
 
   async getLlegada() {
-    const token = await this.storage.get('token');
 
-    this.api.getLlegadasBySalon(this.idSalon, token).then((res: any) => {
+    this.api.getLlegadasBySalon(this.idSalon, this.token).then((res: any) => {
       const data = res.data.data;
 
       this.reset(); // Limpiar antes de llenar de nuevo
@@ -104,7 +105,7 @@ export class AlumnosPage implements OnInit {
 
     }).catch((err: any) => {
       console.error('Error al obtener llegadas:', err);
-      this.presentToast('Error al obtener llegadas');
+      this.presentToast('Error al obtener llegadas', "error");
     });
   }
   // Reiniciar las listas de alumnos
@@ -114,28 +115,42 @@ export class AlumnosPage implements OnInit {
   }
 
   async dejarSalir(llegada: any) {
-    const token = await this.storage.get('token');
-
     const data = {
       llegada: true,
       docente: this.idMe,
     }
-    this.api.gestionarSalida(llegada.documentId, data, token).then((res: any) => {
-      this.presentToast(`Alumno ${llegada.alumno.nombre} se ha entregado a su conocido.`);
+    this.api.gestionarSalida(llegada.documentId, data, this.token).then((res: any) => {
+      this.presentToast(`Alumno ${llegada.alumno.nombre} se ha entregado a su conocido.`, "success");
       // Actualizar las listas de alumnos
       this.reset();
       this.getLlegada();
     }).catch((err: any) => {
       console.error('Error al autorizar salida:', err);
-      this.presentToast('Error al autorizar salida');
+      this.presentToast('Error al autorizar salida', "error");
     });
   }
 
-  presentToast(message: string) {
+  noDejarSalir(llegada: any) {
+    const data = {
+      llegada: false,
+    }
+    this.api.gestionarSalida(llegada.documentId, data, this.token).then((res: any) => {
+      console.log(res)
+      this.getLlegada();
+
+      this.presentToast("Se ha cancelado la salida", "success");
+    }).catch((err) => {
+      console.error(err);
+      this.presentToast("Ha ocurrido un error", "error");
+    });
+  }
+
+  presentToast(message: string, type: 'success' | 'error') {
     this.toastCtrl.create({
       message: message,
       duration: 2000,
-      position: 'bottom'
+      position: 'bottom',
+      color: type,
     }).then(toast => toast.present());
   }
 }

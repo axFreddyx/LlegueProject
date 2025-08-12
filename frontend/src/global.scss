@@ -1021,3 +1021,144 @@ LLEGADAS-PAGE
   border: 2px solid red;
   box-shadow: 0 0 6px 2px rgba(255, 0, 0, 0.4);
 }
+
+/* Modal general */
+ion-modal {
+  --background: var(--blanco);
+  --border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+ion-header {
+  background-color: var(--primario);
+  color: var(--blanco);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 64, 128, 0.4);
+}
+
+ion-toolbar {
+  --ion-color-base: var(--blanco);
+}
+
+ion-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+/* Botón cerrar */
+ion-button[color="danger"] {
+  --background: transparent;
+  --color: var(--tercero);
+  --border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+ion-button[color="danger"]:hover {
+  --background: var(--tercero-light);
+  --color: var(--secundario);
+}
+
+/* Inputs */
+ion-input {
+  --background: var(--blanco);
+  --border-radius: 8px;
+  --border-color: var(--tercero);
+  --padding-start: 12px;
+  border: 1.5px solid var(--tercero);
+  transition: border-color 0.3s ease;
+}
+
+ion-input:focus-within {
+  border-color: var(--primario);
+  box-shadow: 0 0 6px var(--tercero);
+}
+
+/* Item headers de salón */
+ion-item[slot="header"] {
+  background-color: var(--tercero-light);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--secundario);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Accordion content */
+ion-accordion > div[slot="content"] {
+  background-color: var(--blanco);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 0 8px rgba(249, 168, 37, 0.15);
+  padding: 12px 16px;
+}
+
+/* Lista alumnos */
+ion-list ion-item {
+  --border-style: none;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #ddd;
+  align-items: center;
+}
+
+ion-list ion-item ion-label {
+  font-weight: 500;
+  color: var(--negro);
+}
+
+/* Botones seleccionar */
+// ion-button[color="primary"] {
+//   --border-radius: 20px;
+//   font-size: 0.85rem;
+//   font-weight: 600;
+//   border: 2px solid var(--primario);
+//   color: var(--primario);
+//   transition: background-color 0.3s ease, color 0.3s ease;
+// }
+
+// ion-button[color="primary"]:hover {
+//   background-color: var(--primario);
+//   color: var(--blanco);
+// }
+
+/* Badge seleccionado */
+ion-badge[color="success"] {
+  background-color: var(--tercero);
+  color: var(--primario);
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+/* Lista alumnos seleccionados */
+ion-list-header {
+  background-color: var(--tercero-light);
+  color: var(--secundario);
+  font-weight: 700;
+  border-radius: 8px;
+  margin-top: 16px;
+  padding-left: 12px;
+}
+
+/* Botón Agregar */
+// .btn-principal {
+//   margin-top: 20px;
+//   background-color: var(--primario);
+//   color: var(--blanco);
+//   font-weight: 700;
+//   border-radius: 30px;
+//   font-size: 1rem;
+//   padding: 14px 0;
+//   box-shadow: 0 4px 12px rgba(0, 64, 128, 0.4);
+//   transition: background-color 0.3s ease;
+// }
+
+.btn-principal:hover {
+  background-color: var(--secundario);
+  box-shadow: 0 6px 16px rgba(140, 24, 11, 0.5);
+}

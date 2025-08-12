@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-llegue',
@@ -16,11 +17,14 @@ export class LleguePage implements OnInit {
   userLogged: any;
   seleccionados: any[] = [];
   alumnos: any[] = [];
+  token = "";
+  private timeoutId: any = null; // Guardamos la referencia del timeout
 
   constructor(
     private api: ApiService,
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) { }
 
   setOpen(isOpen: boolean) {
@@ -38,24 +42,26 @@ export class LleguePage implements OnInit {
     this.isModalOpen = false;
   }
 
-  ngOnInit() {
-    this.getMe();
+  async ngOnInit() {
+    await this.getMe();
+    this.token = await this.storage.get("token");
   }
 
-  getMe() {
-    this.api.getUserByMe().then((res: any) => {
+  async getMe() {
+    try {
+      const res: any = await this.api.getUserByMe();
       this.userLogged = res.data;
+      this.alumnos = [];  // Limpiar antes de llenar
       res.data.alumnos.forEach((alumno: any) => {
         if (alumno.publishedAt !== null) {
+          alumno.seleccionado = false; // Inicializar la propiedad seleccionado
           this.alumnos.push(alumno);
-          console.log('Alumno añadido:', alumno);
-          // console.log('Alumno cargado:', this.alumnos);
         }
       });
       console.log('Usuario cargado:', this.userLogged);
-    }).catch((err: any) => {
+    } catch (err) {
       console.error(err);
-    });
+    }
   }
 
   toggleSeleccion(alumno: any) {
@@ -68,39 +74,74 @@ export class LleguePage implements OnInit {
     }
   }
 
+  toggleSeleccionConRetardo(alumno: any) {
+    alumno.seleccionado = !alumno.seleccionado;
 
-  async marcarLlegada() {
-    const token = await this.storage.get('token');
-    if (this.seleccionados.length === 0) {
-      return; // Nada seleccionado, no hacer nada
+    if (alumno.seleccionado) {
+      if (!this.seleccionados.some(a => a.id === alumno.id)) {
+        this.seleccionados.push(alumno);
+      }
+
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+      }
+
+      this.presentToast(
+        "En un plazo máximo de 5 segundos se notificará al docente sobre su llegada. Si cometió un error al seleccionar al alumno, haga clic nuevamente sobre él.",
+        'medium',
+        2500
+      );
+
+      this.timeoutId = setTimeout(() => {
+        this.enviarSeleccionados();
+        this.timeoutId = null;
+      }, 5000);
+
+    } else {
+      this.seleccionados = this.seleccionados.filter(a => a.id !== alumno.id);
+
+      // Opcional: si quieres cancelar el timeout cuando ya no hay seleccionados
+      if (this.seleccionados.length === 0 && this.timeoutId) {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
+      }
     }
+  }
 
+  private async enviarSeleccionados() {
+    if (this.seleccionados.length === 0) return; // nada que enviar
+
+    const token = await this.storage.get('token');
     try {
       for (const alumno of this.seleccionados) {
         await this.api.llegue(alumno.id, this.userLogged.id, token);
       }
-
       console.log('Llegada marcada para:', this.seleccionados.map(a => a.nombre));
+      this.presentToast('Llegada marcada correctamente', 'success');
       this.setOpen(false);
-      this.getMe(); // refresca datos
-      this.alumnos = []
-
-
+      await this.getMe();
+      this.seleccionados = [];
     } catch (error) {
       console.error('Error marcando llegada:', error);
+      this.presentToast('Error marcando llegada', 'error');
     }
   }
 
-  logout() {
-    // console.log("Has cerrado sesión");
+  async presentToast(message: string, type: 'success' | 'error' | 'medium', duration = 1500) {
+    const toast = await this.toastController.create({
+      message,
+      duration: duration,
+      position: 'top',
+      color: type
+    });
+    await toast.present();
+  }
 
-    // Primero borra el token
+  logout() {
     this.storage.remove("token").then(() => {
-      // Después redirige con un pequeño delay si deseas
       setTimeout(() => {
         this.router.navigateByUrl('/login');
       }, 1000);
     });
   }
-
 }

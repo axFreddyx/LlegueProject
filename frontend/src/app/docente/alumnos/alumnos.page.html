@@ -44,12 +44,7 @@
               <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
               <small class="text-muted">{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</small>
             </ion-label>
-            <ion-button
-              fill="outline"
-              size="small"
-              color="success"
-              (click)="dejarSalir(a)"
-            >
+            <ion-button fill="outline" size="small" color="success" (click)="dejarSalir(a)">
               Dejar salir
             </ion-button>
           </ion-item>
@@ -75,6 +70,9 @@
               <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
               <small class="text-muted">{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</small>
             </ion-label>
+            <ion-button fill="outline" size="small" color="success" (click)="noDejarSalir(a)">
+              No dejar salir
+            </ion-button>
           </ion-item>
         </ion-list>
       </div>
@@ -100,11 +98,7 @@
               <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
               <p>{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</p>
             </ion-label>
-            <ion-button
-              fill="clear"
-              class="btn-principal"
-              (click)="dejarSalir(a)"
-            >
+            <ion-button fill="clear" class="btn-principal" (click)="dejarSalir(a)">
               Dejar salir
             </ion-button>
           </ion-item>
@@ -126,6 +120,9 @@
               <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
               <p>{{ a.alumno.salon.grado }}°{{ a.alumno.salon.grupo }}</p>
             </ion-label>
+            <ion-button fill="clear" class="btn-secundario" (click)="noDejarSalir(a)">
+              No dejar salir
+            </ion-button>
           </ion-item>
         </ion-list>
       </ion-col>

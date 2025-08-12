@@ -83,7 +83,7 @@ export class ApiService {
 
   //#region Usuarios
   async getUserByMe() {
-    const token = await this.storage.get('token');
+    const token = await this.storage.get("token")
     const headers = { Authorization: token };
     const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos][populate]=*&poulate[foto]=*`;
 
@@ -113,7 +113,7 @@ export class ApiService {
     return await axios.get(url, { headers: headers });
   }
 
-  async updateUser(data: any, id: number) {
+  async updateUser(data: any, id: any) {
     const token = await this.storage.get('token');
     return await axios.put(`${this.url}/users/${id}`, data, { headers: { Authorization: token } });
     // console.log(`${this.url}/users/${id}`, data);
@@ -122,6 +122,10 @@ export class ApiService {
   async deleteUser(id: number) {
     const token = await this.storage.get('token');
     return await axios.delete(`${this.url}/users/${id}`, { headers: { Authorization: token } });
+  }
+
+  async getUserById(id: any, token: string) {
+    return await axios.get(`${this.url}/users/${id}`, { headers: { Authorization: token } });
   }
 
   //#endregion
@@ -191,16 +195,23 @@ export class ApiService {
 
   async getLLegueGlobal(token: string) {
     return await axios.get(`${this.url}/llegadas`, {
-      headers: { Authorization: token },
+      headers: { Authorization: `${token}` },
       params: {
         sort: 'createdAt:desc',
-        populate: '*'
+        populate: {
+          alumno: {
+            populate: {
+              salon:{
+                populate: '*'
+              }
+            }
+          },
+          docente: { populate: '*' },
+          persona_autorizada: { populate: '*' }
+        }
       }
-
     });
   }
-
-
 
   //#endregion
 
@@ -245,6 +256,17 @@ export class ApiService {
       });
   }
 
+  async createPeriodos(data: any, token: any) {
+    return await axios.post(`${this.url}/periodos`, { data }, { headers: { Authorization: token } })
+  }
+
+  async updatePeriodo(id: any, data: any, token: any) {
+    return await axios.put(`${this.url}/periodos/${id}`, { data }, { headers: { Authorization: token } })
+  }
+
+  async deletePeriodo(id: any, token: any) {
+    return await axios.delete(`${this.url}/periodos/${id}`, { headers: { Authorization: token } })
+  }
   //#endregion
 
 

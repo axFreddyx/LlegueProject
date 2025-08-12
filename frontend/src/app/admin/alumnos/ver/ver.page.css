@@ -1,3 +1,4 @@
+@charset "UTF-8";
 ion-item {
   --padding-start: 16px;
   --inner-padding-end: 16px;
@@ -32,4 +33,29 @@ ion-label p {
   font-size: 0.95rem;
   color: #666;
   margin: 2px 0;
+}
+
+.no-salones-card {
+  margin: 0 auto;
+}
+
+.select-all-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 5px 16px; /* Igual alineación que los checkboxes */
+  border-bottom: 1px solid #ccc; /* Línea separadora */
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none; /* No seleccionar texto al click */
+  gap: 8px;
+}
+
+.select-all-label {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ion-color-primary);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }/*# sourceMappingURL=ver.page.css.map */

@@ -33,13 +33,18 @@ export class CreatePage implements OnInit {
     blocked: false
   }
   roles: any[] = [];
-  token: any;
+  token = "";
+
+  docentesIngresados: any[] = [];
+  isIngresado: boolean = false;
 
   roleParameter: any;
 
   async ngOnInit() {
     await this.getRoles();            // Espera a que carguen los roles
     this.getRoleByParameter();        // Luego procesa el parámetro y asigna el role
+
+    this.token = await this.storage.get("token");
 
     const currentUrl = this.router.url.toLowerCase();
 
@@ -65,20 +70,30 @@ export class CreatePage implements OnInit {
     }
   }
 
-  async crearPersona() {
-    const token = await this.storage.get('token');
+  async save() {
+    try {
+      if (this.docentesIngresados.length > 0) {
+        await this.saveMultiple(this.docentesIngresados);
+        this.docentesIngresados = [];
+      } else {
+        await this.saveOne(this.user);
+        this.reset();
+      }
+      this.isIngresado = false;
+    } catch (err: any) {
+      console.error('Error creating user:', err.response?.data || err);
+      this.presentToast("Ocurrió un error al guardar el usuario.", "error");
+    }
+  }
 
-    this.api.register(this.user, token).then(res => {
-      console.log(res);
-      // this.presentToast('Usuario creado correctamente.', 'success');
-      // Puedes redirigir si quieres:
-      // this.router.navigateByUrl('/ver/usuarios');
-    }).catch(err => {
-      console.error(err);
-      const msg = err?.error?.error?.message || err?.error?.message || 'No se pudo crear el usuario.';
-      this.presentToast(msg, 'danger');
-    });
+  private async saveMultiple(docentes: any[]) {
+    await Promise.all(docentes.map(a => this.api.register(a, this.token)));
+    this.presentToast(`Se han ingresado ${docentes.length} usuarios de manera exitosa.`, "success");
+  }
 
+  private async saveOne(docente: any) {
+    await this.api.register(docente, this.token);
+    this.presentToast("El usuario se ha ingresado de manera exitosa.", "success");
   }
 
   async getRoles() {
@@ -95,7 +110,7 @@ export class CreatePage implements OnInit {
 
     } catch (err) {
       console.error(err);
-      this.presentToast('Error al cargar roles.', 'danger'); 
+      this.presentToast('Error al cargar roles.', 'error');
     }
   }
 
@@ -118,17 +133,51 @@ export class CreatePage implements OnInit {
   }
 
   // helper de toast (verde/rojo/amarillo) 
-  private async presentToast(
-    message: string,
-    color: 'success' | 'danger' | 'warning' = 'success',
-    duration = 1500
-  ) {
-    const t = await this.toastController.create({
+  async presentToast(message: string, type: 'success' | 'error') {
+    const toast = await this.toastController.create({
       message,
-      duration,
+      duration: 1500,
       position: 'top',
-      color
+      color: type === 'success' ? 'success' : 'danger'
     });
-    await t.present();
+    await toast.present();
   }
+  ingresarOtroDocente() {
+    this.isIngresado = true;
+    this.docentesIngresados.push({ ...this.user });
+    this.reset();
+
+  }
+  reset() {
+    this.user = {
+      nombre: "",
+      email: "",
+      password: "",
+      apellidos: "",
+      username: "",
+      role: this.roleParameter,
+      confirmed: true,
+      blocked: false
+    }
+    this.previewImg = null;
+  }
+
+  isFullCampos(): boolean {
+    const u = this.user;
+
+    // Validar que cada campo requerido no esté vacío o null o undefined
+    if (
+      !u.nombre?.trim() ||
+      !u.email?.trim() ||
+      !u.password?.trim() ||
+      !u.apellidos?.trim() ||
+      !u.username?.trim() ||
+      u.role === null || u.role === undefined
+    ) {
+      return false; // Algún campo está vacío o inválido
+    }
+
+    return true; // Todos los campos están llenos correctamente
+  }
+
 }

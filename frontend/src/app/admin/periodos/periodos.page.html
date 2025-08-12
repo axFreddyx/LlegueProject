@@ -25,21 +25,49 @@
       <ion-row>
 
         <ion-col size="12" size-md="6">
-          <input type="date" class="periodos-input">
+          <ion-item>
+            <ion-label>Año Inicio</ion-label>
+            <ion-select [(ngModel)]="anioInicio" placeholder="Seleccione año" (ionChange)="validarCampos()">
+              <ion-select-option *ngFor="let anio of anios" [value]="anio">{{ anio }}</ion-select-option>
+            </ion-select>
+          </ion-item>
         </ion-col>
 
         <ion-col size="12" size-md="6">
-          <input type="date" class="periodos-input">
+          <ion-item>
+            <ion-label>Año Fin</ion-label>
+            <ion-select [(ngModel)]="anioFin" placeholder="Seleccione año" (ionChange)="validarCampos()">
+              <ion-select-option *ngFor="let anio of anios" [value]="anio">{{ anio }}</ion-select-option>
+            </ion-select>
+          </ion-item>
         </ion-col>
 
-        <!--FREDY, PARA EL DIRECTOR QUE SEA POR EL ID QUE ESTA CON SESION INICIADA -->
-
         <!-- Botones cuando NO está editando -->
-        <ion-col size="12" size-md="12" class="salones-btn-col">
-          <ion-button expand="block" class="btn-principal">
+        <ion-col size="12" size-md="12" class="salones-btn-col" *ngIf="!isEditing">
+          <ion-button [disabled]="!dataExisting" (click)="create()" expand="block" class="btn-principal">
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-            Agregar Periodo
+            Registrar periodo
           </ion-button>
+        </ion-col>
+
+        <!-- Botones cuando está editando -->
+        <ion-col size="12" class="salones-btn-col" *ngIf="isEditing">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" size-md="6">
+                <ion-button expand="block" class="btn-principal" (click)="update()">
+                  <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                  Actualizar Docente
+                </ion-button>
+              </ion-col>
+              <ion-col size="12" size-md="6">
+                <ion-button expand="block" color="medium" (click)="cancel()">
+                  <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+                  Cancelar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-col>
 
       </ion-row>
@@ -52,6 +80,27 @@
     <div class="container">
 
       <ion-list class="salon-list">
+        <ion-button (click)="selectingPeriodos()" *ngIf="!isSelecting && periodos.length !== 0" expand="block"
+          fill="clear" shape="round">
+          <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+          Seleccionar periodos
+        </ion-button>
+        <ion-button (click)="notSelectingPeriodos()" color="medium" *ngIf="isSelecting" expand="block" fill="clear"
+          shape="round">
+          <ion-icon name="close-outline" slot="start"></ion-icon>
+          Cancelar selección
+        </ion-button>
+        <div class="acciones" *ngIf="isSelecting && periodos.length !== 0">
+          <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected" (ionChange)="toggleSelectAll($event)"
+            aria-label="Seleccionar todos los periodos">
+          </ion-checkbox>
+          <label (click)="toggleSelectAllLabel()" class="select-all-label">
+            Seleccionar todos
+          </label>
+          <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+            ❌ Eliminar
+          </ion-button>
+        </div>
         <ion-item class="salon-item salon-list-header">
           <ion-label class="salon-col">Ciclo</ion-label>
           <ion-label class="salon-col">Director</ion-label>
@@ -66,19 +115,24 @@
           </ion-label>
         </ion-item>
 
-        <ion-item *ngFor="let p of periodos" class="salon-item">
+        <ion-item *ngFor="let p of periodos" class="salon-item" (click)="isSelecting ? clickPeriodo(p) : null">
+          <!-- CHECKBOX -->
+          <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="p.selected"
+            (click)="selectPeriodos(p)" [attr.aria-label]="'Seleccionar periodo ' + p.ciclo"></ion-checkbox>
           <ion-label class="salon-col">{{ p.ciclo }}</ion-label>
-          <ion-label class="salon-col">{{ p.director.nombre }}</ion-label>
-          <ion-label class="salon-col salon-action">
-            <ion-icon name="pencil-outline" class="salon-icon-edit"></ion-icon>
+          <ion-label class="salon-col">{{ p.director?.nombre }} {{p.director?.apellidos}}</ion-label>
+          <ion-label *ngIf="!isEditing" class="salon-col salon-action">
+            <ion-icon name="pencil-outline" (click)="clickEditing(p)" class="salon-icon-edit"></ion-icon>
           </ion-label>
-          <ion-label class="salon-col salon-action">
-            <ion-icon name="trash-outline" class="salon-icon-delete"></ion-icon>
+          <ion-label *ngIf="!isEditing" class="salon-col salon-action">
+            <ion-icon name="trash-outline" (click)="openAlertDelete(p)" class="salon-icon-delete"></ion-icon>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
 
   </div>
+
+  <ion-alert #deleteAlert [header]="alertHeaderDelete" [buttons]="alertButtonsDelete"></ion-alert>
 
 </ion-content>

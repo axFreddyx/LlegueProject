@@ -14,23 +14,35 @@
     <div class="text-center mb-4">
       <h1 class="titulo">Estado de Llegada de Padres y Tutores</h1>
     </div>
+    <div>
 
+    </div>
     <div class="llegadas-grid">
-      <div class="llegada-card" *ngFor="let l of llegadas">
+      <div *ngIf="llegadas.length === 0">
+        <ion-card>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Aun no ha llegado nadie</ion-title>
+            </ion-toolbar>
+          </ion-header>
+        </ion-card>
+      </div>
+      <div class="llegada-card" *ngFor="let l of llegadas" (ion-onload)="getSalonByAlumno(l)">
         <div class="llegada-img">
           <img src="assets/img/ejemplo.jpg" alt="Foto alumno">
         </div>
         <div class="llegada-info">
-          <h2 class="llegada-alumno">{{ l.alumno.nombre }}</h2>
+          <h2 class="llegada-alumno">{{ l.alumno.nombre }} {{l.alumno.apellidos}}</h2>
           <div class="llegada-datos">
             <div>
-              <strong>Docente:</strong> {{ l.docente.nombre }} {{ l.docente.apellidos }}
+              <strong>Docente:</strong> {{ l.alumno?.salon.docente?.nombre }} {{ l.alumno?.salon.docente?.apellidos }}
             </div>
             <div>
-              <strong>Recoge:</strong> {{ l.persona_autorizada.nombre }} {{ l.persona_autorizada.apellidos }}
+              <strong>Recoge:</strong> {{ l.persona_autorizada?.nombre }} {{ l.persona_autorizada?.apellidos }}
             </div>
             <div>
-              <strong>Grado y Grupo:</strong> 5° B
+              <strong>Grado y Grupo:</strong> {{ l.alumno?.salon?.grado }}° {{ l.alumno?.salon?.grupo }}
+
             </div>
           </div>
         </div>

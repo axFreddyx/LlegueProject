@@ -48,7 +48,7 @@
         <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
           ❌ Eliminar
         </ion-button>
-        <ion-button size="small" fill="outline" color="warning">
+        <ion-button size="small" (click)="openModalVarios()" fill="outline" color="warning">
           🏫 Asignar Salón
         </ion-button>
       </div>
@@ -77,14 +77,14 @@
             <span *ngIf="a.salon === null" class="text-danger">No asignado</span>
             <span *ngIf="a.salon !== null">{{a.salon.grado}} {{a.salon.grupo}}</span>
           </p>
-          <div class="acciones">
-            <ion-button routerLink="/editar/alumno/{{a.documentId}}" *ngIf="!isSelecting" size="small" fill="outline" color="primary">
+          <div class="acciones" *ngIf="!isSelecting">
+            <ion-button routerLink="/editar/alumno/{{a.documentId}}"  size="small" fill="outline" color="primary">
               📝 Editar
             </ion-button>
-            <ion-button (click)="openAlertDelete(a)" *ngIf="!isSelecting" size="small" fill="outline" color="danger">
+            <ion-button (click)="openAlertDelete(a)"  size="small" fill="outline" color="danger">
               ❌ Eliminar
             </ion-button>
-            <ion-button *ngIf="!isSelecting" (click)="openModal(a)" size="small" fill="outline" color="warning">
+            <ion-button  (click)="openModal(a)" size="small" fill="outline" color="warning">
               🏫 Asignar Salón
             </ion-button>
           </div>
@@ -112,7 +112,8 @@
       <ion-content class="ion-padding modal-salones-content">
         <div class="salones-header">
           <h2>Salones Disponibles</h2>
-          <p>Selecciona un salón para asignar al alumno <b>{{alumno?.nombre}} {{alumno?.apellidos}}</b></p>
+          <p *ngIf="alumnosSeleccionados.length === 0">Selecciona un salón para asignar al alumno <b>{{alumno?.nombre}} {{alumno?.apellidos}}</b></p>
+          <p *ngIf="alumnosSeleccionados.length > 1">Selecciona un salón para asignar a <b>{{alumnosSeleccionados.length}}</b> alumnos</p>
         </div>
         <ion-card *ngIf="salones.length === 0" class="no-salones-card">
           <ion-card-header>

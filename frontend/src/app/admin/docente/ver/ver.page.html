@@ -21,21 +21,41 @@
 <ion-content class="ion-padding">
     <div class="container">
 
+        <h1 class="titulo text-center">Ver Docentes</h1>
         <div class="text-center">
-            <ion-button class="cuenta-btn" fill="solid" size="large" routerLink="/create/cuenta">
+            <ion-button class="cuenta-btn" fill="solid" size="large" (click)="redirectToAddDocente()">
                 <ion-icon slot="start" name="person-add-outline"></ion-icon>
                 Agregar Docente
             </ion-button>
         </div>
 
-        <h1 class="titulo text-center">Ver Docentes</h1>
-        <ion-button (click)="redirectToAddDocente()" expand="block" shape="round">
-            <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-            <span>Agregar Docente</span>
-        </ion-button>
-
         <ion-list lines="none">
-            <ion-item class="docente-item" *ngFor="let d of docentes">
+            <ion-button (click)="selectingDocentes()" *ngIf="!isSelecting && docentes.length !== 0" expand="block"
+                fill="clear" shape="round">
+                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                Seleccionar Docentes
+            </ion-button>
+            <ion-button (click)="notSelectingDocentes()" color="medium" *ngIf="isSelecting" expand="block" fill="clear"
+                shape="round">
+                <ion-icon name="close-outline" slot="start"></ion-icon>
+                Cancelar selección
+            </ion-button>
+            <div class="acciones" *ngIf="isSelecting && docentes.length !== 0">
+                <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
+                    (ionChange)="toggleSelectAll($event)" aria-label="Seleccionar todos los docentes">
+                </ion-checkbox>
+                <label (click)="toggleSelectAllLabel()" class="select-all-label">
+                    Seleccionar todos
+                </label>
+                <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+                    ❌ Eliminar
+                </ion-button>
+            </div>
+            <ion-item class="docente-item" *ngFor="let d of docentes" (click)="isSelecting ? clickDocente(d) : null">
+                <!-- CHECKBOX -->
+                <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="d.selected"
+                    (click)="selectDocentes(d)"
+                    [attr.aria-label]="'Seleccionar docente ' + d.nombre + ' ' + d.apellidos"></ion-checkbox>
                 <ion-avatar slot="start">
                     <img src="assets/img/ejemplo.jpg" alt="Ana López" />
                 </ion-avatar>
@@ -47,8 +67,8 @@
                         <span *ngIf="d.salon === null" class="text-danger">No asignado</span>
                         <span *ngIf="d.salon !== null">{{d.salon.grado}} {{d.salon.grupo}}</span>
                     </p>
-                    <div class="acciones">
-                        <ion-button size="small" fill="outline" color="primary">
+                    <div class="acciones" *ngIf="!isSelecting">
+                        <ion-button size="small" (click)="redirectToEditDocente(d)" fill="outline" color="primary">
                             📝 Editar
                         </ion-button>
                         <ion-button size="small" fill="outline" color="danger">
@@ -109,6 +129,9 @@
     <ion-alert trigger="present-alert"
         header="¿Deseas asignar {{salon?.grado}} ° {{salon?.grupo}} al docente {{docente?.nombre}} {{docente?.apellidos}}?"
         [buttons]="alertButtons"></ion-alert>
+
+    <ion-alert #deleteAlert [header]="alertHeaderDelete" [buttons]="alertButtonsDelete"></ion-alert>
+
 
 </ion-content>
 

@@ -88,9 +88,34 @@
           </div>
         </ion-col> -->
 
+          <!-- Botón agregar otro -->
+        <ion-col size="12" *ngIf="user.nombre && user.apellidos && user.email && user.password && user.username">
+          <ion-button expand="block" *ngIf="user" (click)="ingresarOtroDocente()" class="btn-secundario w-100" fill="clear"
+            shape="round">
+            Ingresar otro usuario
+            <ion-icon name="add-circle-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+        <!-- Lista de alumnos -->
+        <ion-col size="12" *ngIf="isIngresado && docentesIngresados.length > 0">
+          <ion-label>Usuarios ingresados</ion-label>
+          <ion-list>
+            <!-- Aquí se listarán -->
+            <ion-item *ngFor="let docente of docentesIngresados">
+              <ion-label>
+                {{ docente.nombre }} {{ docente.apellidos }}
+              </ion-label>
+              <ion-button fill="clear" slot="end"
+                (click)="docentesIngresados.splice(docentesIngresados.indexOf(docente), 1)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-col>
         <!-- Botón -->
         <ion-col size="12">
-          <ion-button expand="block" shape="round" fill="clear" class="btn-principal" (click)="crearPersona()">
+          <ion-button expand="block" shape="round" fill="clear" class="btn-principal" (click)="save()">
             Crear Cuenta
           </ion-button>
         </ion-col>
