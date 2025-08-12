@@ -67,8 +67,10 @@
           [attr.aria-label]="'Seleccionar alumno ' + a.nombre + ' ' + a.apellidos"></ion-checkbox>
 
         <ion-avatar slot="start" [style.margin-left]="isSelecting ? '10px' : '0'">
-          <img src="assets/img/ejemplo.jpg" alt="Ana López" />
+          <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'"
+              [alt]="(a?.nombre || a?.attributes?.nombre || '') + ' ' + (a?.apellidos || a?.attributes?.apellidos || '')" />
         </ion-avatar>
+
         <ion-label>
           <h2>{{a.nombre}} {{a.apellidos}}</h2>
           <p>ID: {{a.id}}</p>

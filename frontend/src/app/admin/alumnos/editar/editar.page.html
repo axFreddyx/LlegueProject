@@ -24,11 +24,11 @@
 
     <!-- Título y descripción -->
     <h1 class="titulo">Actualizar Alumno</h1>
-    <p>Complete la información para actualizar a {{alumno.nombre}} {{alumno.apellidos}} en el sistema.</p>
+    <p>Complete la información para actualizar a {{ alumno?.nombre }} {{ alumno?.apellidos }} en el sistema.</p>
     <img src="assets/img/escuela.png" alt="Logo Escuela" width="120" class="ion-margin-bottom">
 
-    <!-- Formulario -->
-    <ion-grid fixed>
+    <!-- Formulario (solo cuando ya cargó el alumno) -->
+    <ion-grid fixed *ngIf="alumno; else cargando">
       <ion-row>
 
         <!-- Nombre -->
@@ -47,28 +47,85 @@
           </ion-item>
         </ion-col>
 
-        <!-- Foto -->
-        <!-- <ion-col size="12">
-          <ion-item lines="none" class="foto-input ion-padding-vertical">
-            <label for="foto" class="btn btn-foto">Subir foto de perfil</label>
-            <input type="file" class="d-none" accept="image/*" id="foto" placeholder="Subir foto del alumno"
-              (change)="onFileChange($event)" />
-          </ion-item> -->
+        <!-- Vista de fotos: Actual vs Nueva -->
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Foto actual</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="ion-text-center">
+              <div class="photo-box">
+                <img
+                  [src]="getFotoUrl(alumno) || 'assets/img/ejemplo.jpg'"
+                  [alt]="(alumno?.nombre || '') + ' ' + (alumno?.apellidos || '')"
+                />
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
 
-          <!-- Vista previa -->
-          <!-- <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
-            <img alt="Vista previa" [src]="previewImg" class="preview-img" />
-          </div>
-        </ion-col> -->
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Nueva foto (opcional)</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item lines="none" class="foto-input ion-padding-vertical">
+                <label for="foto" class="btn-foto">Seleccionar archivo</label>
+                <input
+                  #fileInput
+                  type="file"
+                  class="d-none"
+                  accept="image/*"
+                  id="foto"
+                  (change)="onFileChange($event)"
+                />
+              </ion-item>
+
+              <div class="ion-text-center ion-margin-top">
+                <!-- SOLO mostramos la imagen si el usuario eligió una nueva -->
+                <ng-container *ngIf="previewImg; else noNewPhoto">
+                  <div class="photo-box">
+                    <img [src]="previewImg" alt="Vista previa nueva foto" />
+                  </div>
+                </ng-container>
+
+                <ng-template #noNewPhoto>
+                  <!-- Caja sutil sin ninguna imagen -->
+                  <div class="no-photo-box">
+                    Sin cambios de foto
+                  </div>
+                </ng-template>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
 
         <!-- Botón principal -->
         <ion-col size="12">
-          <ion-button expand="block" (click)="update()" class="btn-principal" shape="round" fill="clear">
+          <ion-button
+            expand="block"
+            (click)="update()"
+            class="btn-principal"
+            shape="round"
+            fill="clear"
+            [disabled]="!data.nombre || !data.apellidos"
+          >
             Actualizar Alumno
             <ion-icon name="checkmark-circle-outline" slot="end"></ion-icon>
           </ion-button>
         </ion-col>
+
       </ion-row>
     </ion-grid>
+
+    <!-- Estado de carga -->
+    <ng-template #cargando>
+      <div class="ion-padding ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p class="ion-margin-top">Cargando información del alumno…</p>
+      </div>
+    </ng-template>
+
   </div>
 </ion-content>

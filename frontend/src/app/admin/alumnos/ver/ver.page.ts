@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { IonAlert, IonModal, ToastController } from '@ionic/angular';
+import { environment } from 'src/environments/environment'; // ✅ NUEVO
 
 @Component({
   selector: 'app-ver',
@@ -42,6 +43,9 @@ export class VerPage implements OnInit {
   ];
 
   alertHeaderDelete = '';
+
+  // 👉 Base para archivos (derivada de apiUrl quitando /api). Ej: "http://localhost:1337"
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
   constructor(
     private api: ApiService,
@@ -203,5 +207,26 @@ export class VerPage implements OnInit {
   toggleSelectAllLabel() { //Selected section
     this.allSelected = !this.allSelected;
     this.toggleSelectAll({ detail: { checked: this.allSelected } });
+  }
+
+  // 🖼️ Helper para obtener la URL de la foto desde Strapi (v4/v5)
+  getFotoUrl(a: any): string | null { // ✅ NUEVO
+    try {
+      const f = a?.foto ?? a?.attributes?.foto;
+      if (!f) return null;
+
+      // Puede venir como {data:{attributes:{url, formats}}} o directo con {url, formats}
+      const node = f?.data?.attributes ?? f?.attributes ?? f;
+      if (!node) return null;
+
+      // Prioriza thumbnail si existe; si no, usa url
+      const url: string | undefined = node?.formats?.thumbnail?.url || node?.url;
+      if (!url) return null;
+
+      // Si es relativa (/uploads/...), anteponer host; si ya es absoluta, devolverla tal cual
+      return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+    } catch {
+      return null;
+    }
   }
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+// create.page.ts
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -10,17 +12,21 @@ import { ApiService } from 'src/app/services/api.service';
   standalone: false
 })
 export class CreatePage implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   previewImg: string | null = null;
-  alumnosIngresados: any[] = [];
+  fotoFile: File | null = null;
+
+  alumnosIngresados: Array<{ nombre: string; apellidos: string; fotoFile: File }> = [];
   isIngresado = false;
-  token = "";
-  data = { nombre: "", apellidos: "" };
+  token = '';
+  data = { nombre: '', apellidos: '' };
 
   constructor(
     private api: ApiService,
     private storage: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router  
   ) {}
 
   async ngOnInit() {
@@ -28,55 +34,90 @@ export class CreatePage implements OnInit {
   }
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (!file) return;
+    this.fotoFile = file;
 
     const reader = new FileReader();
-    reader.onload = () => this.previewImg = reader.result as string;
+    reader.onload = () => (this.previewImg = reader.result as string);
     reader.readAsDataURL(file);
   }
 
   async save() {
     try {
       if (this.alumnosIngresados.length > 0) {
-        await this.saveMultiple(this.alumnosIngresados);
+        // guardar múltiples
+        await Promise.all(
+          this.alumnosIngresados.map(a =>
+            this.api.createAlumnoConFoto(
+              { nombre: a.nombre, apellidos: a.apellidos },
+              a.fotoFile,
+              this.token
+            )
+          )
+        );
         this.alumnosIngresados = [];
+        //this.presentToast('Se han ingresado los alumnos exitosamente.', 'success');
+        
+        await this.router.navigate(['/ver/alumnos'], {
+          replaceUrl: true,
+          state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
+        });
+
       } else {
-        await this.saveOne(this.data);
-        this.reset();
+        // guardar uno
+        if (!this.data.nombre || !this.data.apellidos) {
+          return this.presentToast('Faltan nombre y apellidos.', 'error');
+        }
+        if (!this.fotoFile) {
+          return this.presentToast('Debes seleccionar una foto del alumno.', 'error');
+        }
+
+        await this.api.createAlumnoConFoto(this.data, this.fotoFile, this.token);
+        this.presentToast('El alumno se ha ingresado de manera exitosa.', 'success');
+        
       }
+
+      this.resetAll();
       this.isIngresado = false;
     } catch (err: any) {
-      console.error('Error creating alumno:', err.response?.data || err);
-      this.presentToast("Ocurrió un error al guardar el alumno.", "error");
+      console.error('Error creando alumno:', err.response?.data || err);
+      this.presentToast('Ocurrió un error al guardar el alumno.', 'error');
     }
   }
 
-  private async saveMultiple(alumnos: any[]) {
-    await Promise.all(alumnos.map(a => this.api.createAlumno(a, this.token)));
-    this.presentToast(`Se han ingresado ${alumnos.length} alumnos de manera exitosa.`, "success");
-  }
-
-  private async saveOne(alumno: any) {
-    await this.api.createAlumno(alumno, this.token);
-    this.presentToast("El alumno se ha ingresado de manera exitosa.", "success");
-  }
-
-  reset() {
-    this.data = { nombre: "", apellidos: "" };
-    this.previewImg = null;
-  }
-
   ingresarOtroAlumno() {
+    if (!this.data.nombre || !this.data.apellidos || !this.fotoFile) {
+      this.presentToast('Agrega nombre, apellidos y foto antes de continuar.', 'error');
+      return;
+    }
     this.isIngresado = true;
-    this.alumnosIngresados.push({ ...this.data });
-    this.reset();
+
+    this.alumnosIngresados.push({
+      nombre: this.data.nombre,
+      apellidos: this.data.apellidos,
+      fotoFile: this.fotoFile
+    });
+
+    this.resetFormOnly();
+  }
+
+  resetFormOnly() {
+    this.data = { nombre: '', apellidos: '' };
+    this.previewImg = null;
+    this.fotoFile = null;
+    if (this.fileInput) this.fileInput.nativeElement.value = '';
+  }
+
+  resetAll() {
+    this.resetFormOnly();
+    this.alumnosIngresados = [];
   }
 
   async presentToast(message: string, type: 'success' | 'error') {
     const toast = await this.toastController.create({
       message,
-      duration: 1500,
+      duration: 1800,
       position: 'top',
       color: type === 'success' ? 'success' : 'danger'
     });

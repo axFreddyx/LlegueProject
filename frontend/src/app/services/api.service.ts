@@ -47,8 +47,11 @@ export class ApiService {
     return await axios.get(`${this.url}/alumnos?populate=*`, { headers: { Authorization: token } });
   }
 
-  async getAlumno(id: any) {
-    return await axios.get(`${this.url}/alumnos/${id}?populate=*`);
+  async getAlumno(id: any, token: string) {
+    return await axios.get(`${this.url}/alumnos/${id}`, {
+      headers: { Authorization: token },
+      params: { populate: '*' }
+    });
   }
 
   // async getAlumnoByDocente(id: any) {
@@ -60,6 +63,33 @@ export class ApiService {
       headers: { Authorization: token }
     });
   }
+
+  // -------------------------------
+
+  async uploadFile(file: File, token: string) {
+    const formData = new FormData();
+    formData.append('files', file);
+
+    const res = await axios.post(`${this.url}/upload`, formData, {
+      headers: { Authorization: token }
+    });
+
+    return (res.data as any[])[0];
+  }
+
+  async createAlumnoConFoto(payload: any, file: File, token: string) {
+    // 1) Subir la imagen
+    const uploaded = await this.uploadFile(file, token);
+
+    // 2) Crear el alumno ligando el id del archivo al campo "foto"
+    // Si "foto" es single media: usar el id directamente
+    // Si fuera multiple media, sería [uploaded.id]
+    const data = { ...payload, foto: uploaded.id };
+
+    return await this.createAlumno(data, token);
+  }
+
+  // ---------------------
 
   async updateAlumno(id: string, data: any, token: string) {
     return await axios.put(`${this.url}/alumnos/${id}`, { "data": data }, {

@@ -51,15 +51,21 @@
         <ion-col size="12">
           <ion-item lines="none" class="foto-input ion-padding-vertical">
             <label for="foto" class="btn btn-foto">Subir foto de perfil</label>
-            <input type="file" class="d-none" accept="image/*" id="foto" placeholder="Subir foto del alumno"
-              (change)="onFileChange($event)" />
+            <input
+              #fileInput
+              type="file"
+              id="foto"
+              class="d-none"
+              accept="image/*"
+              (change)="onFileChange($event)"
+            />
           </ion-item>
 
-          <!-- Vista previa -->
           <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
             <img alt="Vista previa" [src]="previewImg" class="preview-img" />
           </div>
         </ion-col>
+
 
         <!-- Botón agregar otro -->
         <ion-col size="12">
