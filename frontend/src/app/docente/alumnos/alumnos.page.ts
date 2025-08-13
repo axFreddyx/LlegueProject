@@ -3,6 +3,12 @@ import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { Router, NavigationEnd } from '@angular/router';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
 
 interface Alumno {
   id: number;

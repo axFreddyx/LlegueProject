@@ -149,4 +149,6 @@ export class LleguePage implements OnInit {
       }, 1500);
     });
   }
+
+  
 }
