@@ -1,10 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+<<<<<<< HEAD
     namespace "com.llegueFJP"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.llegueFJP"
+=======
+    namespace "com.llegue3jotas"
+    compileSdk rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.llegue3jotas"
+>>>>>>> f314bc9dd5b601ff229e5b6c805d66632b10230a
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
