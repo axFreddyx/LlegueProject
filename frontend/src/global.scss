@@ -1063,14 +1063,14 @@ ion-button[color="danger"]:hover {
 }
 
 /* Inputs */
-ion-input {
-  --background: var(--blanco);
-  --border-radius: 8px;
-  --border-color: var(--tercero);
-  --padding-start: 12px;
-  border: 1.5px solid var(--tercero);
-  transition: border-color 0.3s ease;
-}
+// ion-input {
+//   --background: var(--blanco);
+//   --border-radius: 8px;
+//   --border-color: var(--tercero);
+//   --padding-start: 12px;
+//   border: 1.5px solid var(--tercero);
+//   transition: border-color 0.3s ease;
+// }
 
 ion-input:focus-within {
   border-color: var(--primario);
