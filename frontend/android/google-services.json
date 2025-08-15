@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542311403130",
+    "project_id": "lleguefjp",
+    "storage_bucket": "lleguefjp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542311403130:android:dec053211e47b6bf3235c3",
+        "android_client_info": {
+          "package_name": "com.llegueFJP"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbpUQdRpjHXxea72aJp6V98KBblIy-3Rs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

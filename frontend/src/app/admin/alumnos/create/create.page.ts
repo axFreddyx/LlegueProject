@@ -61,8 +61,9 @@ export class CreatePage implements OnInit {
         
         await this.router.navigate(['/ver/alumnos'], {
           replaceUrl: true,
-          state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
+          // state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
         });
+        this.presentToast("Alumno Guardado correctamente","success")
 
       } else {
         // guardar uno

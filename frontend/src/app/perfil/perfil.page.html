@@ -9,10 +9,9 @@
         <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/home" title="Mi perfil">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <!-- <ion-menu-button menu="menuId"></ion-menu-button> -->
+      <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -24,11 +23,11 @@
       <!-- Columna izquierda -->
       <div class="col-lg-4 col-md-5 perfil-left text-center">
         <div class="perfil-avatar">
-          <img src="assets/img/ejemplo2.jpg" alt="Avatar" class="img-fluid rounded-3 shadow-sm">
+          <img src="assets/img/ejemplo2" alt="Avatar" class="img-fluid rounded-3 shadow-sm">
         </div>
-        <h3 class="mt-3 perfil-nombre">Adolfo Himalaya</h3>
-        <span class="badge bg-danger perfil-badge">Admin</span>
-        <p class="text-muted perfil-member">Member since: Jan 2012</p>
+        <h3 class="mt-3 perfil-nombre">{{me.nombre}} {{me.apellidos}}</h3>
+        <span class="badge bg-danger perfil-badge">{{me.role?.name}}</span>
+        <!-- <p class="text-muted perfil-member">Member since: Jan 2012</p> -->
       </div>
 
       <!-- Columna derecha -->
@@ -41,10 +40,9 @@
         </div>
 
         <div class="perfil-info">
-          <p><strong>First Name:</strong> Adolfo Humberto</p>
-          <p><strong>Last Name:</strong> Himalaya Lopez</p>
-          <p><strong>Email:</strong> johndoebootdey.com</p>
-          <p><strong>Phone:</strong> 011 223 344 556 677</p>
+          <p><strong>First Name:</strong> {{me.nombre}}</p>
+          <p><strong>Last Name:</strong>{{me.apellidos}}</p>
+          <p><strong>Email:</strong> {{me.email}}</p>
         </div>
       </div>
     </div>

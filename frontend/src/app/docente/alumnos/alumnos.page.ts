@@ -3,6 +3,12 @@ import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { Router, NavigationEnd } from '@angular/router';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
 
 interface Alumno {
   id: number;
@@ -46,6 +52,7 @@ export class AlumnosPage implements OnInit {
     this.detectDevice();
     await this.getMe();
     await this.getLlegada();
+    this.notification()
   }
 
   changeResolution() {
@@ -70,14 +77,6 @@ export class AlumnosPage implements OnInit {
       this.salon = res.data.salon;
       this.idSalon = res.data.salon.documentId;
       this.idMe = res.data.documentId;
-
-      // res.data.alumnos.forEach((alumno:any) => {
-      //   // console.log('Alumno:', alumno.publishedAt);
-      //   if (alumno.publishedAt !== null) {
-      //     // res.data.alumnos = alumno
-      //     console.log('Alumno:', alumno);
-      //   }
-      // })
 
     }).catch((err: any) => {
       console.error(err);
@@ -167,5 +166,49 @@ export class AlumnosPage implements OnInit {
         this.router.navigateByUrl('/login');
       }, 1500);
     });
+  }
+
+  notification(){
+     console.log('Initializing Ver por cuales alumnos han llegado');
+
+    // Request permission to use push notifications
+    // iOS will prompt user and return if they granted permission or not
+    // Android will just grant without prompting
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener('registration',
+      (token: Token) => {
+        alert('Push registration success, token: ' + token.value);
+      }
+    );
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => {
+        alert('Error on registration: ' + JSON.stringify(error));
+      }
+    );
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotificationSchema) => {
+        alert('Push received: ' + JSON.stringify(notification));
+      }
+    );
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        alert('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 }

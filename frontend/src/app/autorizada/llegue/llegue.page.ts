@@ -58,7 +58,8 @@ export class LleguePage implements OnInit {
           this.alumnos.push(alumno);
         }
       });
-      console.log('Usuario cargado:', this.userLogged);
+      // console.log('Usuario cargado:', this.userLogged);
+      console.log(this.alumnos)
     } catch (err) {
       console.error(err);
     }

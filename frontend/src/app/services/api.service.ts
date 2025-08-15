@@ -142,7 +142,7 @@ export class ApiService {
     }
     return await axios.get(url, { headers: headers });
   }
-
+  
   async updateUser(data: any, id: any) {
     const token = await this.storage.get('token');
     return await axios.put(`${this.url}/users/${id}`, data, { headers: { Authorization: token } });
@@ -157,6 +157,8 @@ export class ApiService {
   async getUserById(id: any, token: string) {
     return await axios.get(`${this.url}/users/${id}`, { headers: { Authorization: token } });
   }
+
+  // crea una funcion que me traiga la foto del usuario
 
   //#endregion
 
