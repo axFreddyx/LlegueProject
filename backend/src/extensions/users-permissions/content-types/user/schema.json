@@ -106,6 +106,13 @@
     "apellidos": {
       "type": "string",
       "required": true
+    },
+    "ine": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
     }
   }
 }
