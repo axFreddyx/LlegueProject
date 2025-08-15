@@ -52,12 +52,6 @@ export class AlumnosPage implements OnInit {
     this.detectDevice();
     await this.getMe();
     await this.getLlegada();
-<<<<<<< HEAD
-    this.notification()
-=======
-
-
-
 
     // NOTIFICACIONES
     console.log('Initializing HomePage');
@@ -101,7 +95,6 @@ export class AlumnosPage implements OnInit {
         alert('Push action performed: ' + JSON.stringify(notification));
       }
     );
->>>>>>> f314bc9dd5b601ff229e5b6c805d66632b10230a
   }
 
   changeResolution() {
