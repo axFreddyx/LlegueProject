@@ -1752,7 +1752,7 @@ ion-list-header {
 }
 
 .acordion-alumnos ion-label {
-  color: #fff;
+  color: var(--primario) !important;
   font-size: 1.1rem;
   font-weight: 600;
   display: flex;
