@@ -18,12 +18,33 @@ export class ApiService {
   async register(user: any, token: any) {
     return await axios.post(this.url + "/users", user, { headers: { Authorization: token } });
   }
+
+  async crear_cuenta(data: any) {
+    console.log(data)
+    return await axios.post(this.url + "/users", data,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
+  }
+
+  async subirArchivos(formData: FormData) {
+    try {
+      const response = await axios.post(this.url + '/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      return response.data; // array de archivos subidos
+    } catch (error) {
+      console.error('Error subiendo archivos:', error);
+      return [];
+    }
+  }
+
   private async initStorage() {
     await this.storage.create();
   }
 
   async CrearAutorizada(data: any) {
     return await axios.post(this.url + "/auth/local/register", data);
+
   }
 
   async login(data: any) {
@@ -142,7 +163,7 @@ export class ApiService {
     }
     return await axios.get(url, { headers: headers });
   }
-  
+
   async updateUser(data: any, id: any) {
     const token = await this.storage.get('token');
     return await axios.put(`${this.url}/users/${id}`, data, { headers: { Authorization: token } });
@@ -233,7 +254,7 @@ export class ApiService {
         populate: {
           alumno: {
             populate: {
-              salon:{
+              salon: {
                 populate: '*'
               }
             }

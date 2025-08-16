@@ -1,52 +1,60 @@
-<ion-content [fullscreen]="true" class="gobierno-login-content">
-  <div class="gobierno-login-wrapper">
-
-    <!-- Logo institucional -->
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-wrapper">
     <div class="text-center mb-4">
-      <img src="assets/img/escuela.png" alt="Logo Escuela" class="gobierno-logo">
-      <h5 class="institucion-nombre">Escuela Primaria Benito Juárez</h5>
+      <!-- <img src="assets/img/escuela.png" alt="Logo Escuela" class="logo-form"> -->
+      <h5 class="titulo2">Escuela Primaria Benito Juárez</h5>
     </div>
 
-    <!-- Formulario login -->
-    <div class="formulario-container shadow">
+    <div class="container">
+      <div class="register-form text-center">
+        <ion-grid fixed>
+          <ion-row>
 
-      <h4 class="text-center titulo-login">Acceso</h4>
+            <!-- Nombre -->
+            <ion-col size="12">
+              <div class="register-photo-upload">
+                <label for="foto-input">
+                  <img src="assets/img/escuela.png" alt="Foto" class="register-photo">
+                </label>
+              </div>
+            </ion-col>
 
-      <form>
 
-        <!-- Usuario -->
-        <ion-item lines="full" class="ion-margin-top input-institucional">
-          <ion-label position="floating">Usuario o Email</ion-label>
-          <ion-input
-            type="email"
-            [(ngModel)]="identifier"
-            name="identifier"
-            required
-          ></ion-input>
-        </ion-item>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-input type="email" [(ngModel)]="identifier" placeholder="Usuario o Email" name="identifier"
+                  required></ion-input>
+              </ion-item>
+            </ion-col>
 
-        <!-- Contraseña -->
-        <ion-item lines="full" class="ion-margin-top input-institucional">
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input
-            type="password"
-            [(ngModel)]="password"
-            name="password"
-            required
-          ></ion-input>
-        </ion-item>
+            <!-- Apellidos -->
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-input type="password" placeholder="Contraseña" [(ngModel)]="password" name="password"
+                  required></ion-input>
+              </ion-item>
+            </ion-col>
 
-        <!-- Botón -->
-        <ion-button expand="block" fill="clear" shape="round" class="btn-principal ion-margin-top" (click)="login()">
-          Iniciar Sesión
-        </ion-button>
 
-        <!-- Enlace -->
-        <p class="text-end mt-2">
-          <a href="#" class="enlace">¿Olvidaste tu contraseña?</a>
-        </p>
+            <ion-col size="12">
+              <ion-button expand="block" class="btn-principal ion-margin-top" (click)="login()">
+                Iniciar Sesión
+              </ion-button>
+            </ion-col>
 
-      </form>
+          </ion-row>
+        </ion-grid>
+
+        <div class="link-container">
+          <p routerLink="/register" class="link">
+            No tengo una cuenta!
+          </p>
+          <p routerLink="/password-reset" class="link">
+            ¿Olvidaste tu contraseña?
+          </p>
+        </div>
+
+      </div>
     </div>
   </div>
 </ion-content>

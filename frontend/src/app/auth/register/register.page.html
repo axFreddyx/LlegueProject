@@ -1,0 +1,83 @@
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-wrapper">
+    <div class="text-center mb-4">
+      <img src="assets/img/escuela.png" alt="Logo Escuela" class="logo-form">
+      <h5 class="titulo2">Escuela Primaria Benito Juárez</h5>
+    </div>
+
+    <div class="container">
+      <div class="register-form text-center">
+        <ion-grid fixed>
+          <ion-row>
+
+            <!-- Foto -->
+            <ion-col size="12">
+              <div class="register-photo-upload">
+                <label for="foto-input">
+                  <img [src]="fotoPreview || 'assets/img/user.png'" alt="Foto" class="register-photo">
+                  <div class="register-photo-overlay">
+                    <ion-icon name="camera-outline"></ion-icon>
+                  </div>
+                </label>
+                <input id="foto-input" [(ngModel)]="foto" type="file" accept="image/*" hidden
+                  (change)="previewFoto($event)">
+              </div>
+              <p>Seleccione una foto de perfil</p>
+            </ion-col>
+
+            <!-- Nombre -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="nombre" placeholder="Nombre"></ion-input>
+            </ion-col>
+
+            <!-- Apellidos -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="apellidos" placeholder="Apellidos"></ion-input>
+            </ion-col>
+
+            <!-- Usuario -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="username"
+                placeholder="Nombre de Usuario"></ion-input>
+            </ion-col>
+
+            <!-- Correo -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="email" class="register-input" [(ngModel)]="email"
+                placeholder="Correo Electrónico"></ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-input type="password" class="register-input" [(ngModel)]="password"
+                placeholder="Contraseña"></ion-input>
+            </ion-col>
+
+            <!-- INE -->
+            <ion-col size="12">
+              <label for="ine-input" class="register-pdf-upload">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span>Subir INE (PDF)</span>
+              </label>
+              <input id="ine-input" [(ngModel)]="ine" type="file" accept="application/pdf" hidden
+                (change)="seleccionarINE($event)">
+              <div *ngIf="nombreINE" class="register-pdf-name">{{ nombreINE }}</div>
+            </ion-col>
+            <ion-col size="12">
+              <ion-button (click)="Register()" expand="block" class="btn-principal">
+                Crear Cuenta
+              </ion-button>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+
+        <div class="mt-2 text-center">
+          <p routerLink="/login" class="link">
+            Ya tengo una Cuenta!
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

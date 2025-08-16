@@ -94,7 +94,11 @@ const routes: Routes = [
   {
     path: 'editar/cuenta/:id',
     loadChildren: () => import('./admin/docente/editar/editar.module').then( m => m.EditarPageModule)
+  },  {
+    path: 'register',
+    loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule)
   }
+
 
 ];
 
