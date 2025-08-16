@@ -22,6 +22,10 @@ export class CreatePage implements OnInit {
   token = '';
   data = { nombre: '', apellidos: '' };
 
+
+  salonesConAlumnos: { [salonId: string]: any[] } = {};
+alumnosSinSalon: any[] = [];
+
   constructor(
     private api: ApiService,
     private storage: Storage,

@@ -20,52 +20,47 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container text-center ion-padding">
+  <div class="alumno-container container text-center ion-padding">
 
     <!-- Título y descripción -->
     <h1 class="titulo">Crear Alumno</h1>
     <p>Complete la información para registrar un nuevo alumno en el sistema.</p>
-    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120" class="ion-margin-bottom">
-
     <!-- Formulario -->
     <ion-grid fixed>
       <ion-row>
 
+        <!-- Foto circular -->
+        <ion-col size="12">
+          <div class="alumno-foto-container">
+            <div class="alumno-foto-wrapper">
+              <img *ngIf="previewImg" [src]="previewImg" alt="Vista previa" class="alumno-foto" />
+              <div *ngIf="!previewImg" class="alumno-foto-placeholder">+</div>
+              <input
+                #fileInput
+                type="file"
+                accept="image/*"
+                (change)="onFileChange($event)"
+                class="alumno-foto-input"
+              />
+            </div>
+          </div>
+        </ion-col>
+
         <!-- Nombre -->
         <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label position="stacked">Nombre(s)</ion-label>
-            <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)"></ion-input>
+          <ion-item class="alumno-item">
+            <ion-label position="stacked" class="alumno-label">Nombre(s)</ion-label>
+            <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)" class="alumno-input"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Apellidos -->
         <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label position="stacked">Apellidos</ion-label>
-            <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos"></ion-input>
+          <ion-item class="alumno-item">
+            <ion-label position="stacked" class="alumno-label">Apellidos</ion-label>
+            <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos" class="alumno-input"></ion-input>
           </ion-item>
         </ion-col>
-
-        <!-- Foto -->
-        <ion-col size="12">
-          <ion-item lines="none" class="foto-input ion-padding-vertical">
-            <label for="foto" class="btn btn-foto">Subir foto de perfil</label>
-            <input
-              #fileInput
-              type="file"
-              id="foto"
-              class="d-none"
-              accept="image/*"
-              (change)="onFileChange($event)"
-            />
-          </ion-item>
-
-          <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
-            <img alt="Vista previa" [src]="previewImg" class="preview-img" />
-          </div>
-        </ion-col>
-
 
         <!-- Botón agregar otro -->
         <ion-col size="12">
@@ -79,27 +74,36 @@
         <!-- Lista de alumnos -->
         <ion-col size="12" *ngIf="isIngresado && alumnosIngresados.length > 0">
           <ion-label>Alumnos ingresados</ion-label>
-          <ion-list>
-            <!-- Aquí se listarán -->
-            <ion-item *ngFor="let alumno of alumnosIngresados">
-              <ion-label>
-                {{ alumno.nombre }} {{ alumno.apellidos }}
-              </ion-label>
-              <ion-button fill="clear" slot="end"
-                (click)="alumnosIngresados.splice(alumnosIngresados.indexOf(alumno), 1)">
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-button>
-            </ion-item>
-          </ion-list>
+          <table class="alumno-tabla">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alumno of alumnosIngresados">
+                <td>{{ alumno.nombre }}</td>
+                <td>{{ alumno.apellidos }}</td>
+                <td>
+                  <ion-button fill="clear" (click)="alumnosIngresados.splice(alumnosIngresados.indexOf(alumno), 1)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </ion-col>
 
         <!-- Botón principal -->
         <ion-col size="12">
-          <ion-button expand="block" (click)="save()" class="btn-principal" shape="round" fill="clear">
+          <ion-button expand="block" (click)="save()" class="btn-principal">
             Ingresar Alumno
             <ion-icon name="checkmark-circle-outline" slot="end"></ion-icon>
           </ion-button>
         </ion-col>
+
       </ion-row>
     </ion-grid>
   </div>

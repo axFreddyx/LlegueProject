@@ -19,81 +19,308 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="container">
+  <div class="alumno-container container text-center ion-padding">
 
-    <h1 class="titulo text-center">Ver Alumnos</h1>
-     <div class="text-center">
-      <ion-button class="cuenta-btn" fill="solid" size="large" routerLink="/create/alumnos">
-        <ion-icon slot="start" name="person-add-outline"></ion-icon>
-        Inscribir Alumno
-      </ion-button>
-    </div>
-    <ion-list lines="none">
-      <ion-button (click)="selectingAlumnos()" *ngIf="!isSelecting && alumnos.length !== 0" expand="block" fill="clear" shape="round">
+    <!-- Título y descripción -->
+    <p>Complete la información para registrar un nuevo alumno en el sistema.</p>
+    <!-- Formulario -->
+    <ion-grid fixed>
+      <ion-row>
+
+        <!-- Foto circular -->
+        <ion-col size="12">
+          <div class="alumno-foto-container">
+            <div class="alumno-foto-wrapper">
+              <img *ngIf="previewImg" [src]="previewImg" alt="Vista previa" class="alumno-foto" />
+              <div *ngIf="!previewImg" class="alumno-foto-placeholder">+</div>
+              <input #fileInput type="file" accept="image/*" (change)="onFileChange($event)"
+                class="alumno-foto-input" />
+            </div>
+          </div>
+        </ion-col>
+
+        <!-- Nombre -->
+        <ion-col size="12" size-md="4">
+          <ion-item class="alumno-item">
+            <ion-label position="stacked" class="alumno-label">Nombre(s)</ion-label>
+            <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)"
+              class="alumno-input"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <!-- Apellidos -->
+        <ion-col size="12" size-md="4">
+          <ion-item class="alumno-item">
+            <ion-label position="stacked" class="alumno-label">Apellidos</ion-label>
+            <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos"
+              class="alumno-input"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="alumno-item">
+            <ion-label position="stacked" class="alumno-label">Salon</ion-label>
+            <ion-input type="text" placeholder="Salón" class="alumno-input"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <!-- Botón agregar otro -->
+        <ion-col size="12">
+          <ion-button expand="block" *ngIf="data.nombre && data.apellidos" (click)="ingresarOtroAlumno()"
+            class="btn-secundario w-100" fill="clear" shape="round">
+            Ingresar otro alumno
+            <ion-icon name="add-circle-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+        <!-- Lista de alumnos -->
+        <ion-col size="12" *ngIf="isIngresado && alumnosIngresados.length > 0">
+          <ion-label>Alumnos ingresados</ion-label>
+          <table class="alumno-tabla">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alumno of alumnosIngresados">
+                <td>{{ alumno.nombre }}</td>
+                <td>{{ alumno.apellidos }}</td>
+                <td>
+                  <ion-button fill="clear" (click)="alumnosIngresados.splice(alumnosIngresados.indexOf(alumno), 1)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ion-col>
+
+        <!-- Botón principal -->
+        <ion-col size="12">
+          <ion-button expand="block" (click)="save()" class="btn-principal">
+            Ingresar Alumno
+            <ion-icon name="checkmark-circle-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+  <div class="veralumno-container container ">
+    <h1 class="titulo text-center titulo2">Ver Alumnos</h1>
+
+    <ion-list lines="none" class="ver-alumnos-list">
+
+      <!-- Botones de selección -->
+      <ion-button (click)="selectingAlumnos()" *ngIf="!isSelecting && alumnos.length !== 0" expand="block" fill="clear"
+        shape="round" class="ver-alumnos-btn ver-alumnos-btn-select">
         <ion-icon name="checkmark-outline" slot="start"></ion-icon>
         Seleccionar alumnos
       </ion-button>
+
       <ion-button (click)="notSelectingAlumnos()" color="medium" *ngIf="isSelecting" expand="block" fill="clear"
-        shape="round">
+        shape="round" class="ver-alumnos-btn ver-alumnos-btn-cancel">
         <ion-icon name="close-outline" slot="start"></ion-icon>
         Cancelar selección
       </ion-button>
-      <div class="acciones" *ngIf="isSelecting && alumnos.length !== 0">
+
+      <div class="acciones ver-alumnos-acciones" *ngIf="isSelecting && alumnos.length !== 0">
         <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected" (ionChange)="toggleSelectAll($event)"
-          aria-label="Seleccionar todos los alumnos">
+          aria-label="Seleccionar todos los alumnos" class="ver-alumnos-checkbox">
         </ion-checkbox>
-        <label (click)="toggleSelectAllLabel()" class="select-all-label">
+        <label (click)="toggleSelectAllLabel()" class="select-all-label ver-alumnos-select-all-label">
           Seleccionar todos
         </label>
-        <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+        <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger"
+          class="ver-alumnos-btn ver-alumnos-btn-delete">
           ❌ Eliminar
         </ion-button>
-        <ion-button size="small" (click)="openModalVarios()" fill="outline" color="warning">
+        <ion-button size="small" (click)="openModalVarios()" fill="outline" color="warning"
+          class="ver-alumnos-btn ver-alumnos-btn-assign">
           🏫 Asignar Salón
         </ion-button>
       </div>
-      <ion-card>
-        <ion-card-header *ngIf="alumnos.length === 0">
+
+      <!-- Accordion por salones -->
+      <ion-accordion-group class="ver-alumnos-accordion-group">
+        <!-- Alumnos por salón -->
+        <ion-accordion *ngFor="let s of salones" [value]="s.id">
+          <ion-item slot="header" class="acordion-alumnos">
+            <ion-label>{{ s.grado }} {{ s.grupo }} ({{ alumnosPorSalon[s.id]?.length || 0 }} alumnos)</ion-label>
+          </ion-item>
+          <div class="ion-padding ver-alumnos-accordion-content" slot="content">
+            <ion-item *ngFor="let a of alumnosPorSalon[s.id]" class="ver-alumnos-item"
+              (click)="isSelecting ? clickAlumno(a) : null">
+
+              <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
+                (click)="selectAlumnos(a)" [attr.aria-label]="'Seleccionar alumno ' + a.nombre + ' ' + a.apellidos"
+                class="ver-alumnos-checkbox">
+              </ion-checkbox>
+
+              <ion-avatar slot="start" class="ver-alumnos-avatar">
+                <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" [alt]="a.nombre + ' ' + a.apellidos" />
+              </ion-avatar>
+
+              <ion-label class="ver-alumnos-label">
+                <h2 class="ver-alumnos-nombre">{{ a.nombre }} {{ a.apellidos }}</h2>
+                <p class="ver-alumnos-id">ID: {{ a.id }}</p>
+                <div class="acciones ver-alumnos-acciones-item" *ngIf="!isSelecting">
+                  <ion-button routerLink="/editar/alumno/{{a.documentId}}" size="small" fill="outline" color="primary"
+                    class="ver-alumnos-btn ver-alumnos-btn-edit">
+                    📝 Editar
+                  </ion-button>
+                  <ion-button (click)="openAlertDelete(a)" size="small" fill="outline" color="danger"
+                    class="ver-alumnos-btn ver-alumnos-btn-delete">
+                    ❌ Eliminar
+                  </ion-button>
+                  <ion-button (click)="openModal(a)" size="small" fill="outline" color="warning"
+                    class="ver-alumnos-btn ver-alumnos-btn-assign">
+                    🏫 Asignar Salón
+                  </ion-button>
+                </div>
+              </ion-label>
+            </ion-item>
+          </div>
+        </ion-accordion>
+
+        <!-- Alumnos sin salón -->
+        <ion-accordion value="sin-salon">
+          <ion-item slot="header" class="acordion-alumnos">
+            <ion-label>Alumnos sin Salón Asignado</ion-label>
+          </ion-item>
+          <div class="ion-padding ver-alumnos-accordion-content" slot="content">
+            <ion-item *ngFor="let a of alumnosSinSalon" class="ver-alumnos-item"
+              (click)="isSelecting ? clickAlumno(a) : null">
+
+              <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
+                (click)="selectAlumnos(a)" [attr.aria-label]="'Seleccionar alumno ' + a.nombre + ' ' + a.apellidos"
+                class="ver-alumnos-checkbox">
+              </ion-checkbox>
+
+              <ion-avatar slot="start" class="ver-alumnos-avatar">
+                <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" [alt]="a.nombre + ' ' + a.apellidos" />
+              </ion-avatar>
+
+              <ion-label class="ver-alumnos-label">
+                <h2 class="ver-alumnos-nombre">{{ a.nombre }} {{ a.apellidos }}</h2>
+                <p class="ver-alumnos-id">ID: {{ a.id }}</p>
+                <div class="acciones ver-alumnos-acciones-item" *ngIf="!isSelecting">
+                  <ion-button routerLink="/editar/alumno/{{a.documentId}}" size="small" fill="outline" color="primary"
+                    class="ver-alumnos-btn ver-alumnos-btn-edit">
+                    📝 Editar
+                  </ion-button>
+                  <ion-button (click)="openAlertDelete(a)" size="small" fill="outline" color="danger"
+                    class="ver-alumnos-btn ver-alumnos-btn-delete">
+                    ❌ Eliminar
+                  </ion-button>
+                  <ion-button (click)="openModal(a)" size="small" fill="outline" color="warning"
+                    class="ver-alumnos-btn ver-alumnos-btn-assign">
+                    🏫 Asignar Salón
+                  </ion-button>
+                </div>
+              </ion-label>
+            </ion-item>
+          </div>
+        </ion-accordion>
+
+      </ion-accordion-group>
+    </ion-list>
+  </div>
+
+
+
+
+  <!-- <div class="ver-alumnos-container container ver-alumnos-main">
+
+    <h1 class="titulo text-center ver-alumnos-titulo">Ver Alumnos</h1>
+
+    <ion-list lines="none" class="ver-alumnos-list">
+
+      <ion-button (click)="selectingAlumnos()" *ngIf="!isSelecting && alumnos.length !== 0" expand="block" fill="clear"
+        shape="round" class="ver-alumnos-btn ver-alumnos-btn-select">
+        <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+        Seleccionar alumnos
+      </ion-button>
+
+      <ion-button (click)="notSelectingAlumnos()" color="medium" *ngIf="isSelecting" expand="block" fill="clear"
+        shape="round" class="ver-alumnos-btn ver-alumnos-btn-cancel">
+        <ion-icon name="close-outline" slot="start"></ion-icon>
+        Cancelar selección
+      </ion-button>
+
+      <div class="acciones ver-alumnos-acciones" *ngIf="isSelecting && alumnos.length !== 0">
+        <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected" (ionChange)="toggleSelectAll($event)"
+          aria-label="Seleccionar todos los alumnos" class="ver-alumnos-checkbox">
+        </ion-checkbox>
+        <label (click)="toggleSelectAllLabel()" class="select-all-label ver-alumnos-select-all-label">
+          Seleccionar todos
+        </label>
+        <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger"
+          class="ver-alumnos-btn ver-alumnos-btn-delete">
+          ❌ Eliminar
+        </ion-button>
+        <ion-button size="small" (click)="openModalVarios()" fill="outline" color="warning"
+          class="ver-alumnos-btn ver-alumnos-btn-assign">
+          🏫 Asignar Salón
+        </ion-button>
+      </div>
+
+      <ion-card class="ver-alumnos-card" *ngIf="alumnos.length === 0">
+        <ion-card-header>
           <ion-card-title>No hay alumnos inscritos</ion-card-title>
         </ion-card-header>
-        <ion-card-content *ngIf="alumnos.length === 0">
-          <p>Aún no hay alumnos inscritos. Puedes inscribir nuevos alumnos haciendo clic en el botón "Inscribir Alumno" arriba.</p>
+        <ion-card-content>
+          <p>Aún no hay alumnos inscritos. Puedes inscribir nuevos alumnos haciendo clic en el botón "Inscribir Alumno"
+            arriba.</p>
         </ion-card-content>
       </ion-card>
-      <ion-item class="docente-item" *ngFor="let a of alumnos" (click)="isSelecting ? clickAlumno(a) : null">
-        <!-- CHECKBOX -->
-        <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
-          (click)="selectAlumnos(a)"
-          [attr.aria-label]="'Seleccionar alumno ' + a.nombre + ' ' + a.apellidos"></ion-checkbox>
 
-        <ion-avatar slot="start" [style.margin-left]="isSelecting ? '10px' : '0'">
+      <ion-item class="docente-item ver-alumnos-item" *ngFor="let a of alumnos"
+        (click)="isSelecting ? clickAlumno(a) : null">
+        <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
+          (click)="selectAlumnos(a)" [attr.aria-label]="'Seleccionar alumno ' + a.nombre + ' ' + a.apellidos"
+          class="ver-alumnos-checkbox-item">
+        </ion-checkbox>
+
+        <ion-avatar slot="start" [style.margin-left]="isSelecting ? '10px' : '0'" class="ver-alumnos-avatar">
           <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'"
-              [alt]="(a?.nombre || a?.attributes?.nombre || '') + ' ' + (a?.apellidos || a?.attributes?.apellidos || '')" />
+            [alt]="(a?.nombre || a?.attributes?.nombre || '') + ' ' + (a?.apellidos || a?.attributes?.apellidos || '')"
+            class="ver-alumnos-img" />
         </ion-avatar>
 
-        <ion-label>
-          <h2>{{a.nombre}} {{a.apellidos}}</h2>
-          <p>ID: {{a.id}}</p>
-          <p>
+        <ion-label class="ver-alumnos-label">
+          <h2 class="ver-alumnos-nombre">{{a.nombre}} {{a.apellidos}}</h2>
+          <p class="ver-alumnos-id">ID: {{a.id}}</p>
+          <p class="ver-alumnos-salon">
             Grado y Grupo:
             <span *ngIf="a.salon === null" class="text-danger">No asignado</span>
             <span *ngIf="a.salon !== null">{{a.salon.grado}} {{a.salon.grupo}}</span>
           </p>
-          <div class="acciones" *ngIf="!isSelecting">
-            <ion-button routerLink="/editar/alumno/{{a.documentId}}"  size="small" fill="outline" color="primary">
+
+          <div class="acciones ver-alumnos-item-acciones" *ngIf="!isSelecting">
+            <ion-button routerLink="/editar/alumno/{{a.documentId}}" size="small" fill="outline" color="primary"
+              class="ver-alumnos-btn ver-alumnos-btn-edit">
               📝 Editar
             </ion-button>
-            <ion-button (click)="openAlertDelete(a)"  size="small" fill="outline" color="danger">
+            <ion-button (click)="openAlertDelete(a)" size="small" fill="outline" color="danger"
+              class="ver-alumnos-btn ver-alumnos-btn-delete">
               ❌ Eliminar
             </ion-button>
-            <ion-button  (click)="openModal(a)" size="small" fill="outline" color="warning">
+            <ion-button (click)="openModal(a)" size="small" fill="outline" color="warning"
+              class="ver-alumnos-btn ver-alumnos-btn-assign">
               🏫 Asignar Salón
             </ion-button>
           </div>
         </ion-label>
       </ion-item>
+
     </ion-list>
-  </div>
+  </div> -->
 
   <ion-modal trigger="open-modal">
     <ng-template>
@@ -114,8 +341,11 @@
       <ion-content class="ion-padding modal-salones-content">
         <div class="salones-header">
           <h2>Salones Disponibles</h2>
-          <p *ngIf="alumnosSeleccionados.length === 0">Selecciona un salón para asignar al alumno <b>{{alumno?.nombre}} {{alumno?.apellidos}}</b></p>
-          <p *ngIf="alumnosSeleccionados.length > 1">Selecciona un salón para asignar a <b>{{alumnosSeleccionados.length}}</b> alumnos</p>
+          <p *ngIf="alumnosSeleccionados.length === 0">Selecciona un salón para asignar al alumno <b>{{alumno?.nombre}}
+              {{alumno?.apellidos}}</b></p>
+          <p *ngIf="alumnosSeleccionados.length > 1">Selecciona un salón para asignar a
+            <b>{{alumnosSeleccionados.length}}</b> alumnos
+          </p>
         </div>
         <ion-card *ngIf="salones.length === 0" class="no-salones-card">
           <ion-card-header>

@@ -72,6 +72,12 @@ que sea algo llamativo y moderno, tipo vector
   --blanco: #f4f4f4;
   --negro: #000000;
   --gris: #d8d1d1;
+  --gris-claro: #f6f1f1;
+}
+
+
+ion-content {
+  --background: var(--gris-claro);
 }
 
 /* =========================================
@@ -675,11 +681,24 @@ ion-label p {
    🏫 SALONES - CARDS Y GRID
    ========================================= */
 .salones-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
-  padding-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  /* borde suave */
+  border-radius: 12px;
+  /* esquinas elegantes */
+  background: #fff;
+  /* fondo blanco limpio */
+  padding: 16px 20px;
+  /* respiración interior */
+  margin: 0 auto 12px auto;
+  width: 80%;
+  /* aquí te faltaba el % */
+  animation: fadeInUp 0.5s ease-in-out;
+
+  /* sombra sutil */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
+
+
 
 .salon-card {
   border-radius: 12px;
@@ -750,7 +769,21 @@ ion-label p {
   border-right: 6px solid var(--secundario);
   cursor: pointer;
   transform-style: preserve-3d;
+
+  /* 🔹 Nuevo: fuerza mismo alto y centra contenido */
+  min-height: 180px;
+  /* puedes ajustar el valor */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
+
+.home-card-title {
+  font-size: clamp(14px, 2vw, 18px);
+  /* nunca menor a 14px, nunca mayor a 18px */
+}
+
 
 .home-card:hover {
   transform: translateY(-8px) scale(1.03) rotateX(3deg) rotateY(-2deg);
@@ -836,21 +869,45 @@ ion-label p {
 }
 
 .salones-input {
-  --background: #fff;
+  --background: #f9fafb;
+  /* gris muy claro */
   --padding-start: 14px;
   --padding-end: 14px;
   --padding-top: 12px;
   --padding-bottom: 12px;
-  border-radius: 10px;
-  border: 2px solid var(--secundario);
-  font-size: 1rem;
-  transition: all 0.25s ease-in-out;
+
+  border-radius: 4px;
+  /* esquinas discretas */
+  border: 1px solid #e5e7eb;
+  /* gris claro, casi invisible */
+  font-size: 0.95rem;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .salones-input:focus-within {
   border-color: var(--primario);
-  box-shadow: 0 0 8px rgba(0, 64, 128, 0.15);
+  /* tu color corporativo */
+  box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.1);
+  /* halo suave */
+  background: #fff;
+  /* fondo blanco al activar */
 }
+
+// .form-item {
+//   --inner-padding-end: 0;
+//   --inner-padding-start: 0;
+//   --background: transparent;
+// }
+
+// .form-label {
+//   font-size: 0.85rem;
+//   font-weight: 600;
+//   color: #374151; /* gris oscuro elegante */
+//   margin-bottom: 4px;
+//   letter-spacing: 0.3px;
+// }
 
 .salones-btn-col {
   margin-top: 10px;
@@ -1272,6 +1329,26 @@ LLEGADAS-PAGE
 
 
 // PERIODOS
+
+.periodo-container {
+  border: 1px solid #e0e0e0;
+  /* borde suave */
+  border-radius: 12px;
+  /* esquinas elegantes */
+  background: #fff;
+  /* fondo blanco limpio */
+  padding: 16px 20px;
+  /* respiración interior */
+  margin: 0 auto 12px auto;
+  width: 80%;
+  /* aquí te faltaba el % */
+  animation: fadeInUp 0.5s ease-in-out;
+
+  /* sombra sutil */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+
 .periodos-input {
   width: 100%;
   padding: 0.6rem 1rem;
@@ -1498,4 +1575,186 @@ ion-list-header {
 .btn-principal:hover {
   background-color: var(--secundario);
   box-shadow: 0 6px 16px rgba(140, 24, 11, 0.5);
+}
+
+
+// ALUMNO
+
+.alumno-container {
+  max-width: 900px;
+  /* Mantiene un ancho contenido */
+  margin: 20px auto;
+  /* Centrado horizontal con espacio arriba */
+  background: #ffffff;
+  /* Fondo blanco limpio */
+  border-radius: 12px;
+
+  padding: 30px;
+  /* Espaciado interno amplio */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* Separación uniforme entre secciones */
+  font-family: 'Inter', 'Roboto', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Opcional: efecto hover para dar sensación de “tarjeta interactiva” */
+.alumno-container:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Foto circular */
+.alumno-foto-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.alumno-foto-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.alumno-foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  /* círculo perfecto */
+  object-fit: cover;
+  border: 3px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alumno-foto-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #9ca3af;
+  cursor: pointer;
+  border: 2px dashed #d1d5db;
+}
+
+.alumno-foto-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Inputs */
+.alumno-item {
+  --background: transparent;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+.alumno-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.alumno-input {
+  --background: #f9fafb;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  color: #333;
+}
+
+.alumno-input:focus-within {
+  border-color: var(--primario);
+  background: #fff;
+}
+
+/* Tabla profesional */
+.alumno-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  color: #374151;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.alumno-tabla thead {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #111827;
+}
+
+.alumno-tabla th,
+.alumno-tabla td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.alumno-tabla tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.alumno-tabla tbody tr:hover {
+  background: #eef2f7;
+}
+
+
+// VER ALUMNOS
+/* Contenedor principal */
+
+.veralumno-container {
+  max-width: 80%;
+  /* Mantiene un ancho contenido */
+  margin: 20px auto;
+  /* Centrado horizontal con espacio arriba */
+  background: #ffffff;
+  /* Fondo blanco limpio */
+  border-radius: 12px;
+
+  padding: 30px;
+  /* Espaciado interno amplio */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* Separación uniforme entre secciones */
+  font-family: 'Inter', 'Roboto', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.acordion-alumnos {
+  background: var(--primario) !important;
+  /* color principal del tema */
+  color: #fff;
+  /* texto blanco para buen contraste */
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  /* sombra ligera para profundidad */
+  --padding-start: 16px;
+  /* espacio interno */
+}
+
+.acordion-alumnos ion-label {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }
