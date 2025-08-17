@@ -322,10 +322,10 @@ export class ApiService {
   }
   //#endregion
 
+  //#region Fredy checa esto
+
   recuperarPassword(email: string) {
     return this.http.post(`${this.url}/auth/forgot-password`, { email }).toPromise();
   }
-
-
-
+  //#endregion
 }
