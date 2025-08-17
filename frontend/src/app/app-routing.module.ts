@@ -97,6 +97,10 @@ const routes: Routes = [
   },  {
     path: 'register',
     loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'password-forgotten',
+    loadChildren: () => import('./auth/password-forgotten/password-forgotten.module').then( m => m.PasswordForgottenPageModule)
   }
 
 
