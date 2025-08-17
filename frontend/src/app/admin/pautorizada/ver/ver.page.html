@@ -32,151 +32,193 @@
         <div class="container mb-2">
             <ion-accordion-group>
                 <!-- PRIMER ACCORDION - Confirmados -->
-                <ion-accordion value="first">
+                <ion-accordion class="acordeon-container" value="first">
                     <!-- HEADER -->
-                    <ion-item slot="header" color="light">
-                        <ion-label>Usuarios registrados (confirmados)</ion-label>
+                    <ion-item class="acordion-cuenta" slot="header">
+                        <ion-label>Usuarios registrados</ion-label>
                     </ion-item>
 
                     <!-- CONTENT -->
-                    <div class="ion-padding" slot="content">
-                        <ion-list lines="none" class="cuenta-lista">
+                    <div class=" cuentas-container container" slot="content">
+                        <div class="botones-cuenta-container container">
+                            <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0"
+                                expand="block" fill="clear" shape="round">
+                                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                                Seleccionar personas
+                            </ion-button>
+                            <ion-button (click)="notSelectingPersonas()" color="medium" *ngIf="isSelecting"
+                                expand="block" fill="clear" shape="round">
+                                <ion-icon name="close-outline" slot="start"></ion-icon>
+                                Cancelar selección
+                            </ion-button>
+                            <div class="acciones" *ngIf="isSelecting && personas.length !== 0">
+                                <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
+                                    (ionChange)="toggleSelectAll($event)" aria-label="Seleccionar todos los alumnos">
+                                </ion-checkbox>
+                                <label (click)="toggleSelectAllLabel()" class="select-all-label">
+                                    Seleccionar todos
+                                </label>
+                                <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+                                    ❌ Eliminar
+                                </ion-button>
+                            </div>
+                        </div>
 
-                            <!-- Filtrar confirmados -->
-                            <ng-container *ngFor="let persona of personas">
-                                <ion-item  *ngIf="persona.confirmed">
-                                    <!-- FOTO DESDE STRAPI -->
-                                    <ion-avatar slot="start">
-                                        <img [src]="getFotoUrl(persona) || 'assets/img/ejemplo.jpg'"
-                                            alt="{{persona.nombre}} {{persona.apellidos}}" />
-                                    </ion-avatar>
-                                    <ion-label>{{ persona.nombre }}</ion-label>
-                                    <ion-label>{{ persona.apellidos }}</ion-label>
-                                    <ion-label>{{ persona.email }}</ion-label>
-                                    <ion-label color="success">✅ Confirmado</ion-label>
+                        <ion-list class="cuenta-list">
+                            <ng-container *ngFor="let p of personas">
+                                <ion-card *ngIf="p.confirmed" class="persona-card">
+                                    <ion-card-content>
+                                        <div class="persona-row">
+                                            <!-- Info -->
+                                            <div class="persona-info">
+                                                <div class="persona-foto-cuadro">
+                                                    <img [src]="getFotoUrl(p) || 'assets/img/ejemplo.jpg'"
+                                                        alt="{{p.nombre}} {{p.apellidos}}" />
+                                                </div>
+                                                <div class="persona-datos">
+                                                    <h2>{{ p.nombre }} {{ p.apellidos }}</h2>
+                                                    <p><strong>Correo:</strong> {{ p.email }}</p>
+                                                    <p class="estado">{{ p.username }}</p>
+                                                </div>
+                                            </div>
 
-                                    <!-- BOTONES DE ACCIÓN -->
-                                    <ion-label>
-                                        <ion-button (click)="redirectToEditPersona(persona)" size="small" fill="outline"
-                                            color="primary">
-                                            📝 Editar
-                                        </ion-button>
-                                        <ion-button (click)="openAlertDelete(persona)" size="small" fill="outline"
-                                            color="danger">
-                                            ❌ Eliminar
-                                        </ion-button>
-                                        <ion-button (click)="openModal(persona)" size="small" fill="outline"
-                                            color="warning">
-                                            🏫 Asignar alumnos
-                                        </ion-button>
-                                    </ion-label>
-                                </ion-item>
+                                            <!-- Acciones -->
+                                            <div class="persona-acciones">
+
+                                                <ion-checkbox *ngIf="isSelecting" slot="start" color="primary"
+                                                    [(ngModel)]="p.selected" (ionChange)="selectPersonas(p)"
+                                                    [attr.aria-label]="'Seleccionar persona ' + p.nombre + ' ' + p.apellidos">
+                                                </ion-checkbox>
+
+                                                <ion-button (click)="redirectToEditPersona(p)" size="small"
+                                                    fill="outline" color="primary">
+                                                    📝 Editar
+                                                </ion-button>
+                                                <ion-button (click)="openAlertDelete(p)" size="small" fill="outline"
+                                                    color="danger">
+                                                    ❌ Eliminar
+                                                </ion-button>
+                                                <ion-button (click)="openModal(p)" size="small" fill="outline"
+                                                    color="warning">
+                                                    🏫 Asignar alumnos
+                                                </ion-button>
+                                            </div>
+                                        </div>
+                                    </ion-card-content>
+                                </ion-card>
+
                             </ng-container>
                         </ion-list>
-
                     </div>
                 </ion-accordion>
 
                 <!-- SEGUNDO ACCORDION - No confirmados -->
-                <ion-accordion value="second">
+                <ion-accordion class="acordeon-container" value="second">
                     <!-- HEADER -->
-                    <ion-item slot="header" color="light">
-                        <ion-label>Cuentas por activar (no confirmadas)</ion-label>
+                    <ion-item class="acordion-cuenta" slot="header">
+                        <ion-label>Cuentas por activar</ion-label>
                     </ion-item>
 
                     <!-- CONTENT -->
-                    <div class="ion-padding" slot="content">
-                        <ion-list>
-                            <ion-item>
-                                <ion-label><strong>Nombre</strong></ion-label>
-                                <ion-label><strong>Apellido</strong></ion-label>
-                                <ion-label><strong>Correo</strong></ion-label>
-                                <ion-label><strong>Teléfono</strong></ion-label>
-                                <ion-label><strong>Estado</strong></ion-label>
-                                <ion-label><strong>Acciones</strong></ion-label>
-                            </ion-item>
+                    <div class=" cuentas-container container" slot="content">
+                        <div class="botones-cuenta-container container">
+                            <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0"
+                                expand="block" fill="clear" shape="round">
+                                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                                Seleccionar personas
+                            </ion-button>
+                            <ion-button (click)="notSelectingPersonas()" color="medium" *ngIf="isSelecting"
+                                expand="block" fill="clear" shape="round">
+                                <ion-icon name="close-outline" slot="start"></ion-icon>
+                                Cancelar selección
+                            </ion-button>
+                            <div class="acciones" *ngIf="isSelecting && personas.length !== 0">
+                                <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
+                                    (ionChange)="toggleSelectAll($event)" aria-label="Seleccionar todos los alumnos">
+                                </ion-checkbox>
+                                <label (click)="toggleSelectAllLabel()" class="select-all-label">
+                                    Seleccionar todos
+                                </label>
+                                <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+                                    ❌ Eliminar
+                                </ion-button>
+                            </div>
+                        </div>
 
-                            <!-- Filtrar no confirmados -->
-                            <ng-container *ngFor="let persona of personas">
-                                <ion-item *ngIf="!persona.confirmed">
-                                    <ion-label>{{ persona.nombre }}</ion-label>
-                                    <ion-label>{{ persona.apellidos }}</ion-label>
-                                    <ion-label>{{ persona.email }}</ion-label>
-                                    <ion-label>{{ persona.telefono }}</ion-label>
-                                    <ion-label color="danger">⏳ Pendiente</ion-label>
-                                    <ion-label>⚠️</ion-label>
-                                </ion-item>
+                        <ion-list class="cuenta-list">
+                            <ng-container *ngFor="let p of personas">
+                                <ion-card *ngIf="!p.confirmed" class="persona-card">
+                                    <ion-card-content>
+                                        <div class="persona-row">
+                                            <!-- Info -->
+                                            <div class="persona-info">
+                                                <div class="persona-foto-cuadro">
+                                                    <img [src]="getFotoUrl(p) || 'assets/img/ejemplo.jpg'"
+                                                        alt="{{p.nombre}} {{p.apellidos}}" />
+                                                </div>
+                                                <div class="persona-datos">
+                                                    <h2>{{ p.nombre }} {{ p.apellidos }}</h2>
+                                                    <p><strong>Correo:</strong> {{ p.email }}</p>
+                                                    <p class="estado">{{ p.username }}</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Acciones -->
+                                            <div class="persona-acciones">
+
+                                                <ion-checkbox *ngIf="isSelecting" slot="start" color="primary"
+                                                    [(ngModel)]="p.selected" (ionChange)="selectPersonas(p)"
+                                                    [attr.aria-label]="'Seleccionar persona ' + p.nombre + ' ' + p.apellidos">
+                                                </ion-checkbox>
+
+                                                <ion-button (click)="openModalINE(p)" size="small"
+                                                    class="btn-principal">
+                                                    Ver INE
+                                                </ion-button>
+
+                                                <ion-button (click)="openAlertDelete(p)" size="small" fill="outline"
+                                                    color="danger">
+                                                    Eliminar
+                                                </ion-button>
+                                                <ion-button (click)="redirectToEditPersona(p)" size="small"
+                                                    fill="outline" color="success">
+                                                    Confirmar
+                                                </ion-button>
+                                            </div>
+                                        </div>
+                                    </ion-card-content>
+                                </ion-card>
                             </ng-container>
                         </ion-list>
                     </div>
                 </ion-accordion>
             </ion-accordion-group>
-
-
         </div>
-
-
-
-
-        <ion-list lines="none">
-            <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0" expand="block"
-                fill="clear" shape="round">
-                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
-                Seleccionar personas
-            </ion-button>
-            <ion-button (click)="notSelectingPersonas()" color="medium" *ngIf="isSelecting" expand="block" fill="clear"
-                shape="round">
-                <ion-icon name="close-outline" slot="start"></ion-icon>
-                Cancelar selección
-            </ion-button>
-            <div class="acciones" *ngIf="isSelecting && personas.length !== 0">
-                <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
-                    (ionChange)="toggleSelectAll($event)" aria-label="Seleccionar todos los alumnos">
-                </ion-checkbox>
-                <label (click)="toggleSelectAllLabel()" class="select-all-label">
-                    Seleccionar todos
-                </label>
-                <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
-                    ❌ Eliminar
-                </ion-button>
-            </div>
-            <ion-card>
-                <ion-card-header *ngIf="personas.length === 0">
-                    <ion-card-title>No hay alumnos inscritos</ion-card-title>
-                </ion-card-header>
-                <ion-card-content *ngIf="personas.length === 0">
-                    <p>Aún no hay padres o tutores inscritos. Puedes inscribir nuevos padres o tutores haciendo clic en
-                        el botón "Registrar Padre o tutor" arriba.</p>
-                </ion-card-content>
-            </ion-card>
-            <ion-item class="docente-item" *ngFor="let p of personas"
-                (click)="isSelecting ? clickPersona_autorizada(p) : null">
-                <!-- CHECKBOX -->
-                <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="p.selected"
-                    (click)="selectPersonas(p)"
-                    [attr.aria-label]="'Seleccionar persona ' + p.nombre + ' ' + p.apellidos"></ion-checkbox>
-
-                <ion-avatar slot="start" [style.margin-left]="isSelecting ? '10px' : '0'">
-                    <img src="assets/img/ejemplo.jpg" alt="Ana López" />
-                </ion-avatar>
-                <ion-label>
-                    <h2>{{p.nombre}} {{p.apellidos}}</h2>
-                    <p>ID: {{p.id}}</p>
-                    <div class="acciones" *ngIf="!isSelecting">
-                        <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline" color="primary">
-                            📝 Editar
-                        </ion-button>
-                        <ion-button (click)="openAlertDelete(p)" size="small" fill="outline" color="danger">
-                            ❌ Eliminar
-                        </ion-button>
-                        <ion-button (click)="openModal(p)" size="small" fill="outline" color="warning">
-                            🏫 Asignar alumnos
-                        </ion-button>
-                    </div>
-                </ion-label>
-            </ion-item>
-        </ion-list>
     </div>
+
+    <ion-modal [isOpen]="isModalOpenINE" (willDismiss)="onWillDismiss($event)">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar color="primary">
+                    <ion-buttons slot="end">
+                        <ion-button color="danger" (click)="setOpenINE(false)">
+                            <ion-icon name="close-circle-sharp"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                    <ion-title class="text-center">
+                        Ver INE
+                    </ion-title>
+                </ion-toolbar>
+            </ion-header>
+
+            <ion-content class="ion-padding" *ngIf="currentPersonaINE">
+                <iframe [src]="(getINEUrl(currentPersonaINE) || '') | safeUrl" width="100%" height="600px"
+                    frameborder="0"></iframe>
+
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+
 
     <ion-modal #modal>
         <ng-template>
@@ -256,16 +298,11 @@
                     Agregar Alumno
                 </ion-button>
             </ion-content>
-
         </ng-template>
     </ion-modal>
 
-    <ion-alert trigger="present-alert" [buttons]="alertButtons"></ion-alert>
 
-    <!-- Alert para eliminar -->
-    <!-- <ion-alert id="delete" trigger="present-alert"
-    [header]="alertHeaderDelete"
-    [buttons]="alertButtonsDelete"></ion-alert> -->
+    <ion-alert trigger="present-alert" [buttons]="alertButtons"></ion-alert>
     <ion-alert #deleteAlert [header]="alertHeaderDelete" [buttons]="alertButtonsDelete"></ion-alert>
 
 </ion-content>

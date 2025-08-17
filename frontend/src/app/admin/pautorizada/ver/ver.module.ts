@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VerPageRoutingModule } from './ver-routing.module';
 
 import { VerPage } from './ver.page';
+import { SafeUrlPipe } from './safe-url-pipe';
 // import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { VerPage } from './ver.page';
     FormsModule,
     IonicModule,
     VerPageRoutingModule,
+    SafeUrlPipe
     // ComponentsModule
   ],
   declarations: [VerPage]

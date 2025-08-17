@@ -7,6 +7,10 @@ import { IonModal } from '@ionic/angular/common';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment'; // ✅ NUEVO
 
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+
 @Component({
   selector: 'app-ver',
   templateUrl: './ver.page.html',
@@ -21,6 +25,8 @@ export class VerPage implements OnInit {
   private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
   isModalOpen = false;
+  isModalOpenINE = false;
+  currentPersonaINE: any = null;// Variable para la persona seleccionada
   personas: any[] = [];
   salones: any[] = [];
   alumnos: any[] = [];
@@ -68,8 +74,11 @@ export class VerPage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
+
+
 
   setOpen(isOpen: boolean, persona: [] = []) {
     this.isModalOpen = isOpen;
@@ -77,8 +86,22 @@ export class VerPage implements OnInit {
     console.log('Persona seleccionada:', this.persona);
   }
 
+  openModalINE(persona: any) {
+    this.currentPersonaINE = persona;
+    this.isModalOpenINE = true;
+  }
+
+  // Cerrar modal
+  setOpenINE(isOpen: boolean) {
+    this.isModalOpenINE = isOpen;
+    if (!isOpen) this.currentPersonaINE = null;
+  }
+
+
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     this.isModalOpen = false;
+    this.isModalOpenINE = false;
+    this.currentPersonaINE = null;
   }
 
   async ngOnInit() {
@@ -374,5 +397,20 @@ export class VerPage implements OnInit {
       return null;
     }
   }
+
+
+  getINEUrl(persona: any): string {
+    const ine = persona?.ine ?? persona?.attributes?.ine;
+    if (!ine) return '';
+
+    // Normalizamos la URL
+    const url = ine?.data?.attributes?.url || ine?.url;
+    if (!url) return '';
+
+    return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+  }
+
+
+
 
 }
