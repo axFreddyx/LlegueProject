@@ -17,59 +17,72 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+
+
 <ion-content [fullscreen]="true">
-  <div class="container text-center">
+  <div class="cuenta-container container text-center">
     <h1 class="titulo">
       Crear Cuenta
     </h1>
-    <img src="assets/img/escuela.png" alt="Logo Escuela" width="120">
     <ion-grid fixed>
       <ion-row>
+
+        <ion-col size="12">
+          <div class="alumno-foto-container">
+            <div class="alumno-foto-wrapper">
+              <img *ngIf="previewImg" [src]="previewImg" alt="Vista previa" class="alumno-foto" />
+              <div *ngIf="!previewImg" class="alumno-foto-placeholder">+</div>
+              <input #fileInput type="file" accept="image/*" (change)="onFileChange($event)"
+                class="alumno-foto-input" />
+            </div>
+          </div>
+        </ion-col>
 
         <!-- Nombre -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Nombre(s)</ion-label>
-            <ion-input type="text" placeholder="Nombre(s)" [(ngModel)]="user.nombre"></ion-input>
+            <ion-label  position="stacked">Nombre(s)</ion-label>
+            <ion-input class="cuenta-input" type="text" placeholder="Nombre(s)" [(ngModel)]="user.nombre"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Apellidos -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Apellidos</ion-label>
-            <ion-input type="text" placeholder="Apellidos" [(ngModel)]="user.apellidos"></ion-input>
+            <ion-label  position="stacked">Apellidos</ion-label>
+            <ion-input class="cuenta-input" type="text" placeholder="Apellidos" [(ngModel)]="user.apellidos"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Usuario -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Usuario</ion-label>
-            <ion-input type="text" placeholder="Usuario" [(ngModel)]="user.username"></ion-input>
+            <ion-label  position="stacked">Usuario</ion-label>
+            <ion-input class="cuenta-input" type="text" placeholder="Usuario" [(ngModel)]="user.username"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Correo -->
         <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Correo Electrónico</ion-label>
-            <ion-input type="email" placeholder="Email" [(ngModel)]="user.email"></ion-input>
+            <ion-label  position="stacked">Correo Electrónico</ion-label>
+            <ion-input class="cuenta-input" type="email" placeholder="Email" [(ngModel)]="user.email"></ion-input>
           </ion-item>
         </ion-col>
 
         <!-- Contraseña -->
-        <ion-col size="12">
+        <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Contraseña</ion-label>
-            <ion-input type="password" placeholder="Contraseña" [(ngModel)]="user.password"></ion-input>
+            <ion-label  position="stacked">Contraseña</ion-label>
+            <ion-input class="cuenta-input" type="password" placeholder="Contraseña" [(ngModel)]="user.password"></ion-input>
           </ion-item>
         </ion-col>
 
-        <ion-col size="12">
+        <ion-col size="12" size-md="6">
           <ion-item>
-            <ion-label class="label-input" position="stacked">Rol</ion-label>
-            <ion-select [(ngModel)]="user.role" placeholder="Seleccione Rol">
+            <ion-label  position="stacked">Rol</ion-label>
+            <ion-select class="cuenta-input" [(ngModel)]="user.role" placeholder="Seleccione Rol">
               <ion-select-option *ngFor="let role of roles" [value]="role.id">
                 {{role.name}}
               </ion-select-option>
@@ -77,21 +90,12 @@
           </ion-item>
         </ion-col>
 
-        <!-- Foto
-        <ion-col size="12">
-          <ion-item lines="none" class="foto-input">
-            <ion-label class="label-input" position="stacked">Foto de perfil</ion-label>
-            <input type="file" accept="image/*" (change)="onFileChange($event)" placeholder="Foto de perfil" [(ngModel)]="user.foto" />
-          </ion-item>
-          <div class="ion-text-center ion-margin-top" *ngIf="previewImg">
-            <img alt="img" [src]="previewImg" class="preview-img" />
-          </div>
-        </ion-col> -->
 
-          <!-- Botón agregar otro -->
+
+        <!-- Botón agregar otro -->
         <ion-col size="12" *ngIf="user.nombre && user.apellidos && user.email && user.password && user.username">
-          <ion-button expand="block" *ngIf="user" (click)="ingresarOtroDocente()" class="btn-secundario w-100" fill="clear"
-            shape="round">
+          <ion-button expand="block" *ngIf="user" (click)="ingresarOtroDocente()" class="btn-secundario w-100"
+            fill="clear" shape="round">
             Ingresar otro usuario
             <ion-icon name="add-circle-outline" slot="end"></ion-icon>
           </ion-button>
@@ -115,7 +119,7 @@
         </ion-col>
         <!-- Botón -->
         <ion-col size="12">
-          <ion-button expand="block" shape="round" fill="clear" class="btn-principal" (click)="save()">
+          <ion-button expand="block" class="btn-principal" (click)="save()">
             Crear Cuenta
           </ion-button>
         </ion-col>

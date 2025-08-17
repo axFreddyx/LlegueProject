@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage-angular';
 import { IonAlert, ToastController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular/common';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment'; // ✅ NUEVO
 
 @Component({
   selector: 'app-ver',
@@ -16,6 +17,8 @@ export class VerPage implements OnInit {
 
   @ViewChild('modal') modal!: IonModal;
   @ViewChild('deleteAlert') deleteAlert?: IonAlert;
+
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
   isModalOpen = false;
   personas: any[] = [];
@@ -309,7 +312,7 @@ export class VerPage implements OnInit {
     this.router.navigate(['/create/cuenta'], { queryParams: { role: 'persona_autorizada' } });
   }
 
-  redirectToEditPersona(p:any){
+  redirectToEditPersona(p: any) {
     this.router.navigate([`/editar/cuenta/${p.id}`], { queryParams: { role: 'persona_autorizada' } });
   }
 
@@ -338,7 +341,7 @@ export class VerPage implements OnInit {
     // this.data = { salon: salon.id };
     document.querySelector('ion-alert')?.present();
   }
- async eliminar(persona: any) {
+  async eliminar(persona: any) {
     // Implementar llamada API para eliminar docente (similar a eliminar alumno)
     // Supongamos que tienes api.deleteUser:
     try {
@@ -348,6 +351,27 @@ export class VerPage implements OnInit {
     } catch (err) {
       console.error('Error deleting docente:', err);
       this.presentToast('No se pudo eliminar el docente.', 'error');
+    }
+  }
+
+
+  getFotoUrl(a: any): string | null { // ✅ NUEVO
+    try {
+      const f = a?.foto ?? a?.attributes?.foto;
+      if (!f) return null;
+
+      // Puede venir como {data:{attributes:{url, formats}}} o directo con {url, formats}
+      const node = f?.data?.attributes ?? f?.attributes ?? f;
+      if (!node) return null;
+
+      // Prioriza thumbnail si existe; si no, usa url
+      const url: string | undefined = node?.formats?.thumbnail?.url || node?.url;
+      if (!url) return null;
+
+      // Si es relativa (/uploads/...), anteponer host; si ya es absoluta, devolverla tal cual
+      return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+    } catch {
+      return null;
     }
   }
 

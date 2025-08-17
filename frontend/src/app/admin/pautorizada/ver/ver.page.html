@@ -28,6 +28,96 @@
                 Registrar padre o tutor
             </ion-button>
         </div>
+
+        <div class="container mb-2">
+            <ion-accordion-group>
+                <!-- PRIMER ACCORDION - Confirmados -->
+                <ion-accordion value="first">
+                    <!-- HEADER -->
+                    <ion-item slot="header" color="light">
+                        <ion-label>Usuarios registrados (confirmados)</ion-label>
+                    </ion-item>
+
+                    <!-- CONTENT -->
+                    <div class="ion-padding" slot="content">
+                        <ion-list lines="none" class="cuenta-lista">
+
+                            <!-- Filtrar confirmados -->
+                            <ng-container *ngFor="let persona of personas">
+                                <ion-item  *ngIf="persona.confirmed">
+                                    <!-- FOTO DESDE STRAPI -->
+                                    <ion-avatar slot="start">
+                                        <img [src]="getFotoUrl(persona) || 'assets/img/ejemplo.jpg'"
+                                            alt="{{persona.nombre}} {{persona.apellidos}}" />
+                                    </ion-avatar>
+                                    <ion-label>{{ persona.nombre }}</ion-label>
+                                    <ion-label>{{ persona.apellidos }}</ion-label>
+                                    <ion-label>{{ persona.email }}</ion-label>
+                                    <ion-label color="success">✅ Confirmado</ion-label>
+
+                                    <!-- BOTONES DE ACCIÓN -->
+                                    <ion-label>
+                                        <ion-button (click)="redirectToEditPersona(persona)" size="small" fill="outline"
+                                            color="primary">
+                                            📝 Editar
+                                        </ion-button>
+                                        <ion-button (click)="openAlertDelete(persona)" size="small" fill="outline"
+                                            color="danger">
+                                            ❌ Eliminar
+                                        </ion-button>
+                                        <ion-button (click)="openModal(persona)" size="small" fill="outline"
+                                            color="warning">
+                                            🏫 Asignar alumnos
+                                        </ion-button>
+                                    </ion-label>
+                                </ion-item>
+                            </ng-container>
+                        </ion-list>
+
+                    </div>
+                </ion-accordion>
+
+                <!-- SEGUNDO ACCORDION - No confirmados -->
+                <ion-accordion value="second">
+                    <!-- HEADER -->
+                    <ion-item slot="header" color="light">
+                        <ion-label>Cuentas por activar (no confirmadas)</ion-label>
+                    </ion-item>
+
+                    <!-- CONTENT -->
+                    <div class="ion-padding" slot="content">
+                        <ion-list>
+                            <ion-item>
+                                <ion-label><strong>Nombre</strong></ion-label>
+                                <ion-label><strong>Apellido</strong></ion-label>
+                                <ion-label><strong>Correo</strong></ion-label>
+                                <ion-label><strong>Teléfono</strong></ion-label>
+                                <ion-label><strong>Estado</strong></ion-label>
+                                <ion-label><strong>Acciones</strong></ion-label>
+                            </ion-item>
+
+                            <!-- Filtrar no confirmados -->
+                            <ng-container *ngFor="let persona of personas">
+                                <ion-item *ngIf="!persona.confirmed">
+                                    <ion-label>{{ persona.nombre }}</ion-label>
+                                    <ion-label>{{ persona.apellidos }}</ion-label>
+                                    <ion-label>{{ persona.email }}</ion-label>
+                                    <ion-label>{{ persona.telefono }}</ion-label>
+                                    <ion-label color="danger">⏳ Pendiente</ion-label>
+                                    <ion-label>⚠️</ion-label>
+                                </ion-item>
+                            </ng-container>
+                        </ion-list>
+                    </div>
+                </ion-accordion>
+            </ion-accordion-group>
+
+
+        </div>
+
+
+
+
         <ion-list lines="none">
             <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0" expand="block"
                 fill="clear" shape="round">
@@ -72,14 +162,8 @@
                 <ion-label>
                     <h2>{{p.nombre}} {{p.apellidos}}</h2>
                     <p>ID: {{p.id}}</p>
-                    <!-- <p>
-            Grado y Grupo:
-            <span *ngIf="a.salon === null" class="text-danger">No asignado</span>
-            <span *ngIf="a.salon !== null">{{a.salon.grado}} {{a.salon.grupo}}</span>
-          </p> -->
                     <div class="acciones" *ngIf="!isSelecting">
-                        <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline"
-                            color="primary">
+                        <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline" color="primary">
                             📝 Editar
                         </ion-button>
                         <ion-button (click)="openAlertDelete(p)" size="small" fill="outline" color="danger">

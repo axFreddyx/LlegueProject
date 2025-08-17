@@ -1758,3 +1758,121 @@ ion-list-header {
   display: flex;
   align-items: center;
 }
+
+// CREAR CUENTA
+.cuenta-container {
+  max-width: 80%;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.cuenta-container ion-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #1c2833;
+  /* gris azulado sobrio */
+  letter-spacing: 0.4px;
+}
+
+.cuenta-input {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #fafafa, #f0f2f5);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+.cuenta-container ion-input:focus-within {
+  border-color: #1a3d6d;
+  /* azul marino premium */
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(26, 61, 109, 0.2);
+}
+
+.cuenta-container ion-input::placeholder {
+  color: #8c99a6;
+  font-style: italic;
+}
+
+
+// Persona Autorizada
+
+/* Contenedor general */
+.cuenta-lista ion-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.cuenta-lista ion-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Avatar pequeño y alineado */
+.cuenta-lista ion-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Encabezado de tabla */
+.cuenta-lista ion-item.text-center {
+  font-weight: 600;
+  background: #f4f6f8;
+  color: #34495e;
+  border-bottom: 1px solid #dcdde1;
+}
+
+/* Etiquetas de estado */
+.cuenta-lista ion-label[color="success"] {
+  font-weight: 600;
+  color: #27ae60;
+  /* verde elegante */
+}
+
+.cuenta-lista ion-label[color="danger"] {
+  font-weight: 600;
+  color: #c0392b;
+  /* rojo elegante */
+}
+
+/* Botones compactos */
+.cuenta-lista ion-button {
+  font-size: 0.75rem;
+  height: 28px;
+  padding: 0 6px;
+  min-width: 28px;
+  margin-left: 4px;
+}
+
+.cuenta-lista ion-button ion-icon {
+  font-size: 0.9rem;
+}
+
+/* Texto centrado en las columnas */
+.cuenta-lista ion-label {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
