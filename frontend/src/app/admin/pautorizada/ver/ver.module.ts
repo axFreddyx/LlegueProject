@@ -9,6 +9,7 @@ import { VerPageRoutingModule } from './ver-routing.module';
 import { VerPage } from './ver.page';
 import { SafeUrlPipe } from './safe-url-pipe';
 // import { ComponentsModule } from 'src/app/components/components.module';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   imports: [
@@ -16,9 +17,10 @@ import { SafeUrlPipe } from './safe-url-pipe';
     FormsModule,
     IonicModule,
     VerPageRoutingModule,
-    SafeUrlPipe
+    SafeUrlPipe,
     // ComponentsModule
+    PdfViewerModule  // <- Aquí
   ],
   declarations: [VerPage]
 })
-export class VerPageModule {}
+export class VerPageModule { }

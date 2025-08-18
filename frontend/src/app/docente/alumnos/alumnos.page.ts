@@ -52,9 +52,11 @@ export class AlumnosPage implements OnInit {
     this.detectDevice();
     await this.getMe();
     await this.getLlegada();
-    this.notification()
+    this.notification();
   }
 
+
+  // Para cambiar vista
   changeResolution() {
     // Variable que detecta el cambio de resolución
     const resolution = window.matchMedia('(max-width: 768px)');

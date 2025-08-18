@@ -155,7 +155,7 @@ export class ApiService {
     const headers = { Authorization: token };
     let url = "";
     if (id === 3) {
-      url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*`;
+      url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[alumnos][populate]=*&populate[foto]=*&populate[ine]=*`;
     } else if (id === 4) {
       url += `${this.url}/users?filters[role][id][$eq]=${id}&populate[salon][populate]=*&populate[foto]=*`;
     } else if (id === 5) {
