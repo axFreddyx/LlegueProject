@@ -94,14 +94,19 @@ const routes: Routes = [
   {
     path: 'editar/cuenta/:id',
     loadChildren: () => import('./admin/docente/editar/editar.module').then( m => m.EditarPageModule)
-  },  {
+  },
+  {
     path: 'register',
     loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule)
   },
   {
     path: 'password-forgotten',
     loadChildren: () => import('./auth/password-forgotten/password-forgotten.module').then( m => m.PasswordForgottenPageModule)
+  },  {
+    path: 'importar-alumnos',
+    loadChildren: () => import('./admin/alumnos/importar-alumnos/importar-alumnos.module').then( m => m.ImportarAlumnosPageModule)
   }
+
 
 
 ];

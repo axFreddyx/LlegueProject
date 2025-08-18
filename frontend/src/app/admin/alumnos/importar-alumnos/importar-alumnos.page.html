@@ -1,0 +1,194 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ver/alumnos" text="Regresar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Importar Alumnos</ion-title>
+
+    <!-- Botones compactos en la barra -->
+    <ion-buttons slot="end" class="hidden-sm-down">
+      <ion-button (click)="estructuraModal.present()" fill="clear" size="small">
+        <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+        Estructura
+      </ion-button>
+      <ion-button (click)="salonesModal.present()" fill="clear" size="small">
+        <ion-icon name="school-outline" slot="start"></ion-icon>
+        Salones
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Barra de ayuda compacta (visible también en móvil) -->
+  <ion-item lines="none" class="helper-bar">
+    <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+    <ion-label>
+      <b>Formato: </b> <code>nombre, apellidos, grado, grupo, aula</code>
+      · <b>Obligatorios: </b> <code>nombre</code>, <code>apellidos</code>
+    </ion-label>
+    <!-- <ion-buttons slot="end" class="show-sm-only">
+      <ion-button (click)="estructuraModal.present()" fill="clear" size="small">Estructura</ion-button>
+      <ion-button (click)="salonesModal.present()" fill="clear" size="small">Salones</ion-button>
+    </ion-buttons> -->
+  </ion-item>
+
+  <!-- Subir archivo -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Subir archivo</ion-card-title>
+      <ion-card-subtitle>Selecciona .xlsx, .xls o .csv</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Archivo</ion-label>
+        <input type="file" accept=".xlsx,.xls,.csv" (change)="onFileChange($event)" />
+      </ion-item>
+
+      <ion-button expand="block" (click)="importar()" [disabled]="!filas.length || cargando">
+        {{ cargando ? 'Importando…' : 'Importar' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Preview -->
+  <ion-card *ngIf="filas.length">
+    <ion-card-header>
+      <ion-card-title>Vista previa ({{filas.length}} filas)</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="erroresPreview.length" class="ion-margin-bottom">
+        <ion-item color="danger" *ngFor="let e of erroresPreview">{{e}}</ion-item>
+      </div>
+
+      <div class="tabla-scroll">
+        <table class="tabla-preview">
+          <thead>
+            <tr>
+              <th>#</th><th>Nombre</th><th>Apellidos</th><th>Grado</th><th>Grupo</th><th>Aula</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of filas; let i = index">
+              <td>{{i+2}}</td>
+              <td>{{f.nombre}}</td>
+              <td>{{f.apellidos}}</td>
+              <td>{{f.grado || '-'}}</td>
+              <td>{{f.grupo || '-'}}</td>
+              <td>{{f.aula || '-'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Resumen -->
+  <ion-card *ngIf="resumen">
+    <ion-card-header>
+      <ion-card-title>Resultado</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><b>Correctos:</b> {{resumen.ok}}</p>
+      <p><b>Errores:</b> {{resumen.fail}}</p>
+      <ion-list *ngIf="resumen.errores.length">
+        <ion-item *ngFor="let e of resumen.errores">
+          Fila {{e.fila}} — {{e.motivo}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Modal: Estructura requerida -->
+  <ion-modal #estructuraModal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Estructura del archivo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="estructuraModal.dismiss()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item lines="none" class="info-callout">
+          <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+          <ion-label>
+            <div><b>Encabezados exactos (minúsculas):</b> <code>nombre, apellidos, grado, grupo, aula</code></div>
+            <div><b>Obligatorios:</b> <code>nombre</code> y <code>apellidos</code>.</div>
+            <div><b>Opcionales:</b> <code>grado</code>, <code>grupo</code>, <code>aula</code>.</div>
+            <div><b>Asignación de salón:</b> primero <b>grado+grupo</b>; si no, por <b>aula</b>. Sin match → <b>sin salón</b>.</div>
+          </ion-label>
+        </ion-item>
+
+        <div class="tabla-scroll modal-table">
+          <table class="tabla-ejemplo">
+            <thead>
+              <tr>
+                <th>nombre</th><th>apellidos</th><th>grado</th><th>grupo</th><th>aula</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Ana</td><td>Pérez</td><td>1</td><td>A</td><td>101</td></tr>
+              <tr><td>Luis</td><td>Gómez</td><td>1</td><td>A</td><td>101</td></tr>
+              <tr><td>Carla</td><td>Ruiz</td><td>2</td><td>B</td><td>205</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal: Salones disponibles -->
+  <ion-modal #salonesModal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Salones disponibles</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="salonesModal.dismiss()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item lines="full">
+          <ion-icon name="search-outline" slot="start"></ion-icon>
+          <ion-input [(ngModel)]="filtroSalon" placeholder="Buscar por grado, grupo o aula"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="warning-callout" *ngIf="salones.length === 0">
+          <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
+          <ion-label>No se encontraron salones. Crea salones primero en el sistema.</ion-label>
+        </ion-item>
+
+        <div class="tabla-scroll modal-table" *ngIf="salonesFiltrados.length">
+          <table class="tabla-salones">
+            <thead>
+              <tr>
+                <th>ID</th><th>Grado</th><th>Grupo</th><th>Aula</th><th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of salonesFiltrados">
+                <td>{{s.id}}</td>
+                <td>{{s.grado === null ? '—' : s.grado}}</td>
+                <td>{{s.grupo || '—'}}</td>
+                <td>{{s.aula || '—'}}</td>
+                <td>{{s.totalAlumnos ?? 0}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ion-item lines="none" class="hint" *ngIf="salonesFiltrados.length">
+          <ion-icon name="bulb-outline" slot="start"></ion-icon>
+          <ion-label>
+            Si un salón no tiene <b>grado/grupo</b> (p.ej. <i>Laboratorio</i>), usa <b>aula</b> en tu Excel para que coincida.
+          </ion-label>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

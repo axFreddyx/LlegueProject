@@ -1,0 +1,36 @@
+/* src/app/admin/alumnos/importar-alumnos/importar-alumnos.page.scss */
+.tabla-scroll {
+  overflow: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+th, td {
+  border-bottom: 1px solid #eee;
+  padding: 6px 8px;
+  text-align: left;
+}
+thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.info-callout, .warning-callout, .hint {
+  --background: var(--ion-color-light);
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.mt { margin-top: 8px; }
+
+.tabla-ejemplo thead th,
+.tabla-salones thead th,
+.tabla-preview thead th {
+  font-weight: 600;
+}
+
