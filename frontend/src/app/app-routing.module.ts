@@ -105,6 +105,10 @@ const routes: Routes = [
   },  {
     path: 'importar-alumnos',
     loadChildren: () => import('./admin/alumnos/importar-alumnos/importar-alumnos.module').then( m => m.ImportarAlumnosPageModule)
+  },
+  {
+    path: 'visualizacion-llegadas',
+    loadChildren: () => import('./visualizacion/visualizacion-llegadas/visualizacion-llegadas.module').then( m => m.VisualizacionLlegadasPageModule)
   }
 
 

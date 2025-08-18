@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import axios from 'axios';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -328,4 +329,23 @@ export class ApiService {
     return this.http.post(`${this.url}/auth/forgot-password`, { email }).toPromise();
   }
   //#endregion
+
+  // ---------------------------------
+
+  async getLlegadasPorRango(inicioISO: string, finISO: string, token: string) {
+    return await axios.get(`${this.url}/llegadas`, {
+      headers: { Authorization: token },
+      params: {
+        'filters[createdAt][$gte]': inicioISO,
+        'filters[createdAt][$lte]': finISO,
+        'pagination[pageSize]': 1000,
+        'sort': 'createdAt:asc'
+        // 'populate[docente]': true,
+        // 'populate[persona_autorizada]': true,
+        // 'populate[alumno][populate]': 'salon',
+      }
+    });
+  }
+
+
 }

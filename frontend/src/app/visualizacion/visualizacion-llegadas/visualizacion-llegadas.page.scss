@@ -1,0 +1,68 @@
+:host {
+  --card-radius: 16px;
+}
+
+/* Filtros / acciones */
+.filters {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .date-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quick {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+
+  ion-card {
+    border-radius: var(--card-radius);
+    box-shadow: 0 10px 24px rgba(0,0,0,.06);
+  }
+  .kpi-num {
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .kpi-sub {
+    margin-top: 6px;
+    opacity: .7;
+  }
+}
+
+/* Estado vacío */
+.empty {
+  border-radius: var(--card-radius);
+  text-align: center;
+}
+
+/* Contenedor del gráfico */
+.chart-wrap {
+  height: min(62vh, 520px);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .filters { grid-template-columns: 1fr; }
+  .kpis { grid-template-columns: 1fr; }
+}
