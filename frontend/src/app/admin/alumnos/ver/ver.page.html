@@ -157,7 +157,7 @@
         <!-- Alumnos por salón -->
         <ion-accordion *ngFor="let s of salones" [value]="s.id">
           <ion-item slot="header" class="acordion-alumnos">
-            <ion-label>{{ s.grado }} {{ s.grupo }} ({{ alumnosPorSalon[s.id]?.length || 0 }} alumnos)</ion-label>
+            <ion-label>{{ s.grado }} {{ s.grupo }} ({{ alumnosPorSalon[s.id].length || 0 }} alumnos)</ion-label>
           </ion-item>
           <div class="ion-padding ver-alumnos-accordion-content" slot="content">
             <ion-item *ngFor="let a of alumnosPorSalon[s.id]" class="ver-alumnos-item"

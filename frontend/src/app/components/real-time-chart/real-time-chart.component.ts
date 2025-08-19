@@ -1,8 +1,9 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart, ChartConfiguration, ChartType } from 'chart.js';
-import { IonCard } from "@ionic/angular/standalone";
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+import { ApiService } from 'src/app/services/api.service';
+import { Storage } from '@ionic/storage-angular';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-real-time-chart',
@@ -13,17 +14,19 @@ import { CommonModule } from '@angular/common';
 export class RealTimeChartComponent implements AfterViewInit {
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
   lineChart!: Chart;
+  token: string = '';
+  lastCheckTime: Date = new Date();
+
+  constructor(private api: ApiService, private storage: Storage) { }
+
+  async ngOnInit() {
+    this.token = await this.storage.get('token');
+  }
 
   ngAfterViewInit() {
     this.createChart();
 
-    // Simulación de llegadas cada 3 segundos (luego reemplazas con tu backend)
-    setInterval(() => {
-      const now = new Date().toLocaleTimeString();
-      const newArrivals = Math.floor(Math.random() * 5); // Número aleatorio de llegadas
-
-      this.updateChart(now, newArrivals);
-    }, 3000);
+    setInterval(() => this.addNextPoint(), 5000); // cada 5 segundos
   }
 
   createChart() {
@@ -35,8 +38,8 @@ export class RealTimeChartComponent implements AfterViewInit {
           {
             label: 'Llegadas en tiempo real',
             data: [],
-            borderColor: '#36A2EB',
-            backgroundColor: 'rgba(54,162,235,0.2)',
+            borderColor: '#FF6384',
+            backgroundColor: 'rgba(255,99,132,0.2)',
             fill: true,
             tension: 0.4,
           },
@@ -44,19 +47,10 @@ export class RealTimeChartComponent implements AfterViewInit {
       },
       options: {
         responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-          },
-        },
+        plugins: { legend: { display: true } },
         scales: {
-          x: {
-            title: { display: true, text: 'Hora' },
-          },
-          y: {
-            title: { display: true, text: 'Llegadas' },
-            beginAtZero: true,
-          },
+          x: { title: { display: true, text: 'Tiempo' } },
+          y: { title: { display: true, text: 'Llegadas false' }, beginAtZero: true },
         },
       },
     };
@@ -64,18 +58,37 @@ export class RealTimeChartComponent implements AfterViewInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, config);
   }
 
-  updateChart(label: string, value: number) {
-    const maxPoints = 10; // máximo de puntos visibles
+  async addNextPoint() {
+    const now = new Date();
+    const labels = this.lineChart.data.labels as string[];
+    const data = this.lineChart.data.datasets[0].data as number[];
 
-    if (this.lineChart.data.labels) {
-      this.lineChart.data.labels.push(label);
-      (this.lineChart.data.datasets[0].data as number[]).push(value);
+    let arrivalsInInterval = 0;
 
-      // Elimina el primer dato si se pasa del límite
-      if (this.lineChart.data.labels.length > maxPoints) {
-        this.lineChart.data.labels.shift();
-        (this.lineChart.data.datasets[0].data as number[]).shift();
+    try {
+      const res: any = await this.api.getLLegueGlobal(this.token);
+
+      if (res && res.data && Array.isArray(res.data.data)) {
+        // Solo llegadas false en el intervalo de 5 segundos
+        arrivalsInInterval = res.data.data.filter((item: any) => {
+          const createdAt = new Date(item.createdAt);
+          return item.llegada === false && createdAt > this.lastCheckTime && createdAt <= now;
+        }).length;
       }
+    } catch (error) {
+      console.error('Error fetching data from API', error);
+    }
+
+    this.lastCheckTime = now;
+
+    const label = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+    labels.push(label);
+    data.push(arrivalsInInterval);
+
+    // Limitar a 10 puntos
+    if (labels.length > 10) {
+      labels.shift();
+      data.shift();
     }
 
     this.lineChart.update();
