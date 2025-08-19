@@ -153,12 +153,7 @@ export class VerPage implements OnInit {
           )
         );
         this.alumnosIngresados = [];
-        //this.presentToast('Se han ingresado los alumnos exitosamente.', 'success');
-
-        await this.router.navigate(['/ver/alumnos'], {
-          replaceUrl: true,
-          // state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
-        });
+        this.getAlumnos();
         this.presentToast("Alumno Guardado correctamente", "success")
 
       } else {
@@ -209,7 +204,6 @@ export class VerPage implements OnInit {
     }
   }
 
-
   private async presentToasts(
     message: string,
     color: 'success' | 'danger' | 'warning' = 'danger',
@@ -247,7 +241,6 @@ export class VerPage implements OnInit {
       this.presentToasts('Error al cargar salones.', 'danger');
     }
   }
-
 
   async asignarSalonOne(alumnoId: string) {
     try {

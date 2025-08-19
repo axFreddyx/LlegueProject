@@ -6,7 +6,7 @@
     </ion-buttons>
     <ion-title class="text-center">
       <div class="header-title">
-        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <ion-img src="assets/img/escuela.png" alt="logo" class="logo-title"/>
         <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
@@ -40,14 +40,14 @@
             <div class="alumno-foto-wrapper">
               <img *ngIf="previewImg" [src]="previewImg" alt="Vista previa" class="alumno-foto" />
               <div *ngIf="!previewImg" class="alumno-foto-placeholder">+</div>
-              <input #fileInput type="file" accept="image/*" (change)="onFileChange($event)"
+              <ion-input #fileInput type="file" accept="image/*" (change)="onFileChange($event)"
                 class="alumno-foto-input" />
             </div>
           </div>
         </ion-col>
 
         <!-- Nombre -->
-        <ion-col size="12" size-md="4">
+        <ion-col size="12" size-md="6">
           <ion-item class="alumno-item">
             <ion-label position="stacked" class="alumno-label">Nombre(s)</ion-label>
             <ion-input type="text" [(ngModel)]="data.nombre" placeholder="Ingrese nombre(s)"
@@ -56,7 +56,7 @@
         </ion-col>
 
         <!-- Apellidos -->
-        <ion-col size="12" size-md="4">
+        <ion-col size="12" size-md="6">
           <ion-item class="alumno-item">
             <ion-label position="stacked" class="alumno-label">Apellidos</ion-label>
             <ion-input type="text" [(ngModel)]="data.apellidos" placeholder="Ingrese apellidos"
@@ -64,12 +64,12 @@
           </ion-item>
         </ion-col>
 
-        <ion-col size="12" size-md="4">
+        <!-- <ion-col size="12" size-md="4">
           <ion-item class="alumno-item">
             <ion-label position="stacked" class="alumno-label">Salon</ion-label>
             <ion-input type="text" placeholder="Salón" class="alumno-input"></ion-input>
           </ion-item>
-        </ion-col>
+        </ion-col> -->
 
         <!-- Botón agregar otro -->
         <ion-col size="12">
