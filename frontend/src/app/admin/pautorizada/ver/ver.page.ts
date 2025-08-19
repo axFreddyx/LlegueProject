@@ -398,7 +398,6 @@ export class VerPage implements OnInit {
     }
   }
 
-
   getINEUrl(persona: any): string {
     const ine = persona?.ine ?? persona?.attributes?.ine;
     if (!ine) return '';
@@ -409,8 +408,4 @@ export class VerPage implements OnInit {
 
     return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
   }
-
-
-
-
 }
