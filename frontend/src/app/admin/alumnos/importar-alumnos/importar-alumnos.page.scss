@@ -1,36 +1,45 @@
-/* src/app/admin/alumnos/importar-alumnos/importar-alumnos.page.scss */
-.tabla-scroll {
-  overflow: auto;
+/* importar-alumnos.page.scss */
+
+.tabs-toolbar {
+  --background: var(--ion-color-primary-contrast);
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 14px;
-}
-th, td {
-  border-bottom: 1px solid #eee;
-  padding: 6px 8px;
-  text-align: left;
-}
-thead th {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 1;
-}
-
-.info-callout, .warning-callout, .hint {
+.helper-bar,
+.info-callout,
+.warning-callout,
+.hint {
   --background: var(--ion-color-light);
   border-radius: 12px;
-  margin-bottom: 8px;
+  margin: 8px 0;
+  padding: 4px 0;
 }
 
-.mt { margin-top: 8px; }
-
-.tabla-ejemplo thead th,
-.tabla-salones thead th,
-.tabla-preview thead th {
-  font-weight: 600;
+.pasos {
+  margin-left: 18px;
 }
 
+.tabla-scroll {
+  overflow: auto;
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 10px;
+}
+
+.tabla-ejemplo,
+.tabla-salones,
+.tabla-preview {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-ejemplo th, .tabla-ejemplo td,
+.tabla-salones th, .tabla-salones td,
+.tabla-preview th, .tabla-preview td {
+  border-bottom: 1px solid #eaeaea;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+.tabla-salones code {
+  font-size: 0.85rem;
+  user-select: all;
+}
