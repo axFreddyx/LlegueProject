@@ -22,7 +22,7 @@
   </div>
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="12" size-md="6">
         <!-- Filtros / Acciones -->
         <section class="filters">
           <div class="date-picker">
@@ -89,10 +89,18 @@
       </ion-col>
 
 
-      <ion-col size="6">
-        <!-- Jomi, aqui agrega tu grafica -->
-         Aqui va la grafica de Jomi
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Alumnos</ion-card-subtitle>
+            <ion-card-title>Total de alumnos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #canvasAlumnos style="display:block; width:100%; height:260px;"></canvas>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
+
     </ion-row>
     <ion-row>
       <ion-col size="12">

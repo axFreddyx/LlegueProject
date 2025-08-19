@@ -2,8 +2,15 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } fr
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { ToastController } from '@ionic/angular';
-import { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
-Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+import {
+  Chart, BarController, BarElement, CategoryScale,
+  LinearScale, Tooltip, Legend,
+  ArcElement, DoughnutController
+} from 'chart.js';
+
+
+
+Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement, DoughnutController);
 
 @Component({
   selector: 'app-visualizacion-llegadas',
@@ -13,9 +20,7 @@ Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, L
 })
 export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('canvasHora', { static: false }) canvasHora!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvasSalones', { static: false }) canvasSalones!: ElementRef<HTMLCanvasElement>;
-
-
+  @ViewChild('canvasAlumnos', { static: false }) canvasAlumnos!: ElementRef<HTMLCanvasElement>;
 
 
   fecha = '';                 // YYYY-MM-DD
@@ -24,7 +29,8 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
   avisosHoy = 0;
   token = "";
 
-  chartSalones?: Chart;
+
+  chartAlumnos?: Chart;
 
   // KPIs
   horaPico: string | null = null;
@@ -60,55 +66,20 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
   }
 
   async ngAfterViewInit() {
-    await this.cargar();
-    await this.cargarGraficaSalones();
+    await this.cargar();        // histograma por hora
+    await this.getAlumnos();    // llena this.alumnos
+    this.renderChartAlumnos(this.alumnos.length);  // ahora sí, ya hay canvas + datos
   }
+
+
+
 
   ngOnDestroy() {
     this.chart?.destroy();
+
   }
 
 
-
-  async cargarGraficaSalones() {
-    try {
-      const token = await this.storage.get('token');
-      if (!token) throw new Error('Sin token');
-
-      // Traer salones
-      const res: any = await this.api.getSalones(token);
-      const salones = res?.data?.data ?? [];
-
-      const labels = salones.map((s: any) => s.nombre);
-      const data = salones.map((s: any) => this.alumnos.filter(a => a.salon?.id === s.id).length);
-
-
-
-      // Destruir gráfica previa
-      this.chartSalones?.destroy();
-
-      // Crear nueva gráfica
-      this.chartSalones = new Chart(this.canvasSalones.nativeElement.getContext('2d')!, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Salones',
-            data,
-            backgroundColor: '#36A2EB'
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
-          plugins: { legend: { display: false } }
-        }
-      });
-
-    } catch (err) {
-      console.error('Error cargando gráfica de salones:', err);
-    }
-  }
 
 
   async getPeriodo() {
@@ -135,16 +106,45 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
     }
   }
 
+  private renderChartAlumnos(totalAlumnos: number) {
+    if (!this.canvasAlumnos || !this.canvasAlumnos.nativeElement) return;
+
+    this.chartAlumnos?.destroy();
+
+    this.chartAlumnos = new Chart(this.canvasAlumnos.nativeElement.getContext('2d')!, {
+      type: 'doughnut',
+      data: {
+        labels: ['Alumnos'],
+        datasets: [
+          {
+            label: 'Cantidad',
+            data: [totalAlumnos],
+            backgroundColor: ['#36A2EB'],
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          tooltip: { enabled: true }
+        }
+      }
+    });
+  }
+
   async getAlumnos() {
     try {
       const res: any = await this.api.getAlumnos(this.token);
-      this.alumnos = res.data.data;
-
+      this.alumnos = res.data.data || [];
     } catch (err) {
       console.error('Error fetching alumnos:', err);
       this.presentToast('Error al cargar alumnos.', 'danger');
     }
   }
+
+
+
 
   async getAdmins() {
     await this.api.getUsersByRole(5).then((res: any) => { // rol admin = 1
