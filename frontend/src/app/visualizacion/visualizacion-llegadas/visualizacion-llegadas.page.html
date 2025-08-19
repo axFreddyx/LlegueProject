@@ -90,22 +90,40 @@
 
 
       <ion-col size="12" size-md="6">
-        <ion-card>
+        <ion-card class="card-alumnos">
           <ion-card-header>
-            <ion-card-subtitle>Alumnos</ion-card-subtitle>
-            <ion-card-title>Total de alumnos</ion-card-title>
+            <ion-card-subtitle>Gestión Académica</ion-card-subtitle>
+            <ion-card-title>
+              <ion-icon name="school-outline"></ion-icon>
+              Alumnos por Salón
+            </ion-card-title>
           </ion-card-header>
+
           <ion-card-content>
-            <canvas #canvasAlumnos style="display:block; width:100%; height:260px;"></canvas>
+            <div class="alumnos-info">
+              <h2 class="total-alumnos">{{ alumnos.length || 0 }}</h2>
+              <p class="descripcion">
+                Total de alumnos registrados en la plataforma y distribuidos por salón
+              </p>
+            </div>
+
+            <!-- Contenedor del gráfico -->
+            <div class="chart-container">
+              <canvas #canvasSalones></canvas>
+            </div>
           </ion-card-content>
         </ion-card>
+
+
       </ion-col>
 
     </ion-row>
     <ion-row>
-      <ion-col size="12">
-        <app-real-time-chart></app-real-time-chart>
-      </ion-col>
+      <div class="container">
+        <ion-col size="12">
+          <app-real-time-chart></app-real-time-chart>
+        </ion-col>
+      </div>
     </ion-row>
   </ion-grid>
 </ion-content>
