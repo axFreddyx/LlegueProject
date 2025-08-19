@@ -8,74 +8,82 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6">
+        <!-- Filtros / Acciones -->
+        <section class="filters">
+          <div class="date-picker">
+            <ion-label>Fecha</ion-label>
+            <ion-datetime-button datetime="dt1"></ion-datetime-button>
+          </div>
 
-  <!-- Filtros / Acciones -->
-  <section class="filters">
-    <div class="date-picker">
-      <ion-label>Fecha</ion-label>
-      <ion-datetime-button datetime="dt1"></ion-datetime-button>
-    </div>
+          <div class="quick">
+            <ion-chip (click)="preset('hoy')" [outline]="true">Hoy</ion-chip>
+            <ion-chip (click)="preset('ayer')" [outline]="true">Ayer</ion-chip>
+            <ion-chip (click)="preset('hace2d')" [outline]="true">Hace 2 días</ion-chip>
+          </div>
 
-    <div class="quick">
-      <ion-chip (click)="preset('hoy')" [outline]="true">Hoy</ion-chip>
-      <ion-chip (click)="preset('ayer')" [outline]="true">Ayer</ion-chip>
-      <ion-chip (click)="preset('hace2d')" [outline]="true">Hace 2 días</ion-chip>
-    </div>
+          <div class="actions">
+            <ion-button fill="outline" size="small" (click)="cargar()" [disabled]="cargando">
+              {{ cargando ? 'Cargando…' : 'Actualizar' }}
+            </ion-button>
+            <ion-button size="small" (click)="exportarPNG()" [disabled]="!chart">Exportar PNG</ion-button>
+          </div>
+        </section>
 
-    <div class="actions">
-      <ion-button fill="outline" size="small" (click)="cargar()" [disabled]="cargando">
-        {{ cargando ? 'Cargando…' : 'Actualizar' }}
-      </ion-button>
-      <ion-button size="small" (click)="exportarPNG()" [disabled]="!chart">Exportar PNG</ion-button>
-    </div>
-  </section>
+        <!-- ion-datetime (sin modal, oculto) -->
+        <ion-datetime id="dt1" presentation="date" [(ngModel)]="fecha" (ionChange)="cargar()" hidden>
+        </ion-datetime>
 
-  <!-- ion-datetime (sin modal, oculto) -->
-  <ion-datetime
-    id="dt1"
-    presentation="date"
-    [(ngModel)]="fecha"
-    (ionChange)="cargar()"
-    hidden>
-  </ion-datetime>
+        <!-- KPIs -->
+        <section class="kpis">
+          <ion-card>
+            <ion-card-header><ion-card-title>Avisos del día</ion-card-title></ion-card-header>
+            <ion-card-content>
+              <div class="kpi-num">{{ avisosHoy }}</div>
+            </ion-card-content>
+          </ion-card>
 
-  <!-- KPIs -->
-  <section class="kpis">
-    <ion-card>
-      <ion-card-header><ion-card-title>Avisos del día</ion-card-title></ion-card-header>
-      <ion-card-content>
-        <div class="kpi-num">{{ avisosHoy }}</div>
-      </ion-card-content>
-    </ion-card>
+          <ion-card>
+            <ion-card-header><ion-card-title>Hora pico</ion-card-title></ion-card-header>
+            <ion-card-content>
+              <div class="kpi-num">{{ horaPico || '—' }}</div>
+              <div class="kpi-sub" *ngIf="horaPicoConteo">({{ horaPicoConteo }} avisos)</div>
+            </ion-card-content>
+          </ion-card>
+        </section>
 
-    <ion-card>
-      <ion-card-header><ion-card-title>Hora pico</ion-card-title></ion-card-header>
-      <ion-card-content>
-        <div class="kpi-num">{{ horaPico || '—' }}</div>
-        <div class="kpi-sub" *ngIf="horaPicoConteo">({{ horaPicoConteo }} avisos)</div>
-      </ion-card-content>
-    </ion-card>
-  </section>
+        <!-- Loading skeleton -->
+        <ng-container *ngIf="cargando">
+          <ion-skeleton-text animated style="width: 100%; height: 220px; border-radius: 16px;"></ion-skeleton-text>
+        </ng-container>
 
-  <!-- Loading skeleton -->
-  <ng-container *ngIf="cargando">
-    <ion-skeleton-text animated style="width: 100%; height: 220px; border-radius: 16px;"></ion-skeleton-text>
-  </ng-container>
+        <!-- Estado vacío -->
+        <ng-container *ngIf="!cargando && avisosHoy === 0">
+          <ion-card class="empty">
+            <ion-card-content>
+              <h3>Sin datos para {{ fecha }}</h3>
+              <p>Selecciona otra fecha o registra algunas llegadas para ver el histograma.</p>
+              <ion-button fill="outline" size="small" (click)="preset('ayer')">Ver ayer</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
 
-  <!-- Estado vacío -->
-  <ng-container *ngIf="!cargando && avisosHoy === 0">
-    <ion-card class="empty">
-      <ion-card-content>
-        <h3>Sin datos para {{ fecha }}</h3>
-        <p>Selecciona otra fecha o registra algunas llegadas para ver el histograma.</p>
-        <ion-button fill="outline" size="small" (click)="preset('ayer')">Ver ayer</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <!-- Chart: SIEMPRE en el DOM (evita el error de nativeElement) -->
-  <div class="chart-wrap">
-    <canvas #canvasHora aria-label="Histograma de avisos por hora" role="img"></canvas>
-  </div>
-
+        <!-- Chart: SIEMPRE en el DOM (evita el error de nativeElement) -->
+        <div class="chart-wrap">
+          <canvas #canvasHora aria-label="Histograma de avisos por hora" role="img"></canvas>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <!-- Jomi, aqui agrega tu grafica -->
+         Aqui va la grafica de Jomi
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <app-real-time-chart></app-real-time-chart>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

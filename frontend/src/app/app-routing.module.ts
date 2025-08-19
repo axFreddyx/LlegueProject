@@ -102,7 +102,8 @@ const routes: Routes = [
   {
     path: 'password-forgotten',
     loadChildren: () => import('./auth/password-forgotten/password-forgotten.module').then( m => m.PasswordForgottenPageModule)
-  },  {
+  },
+  {
     path: 'importar-alumnos',
     loadChildren: () => import('./admin/alumnos/importar-alumnos/importar-alumnos.module').then( m => m.ImportarAlumnosPageModule)
   },
@@ -110,9 +111,6 @@ const routes: Routes = [
     path: 'visualizacion-llegadas',
     loadChildren: () => import('./visualizacion/visualizacion-llegadas/visualizacion-llegadas.module').then( m => m.VisualizacionLlegadasPageModule)
   }
-
-
-
 ];
 
 @NgModule({
