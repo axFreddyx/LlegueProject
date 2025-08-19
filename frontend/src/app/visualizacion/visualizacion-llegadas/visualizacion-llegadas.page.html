@@ -1,13 +1,42 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-menu-button menu="menuId"></ion-menu-button>
+      <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
-    <ion-title>Visualización · Avisos por hora</ion-title>
+    <ion-title class="text-center">
+      <div class="header-title">
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+
+  <div class="container text-center">
+    <h1 class="titulo">
+      Visualización · Datos del Sistema
+    </h1>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cantidad de Salones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #canvasSalones style="height:300px;" aria-label="Alumnos por salón" role="img"></canvas>
+      </ion-card-content>
+    </ion-card>
+
+
+  </div>
+
+  <div class="container text-center">
+    <h1 class="titulo">
+      Visualización · Avisos por hora
+    </h1>
+  </div>
 
   <!-- Filtros / Acciones -->
   <section class="filters">
@@ -31,12 +60,7 @@
   </section>
 
   <!-- ion-datetime (sin modal, oculto) -->
-  <ion-datetime
-    id="dt1"
-    presentation="date"
-    [(ngModel)]="fecha"
-    (ionChange)="cargar()"
-    hidden>
+  <ion-datetime id="dt1" presentation="date" [(ngModel)]="fecha" (ionChange)="cargar()" hidden>
   </ion-datetime>
 
   <!-- KPIs -->
