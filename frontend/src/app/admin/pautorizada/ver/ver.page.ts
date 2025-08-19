@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
@@ -11,11 +11,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
+
 @Component({
   selector: 'app-ver',
   templateUrl: './ver.page.html',
   styleUrls: ['./ver.page.scss'],
-  standalone: false
+  standalone: false,
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class VerPage implements OnInit {
 

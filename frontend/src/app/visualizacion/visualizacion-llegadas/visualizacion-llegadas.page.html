@@ -1,13 +1,25 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-menu-button menu="menuId"></ion-menu-button>
+      <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
-    <ion-title>Visualización · Avisos por hora</ion-title>
+    <ion-title class="text-center">
+      <div class="header-title">
+        <img src="assets/img/escuela.png" alt="" class="logo-title">
+        <!-- <span class="span-title">Panel Administrativo</span> -->
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+
+  <div class="container text-center">
+    <h1 class="titulo">
+      Visualización · Avisos por hora
+    </h1>
+  </div>
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12" size-sm="6">
@@ -75,15 +87,43 @@
           <canvas #canvasHora aria-label="Histograma de avisos por hora" role="img"></canvas>
         </div>
       </ion-col>
-      <ion-col size="12" size-sm="6">
-        <!-- Jomi, aqui agrega tu grafica -->
-         Aqui va la grafica de Jomi
+
+
+      <ion-col size="12" size-md="6">
+        <ion-card class="card-alumnos">
+          <ion-card-header>
+            <ion-card-subtitle>Gestión Académica</ion-card-subtitle>
+            <ion-card-title>
+              <ion-icon name="school-outline"></ion-icon>
+              Alumnos por Salón
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="alumnos-info">
+              <h2 class="total-alumnos">{{ alumnos.length || 0 }}</h2>
+              <p class="descripcion">
+                Total de alumnos registrados en la plataforma y distribuidos por salón
+              </p>
+            </div>
+
+            <!-- Contenedor del gráfico -->
+            <div class="chart-container">
+              <canvas #canvasSalones></canvas>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+
       </ion-col>
+
     </ion-row>
     <ion-row>
-      <ion-col size="12">
-        <app-real-time-chart></app-real-time-chart>
-      </ion-col>
+      <div class="container">
+        <ion-col size="12">
+          <app-real-time-chart></app-real-time-chart>
+        </ion-col>
+      </div>
     </ion-row>
   </ion-grid>
 </ion-content>
