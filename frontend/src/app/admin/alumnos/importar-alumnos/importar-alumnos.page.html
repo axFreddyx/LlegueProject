@@ -6,7 +6,6 @@
     <ion-title>Importar Alumnos</ion-title>
   </ion-toolbar>
 
-  <!-- Tabs -->
   <ion-toolbar class="tabs-toolbar">
     <ion-segment [(ngModel)]="selectedTab">
       <ion-segment-button value="plantilla">
@@ -16,14 +15,18 @@
         <ion-label>Salones <ion-badge *ngIf="totalSalones">{{ totalSalones }}</ion-badge></ion-label>
       </ion-segment-button>
       <ion-segment-button value="importar">
-        <ion-label>Importar <ion-badge *ngIf="totalFilasPreview || totalErroresPreview">{{ totalFilasPreview || 0 }}/{{ totalErroresPreview || 0 }}</ion-badge></ion-label>
+        <ion-label>
+          Importar
+          <ion-badge *ngIf="totalFilasPreview || totalErroresPreview">
+            {{ totalFilasPreview || 0 }}/{{ totalErroresPreview || 0 }}
+          </ion-badge>
+        </ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <!-- ===== Pestaña: PLANTILLA ===== -->
   <ng-container *ngIf="selectedTab === 'plantilla'">
     <ion-card>
@@ -103,7 +106,6 @@
                 <th>Grado</th>
                 <th>Grupo</th>
                 <th>Aula</th>
-                <!-- Se quita columna "Total" -->
                 <th>Acción</th>
               </tr>
             </thead>
@@ -127,7 +129,7 @@
         <ion-item lines="none" class="hint" *ngIf="salonesFiltrados.length">
           <ion-icon name="bulb-outline" slot="start"></ion-icon>
           <ion-label>
-            Si el Admin de Strapi no muestra la columna de salón, configúrala en <i>Content Manager → Configure the view</i>.
+            Puedes copiar el id del salón de la parte derecha llamada "Acción".
           </ion-label>
         </ion-item>
       </ion-card-content>
@@ -164,7 +166,8 @@
           <ion-item color="danger" *ngFor="let e of erroresPreview">{{e}}</ion-item>
         </div>
 
-        <div class="tabla-scroll">
+        <!-- Scroll propio + header sticky -->
+        <div class="tabla-preview-scroll">
           <table class="tabla-preview">
             <thead>
               <tr>
@@ -198,14 +201,63 @@
       <ion-card-header>
         <ion-card-title>Resultado</ion-card-title>
       </ion-card-header>
+
       <ion-card-content>
-        <p><b>Correctos:</b> {{resumen.ok}}</p>
-        <p><b>Errores:</b> {{resumen.fail}}</p>
-        <ion-list *ngIf="resumen.errores.length">
-          <ion-item *ngFor="let e of resumen.errores">
-            Fila {{e.fila}} — {{e.motivo}}
-          </ion-item>
-        </ion-list>
+        <!-- KPIs compactos -->
+        <div class="kpi-grid">
+          <div class="kpi">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <div class="kpi-label">Creados</div>
+            <div class="kpi-value success">{{resumen.ok}}</div>
+          </div>
+          <div class="kpi">
+            <ion-icon name="layers-outline"></ion-icon>
+            <div class="kpi-label">Duplicados BD</div>
+            <div class="kpi-value warning">{{resumen.duplicadosBD}}</div>
+          </div>
+          <div class="kpi">
+            <ion-icon name="copy-outline"></ion-icon>
+            <div class="kpi-label">Duplicados Excel</div>
+            <div class="kpi-value warning">{{resumen.duplicadosExcel}}</div>
+          </div>
+          <div class="kpi">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <div class="kpi-label">Errores</div>
+            <div class="kpi-value danger">{{resumen.fail}}</div>
+          </div>
+        </div>
+
+        <!-- Lista de mensajes con scroll propio -->
+        <div class="result-list-scroll">
+          <ion-list class="result-list" *ngIf="resumen.errores.length">
+            <ion-item
+              *ngFor="let e of resumen.errores"
+              lines="full"
+              [class.is-dup-bd]="e.tipo === 'dup-bd'"
+              [class.is-dup-excel]="e.tipo === 'dup-excel'"
+              [class.is-error]="e.tipo === 'error'"
+            >
+              <ion-icon
+                slot="start"
+                [name]="e.tipo === 'dup-bd' ? 'layers-outline' : e.tipo === 'dup-excel' ? 'copy-outline' : 'warning-outline'"
+              ></ion-icon>
+
+              <ion-label>
+                <div class="msg-top">
+                  <ion-badge
+                    [color]="e.tipo === 'dup-bd' ? 'warning' : e.tipo === 'dup-excel' ? 'medium' : 'danger'"
+                    class="pill"
+                  >
+                    {{ e.tipo === 'dup-bd' ? 'Duplicado BD' : e.tipo === 'dup-excel' ? 'Duplicado Excel' : 'Error' }}
+                  </ion-badge>
+                  <span class="fila">Fila {{e.fila}}</span>
+                </div>
+                <div class="msg-body">{{e.motivo}}</div>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
       </ion-card-content>
     </ion-card>
   </ng-container>
