@@ -18,7 +18,7 @@ interface Salon {
   grado: number;
   grupo: string;
   alumnos?: any[];
-  totalAlumnos?: number; // <-- agregar esto
+  totalAlumnos?: number; 
 }
 
 
@@ -37,7 +37,7 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
   @ViewChild('canvasSalones', { static: false }) canvasSalones!: ElementRef<HTMLCanvasElement>;
 
 
-  fecha = '';                 // YYYY-MM-DD
+  fecha = '';                 
   cargando = false;
   chart?: Chart;
   avisosHoy = 0;
@@ -78,7 +78,6 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
     const hoy = new Date();
     this.fecha = hoy.toISOString().slice(0, 10);
 
-    // Esperamos secuencialmente para asegurarnos de que token se use
     await this.getPeriodos();
     await this.getSalones();
     await this.getAlumnos();
@@ -115,20 +114,6 @@ export class VisualizacionLlegadasPage implements OnInit, OnDestroy, AfterViewIn
     this.chart?.destroy();
 
   }
-
-
-
-  // async getPeriodo() {
-  //   this.periodos = [];
-  //   try {
-  //     const res: any = await this.api.getPeriodos(this.token);
-  //     this.periodos = res.data.data || [];
-  //     console.log(this.periodos)
-  //   } catch (err) {
-  //     console.error(err);
-  //     this.presentToast('Error al cargar periodos.', 'danger');
-  //   }
-  // }
 
   private renderChartAlumnos(totalAlumnos: number) {
     if (!this.canvasAlumnos || !this.canvasAlumnos.nativeElement) return;
