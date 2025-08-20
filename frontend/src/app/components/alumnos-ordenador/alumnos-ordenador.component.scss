@@ -1,0 +1,12 @@
+#listado-alumnos-box {
+  max-height: 400px; /* Ajusta según tu necesidad */
+  overflow-y: auto; /* Scroll vertical cuando se exceda */
+}
+#listado-alumnos-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+#listado-alumnos-box::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}

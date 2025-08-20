@@ -44,6 +44,7 @@ export class CreatePage implements OnInit {
   }
 
   async save() {
+    console.log('Datos a guardar:', this.alumnosIngresados);
     try {
       if (this.alumnosIngresados.length > 0) {
         // guardar múltiples
@@ -56,12 +57,10 @@ export class CreatePage implements OnInit {
             )
           )
         );
-        this.alumnosIngresados = [];
-        //this.presentToast('Se han ingresado los alumnos exitosamente.', 'success');
+        this.presentToast('Se han ingresado los alumnos exitosamente.', 'success');
 
         await this.router.navigate(['/ver/alumnos'], {
           replaceUrl: true,
-          state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
         });
 
       } else {

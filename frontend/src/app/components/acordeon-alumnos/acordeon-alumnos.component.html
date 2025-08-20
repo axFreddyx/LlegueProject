@@ -33,9 +33,7 @@
       </ion-button>
     </div>
 
-    Accordion por salones
     <ion-accordion-group class="ver-alumnos-accordion-group">
-      Alumnos por salón
       <ion-accordion *ngFor="let s of salones" [value]="s.id">
         <ion-item slot="header" class="acordion-alumnos">
           <ion-label>{{ s.grado }} {{ s.grupo }} ({{ alumnosPorSalon[s.id]?.length || 0 }} alumnos)</ion-label>
@@ -75,7 +73,6 @@
         </div>
       </ion-accordion>
 
-      Alumnos sin salón
       <ion-accordion value="sin-salon">
         <ion-item slot="header" class="acordion-alumnos">
           <ion-label>Alumnos sin Salón Asignado</ion-label>

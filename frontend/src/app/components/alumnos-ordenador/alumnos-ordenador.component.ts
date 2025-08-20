@@ -13,8 +13,6 @@ interface Salon {
   alumnos?: any[]; // opcional si quieres totalAlumnos
 }
 
-
-
 @Component({
   selector: 'app-alumnos-ordenador',
   templateUrl: './alumnos-ordenador.component.html',
@@ -30,6 +28,7 @@ export class AlumnosOrdenadorComponent implements OnInit {
 
   previewImg: string | null = null;
   fotoFile: File | null = null;
+  isHeHaveSalon = false;
 
   alumnosIngresados: Array<{ nombre: string; apellidos: string; fotoFile: File }> = [];
   isIngresado = false;
@@ -86,21 +85,35 @@ export class AlumnosOrdenadorComponent implements OnInit {
     this.token = await this.storage.get('token');
     this.getAlumnos();
     this.getSalones();
+    this.changeBox(); // Inicializar el scroll en el box
   }
 
   // Variable que se mostrará en la vista
   alumnosFiltrados: any[] = [];
 
-  onClick(conSalon: boolean) {
+  onClick(conSalon: any) {
     this.organizarAlumnosPorSalon(conSalon);
   }
 
-  private organizarAlumnosPorSalon(conSalon: boolean) {
-    // Filtrar alumnos según tengan salón o no
-    if (conSalon) {
-      this.alumnosFiltrados = this.alumnos.filter(a => a.salon && a.salon.id);
-    } else {
-      this.alumnosFiltrados = this.alumnos.filter(a => !a.salon || !a.salon.id);
+  changeBox() {
+    // Aqui se definira la logica para agregar el scroll cuando el box llega a un tamaño maximo
+    const box = document.getElementById('listado-alumnos-box');
+    // Definir el tamaño máximo del box
+    const maxHeight = 400; // Puedes ajustar este valor según tus necesidades
+    if (box) {
+      box.classList.toggle('scrollable', box.scrollHeight > maxHeight);
+    }
+  }
+
+  private organizarAlumnosPorSalon(conSalon: any) {
+    this.isSelecting = false; //Selected section
+    this.isHeHaveSalon = conSalon;
+    if (conSalon === true) {
+      this.alumnosFiltrados = this.alumnos.filter(a => a.salon);
+    } else if (conSalon === false) {
+      this.alumnosFiltrados = this.alumnos.filter(a => !a.salon);
+    } else if (conSalon === null) {
+      this.alumnosFiltrados = this.alumnos;
     }
   }
 
@@ -119,13 +132,14 @@ export class AlumnosOrdenadorComponent implements OnInit {
   async getAlumnos() {
     try {
       const res: any = await this.api.getAlumnos(this.token);
-      this.alumnos = res.data.data;
-
+      this.alumnos = res.data.data;          // ✅ guardar todos los alumnos
+      this.alumnosFiltrados = [...this.alumnos]; // ✅ inicializar filtrados
     } catch (err) {
       console.error('Error fetching alumnos:', err);
       this.presentToast('Error al cargar alumnos.');
     }
   }
+
 
   private async presentToasts(
     message: string,
@@ -191,6 +205,7 @@ export class AlumnosOrdenadorComponent implements OnInit {
       await this.api.deleteAlumno(alumno.documentId, this.token);
       this.alumnos = this.alumnos.filter(a => a.id !== alumno.id);
       this.presentToast(`Alumno ${alumno.nombre} eliminado.`, 'success');
+      this.getAlumnos();
     } catch (err) {
       console.error('Error deleting alumno:', err);
       this.presentToast('No se pudo eliminar el alumno.');
@@ -200,7 +215,11 @@ export class AlumnosOrdenadorComponent implements OnInit {
   async eliminarSeleccionados() { //Selected section
     await Promise.all(this.alumnosSeleccionados.map(a =>
       this.api.deleteAlumno(a.documentId, this.token)
-        .then(() => this.alumnos = this.alumnos.filter(al => al.id !== a.id))
+        .then(() => {
+          this.getAlumnos();
+          this.alumnos = this.alumnos.filter(al => al.id !== a.id)
+        }
+        )
         .catch(err => {
           console.error('Error deleting alumno:', err);
           this.presentToast(`No se pudo eliminar a ${a.nombre}.`);
@@ -236,13 +255,19 @@ export class AlumnosOrdenadorComponent implements OnInit {
     this.isSelecting = true;
   }
 
-  selectAlumnos(alumno: any) { //Selected section
-    const exists = this.alumnosSeleccionados.some(a => a.id === alumno.id);
-    this.alumnosSeleccionados = exists
-      ? this.alumnosSeleccionados.filter(a => a.id !== alumno.id)
-      : [...this.alumnosSeleccionados, alumno];
-    alumno.selected = !exists;
-    this.allSelected = this.alumnos.length === this.alumnosSeleccionados.length;
+  selectAlumnos(alumno: any) {
+    // Alternar selección
+    const index = this.alumnosSeleccionados.findIndex(a => a.id === alumno.id);
+    if (index > -1) {
+      this.alumnosSeleccionados.splice(index, 1);
+      alumno.selected = false;
+    } else {
+      this.alumnosSeleccionados.push(alumno);
+      alumno.selected = true;
+    }
+
+    // Actualizar la bandera: si hay al menos un alumno con salón, ocultar el botón
+    this.isHeHaveSalon = this.alumnosSeleccionados.some(a => a.salon !== null);
   }
 
   notSelectingAlumnos() { //Selected section
