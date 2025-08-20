@@ -9,3 +9,107 @@
   font-size: 1rem;
   transition: background-color 0.3s;
 }
+
+
+/* Contenedor general */
+.cuenta-escritorio-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.cuenta-escritorio-container:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Encabezado elegante */
+.cuenta-escritorio-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e6e6e6;
+  padding-bottom: 8px;
+}
+
+/* Lista de items */
+.cuenta-escritorio-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background 0.2s ease;
+}
+
+.cuenta-escritorio-item:last-child {
+  border-bottom: none;
+}
+
+.cuenta-escritorio-item:hover {
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Avatar */
+.cuenta-escritorio-avatar img {
+  border-radius: 50%;
+  border: 2px solid #3498db;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Nombre */
+.cuenta-escritorio-nombre {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-left: 12px;
+  flex-grow: 1;
+}
+
+/* Botón */
+.cuenta-escritorio-btn {
+  background: #3498db;
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.cuenta-escritorio-btn:hover {
+  background: #2c80b9;
+}
+
+.input-filtro {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  /* Espaciado interno cómodo */
+  border: 1px solid #d1d5db;
+  /* Gris claro y elegante */
+  border-radius: 8px;
+  /* Bordes redondeados suaves */
+  background-color: #ffffff;
+  /* Fondo blanco limpio */
+  font-size: 0.95rem;
+  /* Tamaño de letra profesional */
+  font-family: 'Inter', sans-serif;
+  /* Fuente corporativa moderna */
+  color: #111827;
+  /* Gris oscuro para el texto */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Sombra muy ligera */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-filtro:focus {
+  border-color: #3b82f6;
+  /* Azul corporativo al enfocar */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  /* Resaltado suave */
+  outline: none;
+  /* Quitamos el outline por defecto */
+}

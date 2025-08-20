@@ -37,6 +37,25 @@ export class VerPage implements OnInit {
   idPersona!: number;
   cantidadPersonas = 0;
 
+  isMobile: boolean = false;
+
+
+  // Variables de filtro
+  // Filtros y listas para cuentas confirmadas
+  filterNombreConfirmadas: string = '';
+  filterUsernameConfirmadas: string = '';
+  filterEmailConfirmadas: string = '';
+  filteredPersonasConfirmadas: any[] = [];
+
+  // Filtros y listas para cuentas no confirmadas
+  filterNombreNoConfirmadas: string = '';
+  filterUsernameNoConfirmadas: string = '';
+  filterEmailNoConfirmadas: string = '';
+  filteredPersonasNoConfirmadas: any[] = [];
+
+
+
+
 
   // searchTerm: string = '';
   filteredSalones: any[] = [];
@@ -108,9 +127,43 @@ export class VerPage implements OnInit {
 
   async ngOnInit() {
     this.token = await this.storage.get("token");
+    this.changeResolution();
+    this.detectDevice();
     this.getPersonasAutorizadas();
     this.getSalones();
+
   }
+
+
+  filtrarPersonasConfirmadas() {
+    const nombre = this.filterNombreConfirmadas.toLowerCase().trim();
+    const username = this.filterUsernameConfirmadas.toLowerCase().trim();
+    const email = this.filterEmailConfirmadas.toLowerCase().trim();
+
+    this.filteredPersonasConfirmadas = this.personas
+      .filter(p => p.confirmed)
+      .filter(p =>
+        p.nombre.toLowerCase().includes(nombre) &&
+        p.username.toLowerCase().includes(username) &&
+        p.email.toLowerCase().includes(email)
+      );
+  }
+
+  filtrarPersonasNoConfirmadas() {
+    const nombre = this.filterNombreNoConfirmadas.toLowerCase().trim();
+    const username = this.filterUsernameNoConfirmadas.toLowerCase().trim();
+    const email = this.filterEmailNoConfirmadas.toLowerCase().trim();
+
+    this.filteredPersonasNoConfirmadas = this.personas
+      .filter(p => !p.confirmed)
+      .filter(p =>
+        p.nombre.toLowerCase().includes(nombre) &&
+        p.username.toLowerCase().includes(username) &&
+        p.email.toLowerCase().includes(email)
+      );
+  }
+
+
 
   async getPersonasAutorizadas() {
     await this.api.getUsersByRole(3).then((res: any) => {
@@ -127,6 +180,9 @@ export class VerPage implements OnInit {
             persona.alumnos = []; // Si no hay alumnos, aseguramos que sea arreglo vacío
           }
         });
+        this.filtrarPersonasConfirmadas();
+        this.filtrarPersonasNoConfirmadas();
+
       } else {
         console.warn('No se encontró .data en la respuesta:', res);
       }
@@ -410,4 +466,25 @@ export class VerPage implements OnInit {
 
     return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
   }
+
+
+  changeResolution() {
+    const resolution = window.matchMedia('(max-width: 768px)');
+
+    // Asignamos el estado inicial 👇
+    this.isMobile = resolution.matches;
+
+    // Escuchamos cambios
+    resolution.addEventListener('change', (event) => {
+      this.isMobile = event.matches;
+    });
+  }
+
+
+  detectDevice() {
+    if (window.innerWidth <= 768) {
+      this.isMobile = true;
+    }
+  }
+
 }
