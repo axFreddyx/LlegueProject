@@ -1,45 +1,38 @@
-<!-- =========================
-       HEADER
-========================= -->
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button menu="menuId"></ion-menu-button>
       <ion-back-button text="Regresar"></ion-back-button>
     </ion-buttons>
-
     <ion-title class="text-center">
       <div class="header-title">
         <img src="assets/img/escuela.png" alt="Logo Escuela" class="logo-title" />
-        <!-- <span class="span-title">Panel Administrativo</span> -->
       </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<!-- =========================
-       CONTENT
-========================= -->
 <ion-content class="ion-padding">
 
-  <!-- Título principal -->
   <div class="container text-center">
-    <h1 class="titulo">Visualización · Avisos por hora</h1>
+    <h1 class="titulo">Dashboard de Llegadas</h1>
   </div>
 
   <ion-grid fixed>
-    <ion-row>
 
-      <!-- =========================
-            COLUMNA IZQUIERDA
-      ========================= -->
-      <ion-col size="12" size-sm="6">
+    <!-- ===== Fila 1: dos columnas (izquierda y derecha) ===== -->
+    <ion-row class="gap-row">
 
-        <!-- 🔹 FILTROS / ACCIONES -->
-        <section class="filters">
+      <!-- Columna izquierda -->
+      <ion-col size="12" size-md="6">
+
+        <!-- Filtros -->
+        <section class="filters card">
           <div class="date-picker">
             <ion-label>Fecha</ion-label>
-            <ion-datetime-button datetime="dt1"></ion-datetime-button>
+            <ion-button id="open-date" fill="outline" size="small">
+              {{ fechaLabel }}
+            </ion-button>
           </div>
 
           <div class="quick">
@@ -52,22 +45,44 @@
             <ion-button fill="outline" size="small" (click)="cargar()" [disabled]="cargando">
               {{ cargando ? 'Cargando…' : 'Actualizar' }}
             </ion-button>
-
-            <ion-button size="small" (click)="exportarPNG()" [disabled]="!chart">
-              Exportar PNG
-            </ion-button>
           </div>
         </section>
 
-        <!-- Datetime oculto -->
-        <ion-datetime id="dt1" presentation="date" [(ngModel)]="fecha" (ionChange)="cargar()" hidden>
-        </ion-datetime>
+        <!-- Modal de fecha -->
+        <ion-modal
+          #dateModal
+          trigger="open-date"
+          [keepContentsMounted]="true"
+          (willPresent)="onOpenDateModal()">
+          <ng-template>
+            <ion-header translucent>
+              <ion-toolbar>
+                <ion-title>Selecciona una fecha</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="cancelDate()">Cancelar</ion-button>
+                  <ion-button (click)="confirmDate()">Aceptar</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
 
-        <!-- 🔹 KPIs -->
+            <ion-content>
+              <ion-datetime
+                [(ngModel)]="fechaTemp"
+                presentation="date"
+                [min]="minFecha"
+                [max]="maxFecha"
+                locale="es-MX"
+                [firstDayOfWeek]="1">
+              </ion-datetime>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <!-- KPIs -->
         <section class="kpis">
           <ion-card>
             <ion-card-header>
-              <ion-card-title>Avisos del día</ion-card-title>
+              <ion-card-title>Llegadas del día</ion-card-title>
             </ion-card-header>
             <ion-card-content>
               <div class="kpi-num">{{ avisosHoy }}</div>
@@ -80,81 +95,186 @@
             </ion-card-header>
             <ion-card-content>
               <div class="kpi-num">{{ horaPico || '—' }}</div>
-              <div class="kpi-sub" *ngIf="horaPicoConteo">
-                ({{ horaPicoConteo }} avisos)
-              </div>
+              <div class="kpi-sub" *ngIf="horaPicoConteo">({{ horaPicoConteo }} llegadas)</div>
             </ion-card-content>
           </ion-card>
         </section>
 
-        <!-- 🔹 Loading skeleton -->
-        <ng-container *ngIf="cargando">
-          <ion-skeleton-text animated style="width: 100%; height: 220px; border-radius: 16px;">
-          </ion-skeleton-text>
-        </ng-container>
-
-        <!-- 🔹 Estado vacío -->
+        <!-- Estado vacío -->
         <ng-container *ngIf="!cargando && avisosHoy === 0">
           <ion-card class="empty">
             <ion-card-content>
-              <h3>Sin datos para {{ fecha }}</h3>
-              <p>
-                Selecciona otra fecha o registra algunas llegadas
-                para ver el histograma.
-              </p>
-              <ion-button fill="outline" size="small" (click)="preset('ayer')">
-                Ver ayer
-              </ion-button>
+              <h3>Sin datos para {{ fechaLabel }}</h3>
+              <p>Selecciona otra fecha o registra llegadas para ver el histograma.</p>
+              <ion-button fill="outline" size="small" (click)="preset('ayer')">Ver ayer</ion-button>
             </ion-card-content>
           </ion-card>
         </ng-container>
 
-        <!-- 🔹 Chart principal -->
-        <div class="chart-wrap">
-          <canvas #canvasHora aria-label="Histograma de avisos por hora" role="img">
-          </canvas>
-        </div>
+        <!-- Llegadas por hora -->
+        <ion-card class="chart-card">
+          <ion-card-header>
+            <div class="header-left">
+              <ion-card-title>Llegadas por hora</ion-card-title>
+              <ion-card-subtitle>{{ fechaLabel }}</ion-card-subtitle>
+            </div>
+            <div class="header-actions">
+              <ion-button size="small" (click)="exportPNG('hora')" [disabled]="!chart">
+                Exportar PNG
+              </ion-button>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="chart-wrap">
+              <canvas #canvasHora aria-label="Llegadas por hora" role="img"></canvas>
+            </div>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
 
-      <!-- =========================
-            COLUMNA DERECHA
-      ========================= -->
+      <!-- Columna derecha -->
       <ion-col size="12" size-md="6">
 
-        <!-- 🔹 Card alumnos -->
-        <ion-card class="card-alumnos">
+        <!-- Alumnos por salón -->
+        <ion-card class="chart-card">
           <ion-card-header>
-            <ion-card-subtitle>Gestión Académica</ion-card-subtitle>
-            <ion-card-title>
-              <ion-icon name="school-outline"></ion-icon>
-              Alumnos por Salón
-            </ion-card-title>
-          </ion-card-header>
-
-          <ion-card-content>
-            <div class="alumnos-info">
-              <h2 class="total-alumnos">{{ alumnos.length || 0 }}</h2>
-              <p class="descripcion">
-                Total de alumnos registrados en la plataforma
-                y distribuidos por salón
-              </p>
+            <div class="header-left">
+              <ion-card-title>Alumnos por salón</ion-card-title>
+              <ion-card-subtitle>Total: {{ alumnos.length || 0 }}</ion-card-subtitle>
             </div>
-
-            <!-- Gráfico alumnos -->
+            <div class="header-actions">
+              <ion-button size="small" (click)="exportPNG('salones')" [disabled]="!chartSalones">
+                Exportar PNG
+              </ion-button>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
             <div class="chart-container">
               <canvas #canvasSalones></canvas>
             </div>
           </ion-card-content>
         </ion-card>
 
-        <!-- 🔹 Componente adicional -->
-        <ion-row>
-          <div class="container">
+        <!-- Llegadas en tiempo real -->
+        <ion-card class="realtime-card">
+          <ion-card-header>
+            <ion-card-title>Llegadas en tiempo real</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
             <app-real-time-chart></app-real-time-chart>
-          </div>
-        </ion-row>
+          </ion-card-content>
+        </ion-card>
 
       </ion-col>
     </ion-row>
+    <!-- ===== /Fila 1 ===== -->
+
+    <!-- ===== Fila 2: Tabla dinámica ===== -->
+    <ion-row class="gap-row">
+      <ion-col size="12">
+        <ion-card class="card">
+          <ion-card-header>
+            <div class="header-left">
+              <ion-card-title>Detalle de llegadas</ion-card-title>
+              <ion-card-subtitle>{{ fechaLabel }}</ion-card-subtitle>
+            </div>
+          </ion-card-header>
+
+          <ion-card-content>
+
+            <!-- Controles de filtro (simplificados) -->
+            <div class="table-controls">
+              <div class="tc-item tc-grow">
+                <ion-searchbar
+                  placeholder="Buscar (alumno, persona, salón)"
+                  (ionInput)="applyFiltersDebounced($event.detail.value || '')"
+                  [debounce]="0">
+                </ion-searchbar>
+              </div>
+
+              <div class="tc-item">
+                <ion-select
+                  interface="popover"
+                  label="Salón"
+                  placeholder="Todos"
+                  [value]="filterSalon"
+                  (ionChange)="onSalonChange($event)">
+                  <ion-select-option value="all">Todos</ion-select-option>
+                  <!-- el + fuerza number -->
+                  <ion-select-option *ngFor="let s of selectSalones" [value]="+s.id">
+                    {{ s.label }}
+                  </ion-select-option>
+                </ion-select>
+              </div>
+
+              <div class="tc-item">
+                <ion-select
+                  interface="popover"
+                  label="Estado"
+                  placeholder="Todos"
+                  [value]="filterEstado"
+                  (ionChange)="onEstadoChange($event)">
+                  <ion-select-option value="all">Todos</ion-select-option>
+                  <ion-select-option value="En espera">En espera</ion-select-option>
+                  <ion-select-option value="Entregado">Entregado</ion-select-option>
+                </ion-select>
+              </div>
+
+              <div class="tc-item">
+                <ion-select
+                  interface="popover"
+                  label="Mostrar"
+                  [value]="pageSize"
+                  (ionChange)="pageSize=$event.detail.value; page=1">
+                  <ion-select-option [value]="10">10</ion-select-option>
+                  <ion-select-option [value]="25">25</ion-select-option>
+                  <ion-select-option [value]="50">50</ion-select-option>
+                </ion-select>
+              </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="overflow-x-auto">
+              <table class="tabla">
+                <thead>
+                  <tr>
+                    <th style="width:100px">Hora</th>
+                    <th>Alumno</th>
+                    <th>Salón</th>
+                    <th>Persona autorizada</th>
+                    <th style="width:140px">Estatus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of pageRows">
+                    <td>{{ r.hora }}</td>
+                    <td>{{ r.alumno }}</td>
+                    <td>{{ r.salonLabel || '—' }}</td>
+                    <td>{{ r.persona || '—' }}</td>
+                    <td>{{ r.estado }}</td>
+                  </tr>
+
+                  <tr *ngIf="!cargando && rowsFiltradas.length === 0">
+                    <td colspan="5" class="ion-text-center ion-padding">
+                      Sin resultados con los filtros aplicados.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="ion-padding-top ion-text-center">
+              <ion-button fill="clear" size="small" (click)="prevPage()" [disabled]="page<=1">Anterior</ion-button>
+              <span>Página {{page}} / {{ totalPages }}</span>
+              <ion-button fill="clear" size="small" (click)="nextPage()" [disabled]="page>=totalPages">Siguiente</ion-button>
+            </div>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- ===== /Fila 2 ===== -->
+
   </ion-grid>
 </ion-content>
