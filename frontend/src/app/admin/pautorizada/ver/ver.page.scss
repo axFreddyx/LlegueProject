@@ -9,3 +9,142 @@
   font-size: 1rem;
   transition: background-color 0.3s;
 }
+
+
+/* ===========================
+   General grid & container
+=========================== */
+ion-grid {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.cuenta-escritorio-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.cuenta-escritorio-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* ===========================
+   Persona items
+=========================== */
+.cuenta-escritorio-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.cuenta-escritorio-item:hover {
+  background-color: #f9f9f9;
+  border-left: 4px solid #007bff;
+}
+
+.cuenta-escritorio-avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+
+.cuenta-escritorio-nombre {
+  flex: 1;
+  margin-left: 16px;
+  text-align: left;
+}
+
+.cuenta-escritorio-nombre p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.cuenta-escritorio-nombre .estado {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* ===========================
+   Inputs / filtros
+=========================== */
+.input-filtro {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #fafafa;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.input-filtro:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  background-color: #fff;
+  outline: none;
+}
+
+
+
+/* ===========================
+   Checkbox / selección
+=========================== */
+.acciones {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.select-all-label {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.input-filtro {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  /* Espaciado interno cómodo */
+  border: 1px solid #d1d5db;
+  /* Gris claro y elegante */
+  border-radius: 8px;
+  /* Bordes redondeados suaves */
+  background-color: #ffffff;
+  /* Fondo blanco limpio */
+  font-size: 0.95rem;
+  /* Tamaño de letra profesional */
+  font-family: 'Inter', sans-serif;
+  /* Fuente corporativa moderna */
+  color: #111827;
+  /* Gris oscuro para el texto */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Sombra muy ligera */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-filtro:focus {
+  border-color: #3b82f6;
+  /* Azul corporativo al enfocar */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  /* Resaltado suave */
+  outline: none;
+  /* Quitamos el outline por defecto */
+}

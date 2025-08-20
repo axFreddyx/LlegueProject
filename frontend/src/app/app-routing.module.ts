@@ -43,12 +43,12 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['admin'] }
   },
-  {
-    path: 'ver/padres',
-    loadChildren: () => import('./admin/pautorizada/ver/ver.module').then(m => m.VerPageModule),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['admin'] }
-  },
+  // {
+  //   path: 'ver/padres',
+  //   loadChildren: () => import('./admin/pautorizada/ver/ver.module').then(m => m.VerPageModule),
+  //   canActivate: [AuthGuard, RoleGuard],
+  //   data: { roles: ['admin'] }
+  // },
   {
     path: 'ver/docentes',
     loadChildren: () => import('./admin/docente/ver/ver.module').then(m => m.VerPageModule),
@@ -110,7 +110,12 @@ const routes: Routes = [
   {
     path: 'visualizacion-llegadas',
     loadChildren: () => import('./visualizacion/visualizacion-llegadas/visualizacion-llegadas.module').then( m => m.VisualizacionLlegadasPageModule)
+  },
+  {
+    path: 'ver/padres',
+    loadChildren: () => import('./admin/pautorizada/ver/ver.module').then( m => m.VerPageModule)
   }
+
 ];
 
 @NgModule({

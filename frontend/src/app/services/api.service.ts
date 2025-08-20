@@ -333,16 +333,27 @@ export class ApiService {
   // ---------------------------------
 
   async getLlegadasPorRango(inicioISO: string, finISO: string, token: string) {
+    const p = new URLSearchParams();
+    p.set('filters[createdAt][$gte]', inicioISO);
+    p.set('filters[createdAt][$lte]', finISO);
+    p.set('pagination[pageSize]', '1000');
+    p.set('sort', 'createdAt:asc');
+
+    // populate relaciones necesarias para la tabla
+    p.set('populate[alumno][populate]', 'salon');  // alumno.salon
+    p.set('populate[docente]', 'true');            // docente
+    p.set('populate[persona_autorizada]', 'true'); // persona_autorizada
+
+    const url = `${this.url}/llegadas?${p.toString()}`;
+    return await axios.get(url, { headers: { Authorization: token } });
+  }
+
+  async getPrimeraLlegada(token: string) {
     return await axios.get(`${this.url}/llegadas`, {
       headers: { Authorization: token },
       params: {
-        'filters[createdAt][$gte]': inicioISO,
-        'filters[createdAt][$lte]': finISO,
-        'pagination[pageSize]': 1000,
-        'sort': 'createdAt:asc'
-        // 'populate[docente]': true,
-        // 'populate[persona_autorizada]': true,
-        // 'populate[alumno][populate]': 'salon',
+        'pagination[pageSize]': 1,
+        'sort': 'createdAt:asc',
       }
     });
   }
