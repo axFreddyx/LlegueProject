@@ -214,11 +214,9 @@
             <ion-content class="ion-padding" *ngIf="currentPersonaINE">
                 <iframe [src]="(getINEUrl(currentPersonaINE) || '') | safeUrl" width="100%" height="600px"
                     frameborder="0"></iframe>
-
             </ion-content>
         </ng-template>
     </ion-modal>
-
 
     <ion-modal #modal>
         <ng-template>

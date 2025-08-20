@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { VerPageRoutingModule } from './ver-routing.module';
 
 import { VerPage } from './ver.page';
+import { AlumnosOrdenadorComponent } from 'src/app/components/alumnos-ordenador/alumnos-ordenador.component';
+import { AcordeonAlumnosComponent } from 'src/app/components/acordeon-alumnos/acordeon-alumnos.component';
 // import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -15,8 +17,7 @@ import { VerPage } from './ver.page';
     FormsModule,
     IonicModule,
     VerPageRoutingModule,
-    // ComponentsModule
   ],
-  declarations: [VerPage]
+  declarations: [VerPage, AlumnosOrdenadorComponent, AcordeonAlumnosComponent]
 })
-export class VerPageModule {}
+export class VerPageModule { }

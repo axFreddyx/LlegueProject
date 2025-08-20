@@ -22,16 +22,12 @@ export class CreatePage implements OnInit {
   token = '';
   data = { nombre: '', apellidos: '' };
 
-
-  salonesConAlumnos: { [salonId: string]: any[] } = {};
-alumnosSinSalon: any[] = [];
-
   constructor(
     private api: ApiService,
     private storage: Storage,
     private toastController: ToastController,
-    private router: Router  
-  ) {}
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     this.token = await this.storage.get('token');
@@ -62,12 +58,11 @@ alumnosSinSalon: any[] = [];
         );
         this.alumnosIngresados = [];
         //this.presentToast('Se han ingresado los alumnos exitosamente.', 'success');
-        
+
         await this.router.navigate(['/ver/alumnos'], {
           replaceUrl: true,
-          // state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
+          state: { toast: { message: 'Alumno guardado/actualizado correctamente.', type: 'success' } }
         });
-        this.presentToast("Alumno Guardado correctamente","success")
 
       } else {
         // guardar uno
@@ -80,7 +75,7 @@ alumnosSinSalon: any[] = [];
 
         await this.api.createAlumnoConFoto(this.data, this.fotoFile, this.token);
         this.presentToast('El alumno se ha ingresado de manera exitosa.', 'success');
-        
+
       }
 
       this.resetAll();
@@ -92,20 +87,22 @@ alumnosSinSalon: any[] = [];
   }
 
   ingresarOtroAlumno() {
-    if (!this.data.nombre || !this.data.apellidos || !this.fotoFile) {
-      this.presentToast('Agrega nombre, apellidos y foto antes de continuar.', 'error');
-      return;
-    }
+    // if (!this.data.nombre || !this.data.apellidos || !this.fotoFile) {
+    //   this.presentToast('Agrega nombre, apellidos y foto antes de continuar.', 'error');
+    //   return;
+    // }
+
     this.isIngresado = true;
 
     this.alumnosIngresados.push({
       nombre: this.data.nombre,
       apellidos: this.data.apellidos,
-      fotoFile: this.fotoFile
+      fotoFile: this.fotoFile!
     });
 
     this.resetFormOnly();
   }
+
 
   resetFormOnly() {
     this.data = { nombre: '', apellidos: '' };
