@@ -196,7 +196,29 @@
     <ion-grid *ngIf="!isMobile" fixed>
 
         <div class="text-center">
-
+            <div class="botones-cuenta-container container">
+                <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0" expand="block"
+                    fill="clear" shape="round">
+                    <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                    Seleccionar personas
+                </ion-button>
+                <ion-button (click)="notSelectingPersonas()" color="medium" *ngIf="isSelecting" expand="block"
+                    fill="clear" shape="round">
+                    <ion-icon name="close-outline" slot="start"></ion-icon>
+                    Cancelar selección
+                </ion-button>
+                <div class="acciones" *ngIf="isSelecting && personas.length !== 0">
+                    <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
+                        (ionChange)="toggleSelectAll($event)" aria-label="Seleccionar todos los alumnos">
+                    </ion-checkbox>
+                    <label (click)="toggleSelectAllLabel()" class="select-all-label">
+                        Seleccionar todos
+                    </label>
+                    <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
+                        ❌ Eliminar
+                    </ion-button>
+                </div>
+            </div>
             <ion-row>
                 <!-- Cuentas confirmadas -->
                 <ion-col size="6">
@@ -225,31 +247,6 @@
                         </div>
                         <ng-container *ngFor="let p of filteredPersonasConfirmadas">
 
-                            <div class="botones-cuenta-container container">
-                                <ion-button (click)="selectingPersonas()" *ngIf="!isSelecting && personas.length !== 0"
-                                    expand="block" fill="clear" shape="round">
-                                    <ion-icon name="checkmark-outline" slot="start"></ion-icon>
-                                    Seleccionar personas
-                                </ion-button>
-                                <ion-button (click)="notSelectingPersonas()" color="medium" *ngIf="isSelecting"
-                                    expand="block" fill="clear" shape="round">
-                                    <ion-icon name="close-outline" slot="start"></ion-icon>
-                                    Cancelar selección
-                                </ion-button>
-                                <div class="acciones" *ngIf="isSelecting && personas.length !== 0">
-                                    <ion-checkbox slot="start" color="primary" [(ngModel)]="allSelected"
-                                        (ionChange)="toggleSelectAll($event)"
-                                        aria-label="Seleccionar todos los alumnos">
-                                    </ion-checkbox>
-                                    <label (click)="toggleSelectAllLabel()" class="select-all-label">
-                                        Seleccionar todos
-                                    </label>
-                                    <ion-button (click)="openAlertDelete()" size="small" fill="outline" color="danger">
-                                        ❌ Eliminar
-                                    </ion-button>
-                                </div>
-                            </div>
-
                             <div *ngIf="p.confirmed" class="cuenta-escritorio-item">
                                 <div class="cuenta-escritorio-avatar">
                                     <img [src]="getFotoUrl(p) || 'assets/img/ejemplo.jpg'"
@@ -262,18 +259,18 @@
                                 </div>
 
                                 <!-- Acciones -->
+
                                 <div class="cuenta-escritorio-acciones">
                                     <ion-checkbox *ngIf="isSelecting" [(ngModel)]="p.selected"
                                         (ionChange)="selectPersonas(p)"></ion-checkbox>
-                                    <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline"
-                                        color="primary">
+                                    <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline" color="primary">
                                         📝 Editar
                                     </ion-button>
                                     <ion-button (click)="openAlertDelete(p)" size="small" fill="outline" color="danger">
-                                        ❌ Eliminar
+                                        Eliminar
                                     </ion-button>
                                     <ion-button (click)="openModal(p)" size="small" fill="outline" color="warning">
-                                        🏫 Asignar alumnos
+                                        Asignar
                                     </ion-button>
                                 </div>
                             </div>
@@ -323,7 +320,7 @@
                                 <div class="cuenta-escritorio-acciones">
                                     <ion-checkbox *ngIf="isSelecting" [(ngModel)]="p.selected"
                                         (ionChange)="selectPersonas(p)"></ion-checkbox>
-                                    <ion-button (click)="openModalINE(p)" size="small" class="btn-principal">
+                                    <ion-button (click)="openModalINE(p)" size="small" fill="outline" color="primary">
                                         Ver INE
                                     </ion-button>
                                     <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline"

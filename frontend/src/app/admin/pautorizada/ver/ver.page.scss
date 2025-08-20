@@ -11,77 +11,112 @@
 }
 
 
-/* Contenedor general */
+/* ===========================
+   General grid & container
+=========================== */
+ion-grid {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .cuenta-escritorio-container {
-  background: #ffffff;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-  transition: all 0.3s ease;
+  padding: 16px;
+  margin-top: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cuenta-escritorio-container:hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
 
-/* Encabezado elegante */
 .cuenta-escritorio-header {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
   margin-bottom: 12px;
-  border-bottom: 2px solid #e6e6e6;
-  padding-bottom: 8px;
+  color: #333;
 }
 
-/* Lista de items */
+/* ===========================
+   Persona items
+=========================== */
 .cuenta-escritorio-item {
   display: flex;
   align-items: center;
-  padding: 12px 10px;
-  border-bottom: 1px solid #f1f1f1;
-  transition: background 0.2s ease;
-}
-
-.cuenta-escritorio-item:last-child {
-  border-bottom: none;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
 }
 
 .cuenta-escritorio-item:hover {
-  background: #f9f9f9;
-  border-radius: 8px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #007bff;
 }
 
-/* Avatar */
 .cuenta-escritorio-avatar img {
-  border-radius: 50%;
-  border: 2px solid #3498db;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #e0e0e0;
 }
 
-/* Nombre */
 .cuenta-escritorio-nombre {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  margin-left: 12px;
-  flex-grow: 1;
+  flex: 1;
+  margin-left: 16px;
+  text-align: left;
 }
 
-/* Botón */
-.cuenta-escritorio-btn {
-  background: #3498db;
-  color: #fff;
-  border-radius: 6px;
-  padding: 6px 14px;
+.cuenta-escritorio-nombre p {
+  margin: 2px 0;
   font-size: 0.9rem;
-  transition: background 0.3s ease;
+  color: #555;
 }
 
-.cuenta-escritorio-btn:hover {
-  background: #2c80b9;
+.cuenta-escritorio-nombre .estado {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* ===========================
+   Inputs / filtros
+=========================== */
+.input-filtro {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #fafafa;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.input-filtro:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  background-color: #fff;
+  outline: none;
+}
+
+
+
+/* ===========================
+   Checkbox / selección
+=========================== */
+.acciones {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.select-all-label {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #333;
 }
 
 .input-filtro {
