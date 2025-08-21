@@ -2,11 +2,7 @@
 <resources>
     <string name="app_name">frontend</string>
     <string name="title_activity_main">frontend</string>
-<<<<<<< HEAD
-    <string name="package_name">com.llegueFJP</string>
-    <string name="custom_url_scheme">com.llegueFJP</string>
-=======
     <string name="package_name">com.llegue3jotas</string>
     <string name="custom_url_scheme">com.llegue3jotas</string>
->>>>>>> f314bc9dd5b601ff229e5b6c805d66632b10230a
+
 </resources>
