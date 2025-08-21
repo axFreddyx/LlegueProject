@@ -1008,6 +1008,7 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.role'
     >;
     salon: Schema.Attribute.Relation<'oneToOne', 'api::salon.salon'>;
+    token_push: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

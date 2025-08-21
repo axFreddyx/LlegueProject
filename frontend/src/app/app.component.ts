@@ -10,6 +10,9 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
+
+
+
 export class AppComponent {
   constructor(
     private router: Router,
@@ -23,9 +26,10 @@ export class AppComponent {
         this.toggleMenu();
       });
   }
+  token_push = '';
 
   toggleMenu() {
-    const hideMenuRoutes = ['/login','/register', '/llegue', '/alumnos', '/perfil', '/llegue-global', '/password-forgotten'];
+    const hideMenuRoutes = ['/login', '/register', '/llegue', '/alumnos', '/perfil', '/llegue-global', '/password-forgotten'];
     const isHiddenPage = hideMenuRoutes.includes(this.router.url);
 
     this.menuCtrl.enable(!isHiddenPage);
@@ -53,5 +57,7 @@ export class AppComponent {
         this.router.navigateByUrl('/login');
       }, 1500);
     });
+
+
   }
 }

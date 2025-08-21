@@ -113,6 +113,9 @@
       "allowedTypes": [
         "files"
       ]
+    },
+    "token_push": {
+      "type": "text"
     }
   }
 }
