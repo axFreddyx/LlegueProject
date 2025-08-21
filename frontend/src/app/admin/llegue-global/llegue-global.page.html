@@ -18,7 +18,7 @@
 
     </div>
     <div class="llegadas-grid">
-      <div *ngIf="llegadas.length === 0">
+      <div *ngIf="llegadasCargadas.length === 0">
         <ion-card>
           <ion-header>
             <ion-toolbar>
@@ -27,7 +27,7 @@
           </ion-header>
         </ion-card>
       </div>
-      <div class="llegada-card" *ngFor="let l of llegadas" (ion-onload)="getSalonByAlumno(l)">
+      <div class="llegada-card" *ngFor="let l of llegadasCargadas" (ion-onload)="getSalonByAlumno(l)">
         <div class="llegada-img">
           <img src="assets/img/ejemplo.jpg" alt="Foto alumno">
         </div>

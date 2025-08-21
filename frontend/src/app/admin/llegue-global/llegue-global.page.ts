@@ -21,16 +21,19 @@ export class LlegueGlobalPage implements OnInit {
   fechaHoy = new Date().toISOString().split('T')[0];
 
   llegadas: any[] = [];
+  llegadasCargadas: any[] = [];
   token = "";
   salon: any = {};
 
   async ngOnInit() {
     this.storage.create();
     this.token = await this.storage.get('token');
-    setTimeout(() => {
-      this.getLlegadas();
-    }, 5000); 
+    this.getLlegadas();
 
+    // Llegadas en tiempo real
+    setInterval(() => {
+      this.getLlegadas();
+    }, 1000); // cada 5 segundos, por ejemplo
   }
 
   // helper toast
@@ -53,17 +56,30 @@ export class LlegueGlobalPage implements OnInit {
       const data: any = res.data;
       const todasLlegadas = data.data;
 
-      // Filtrar solo llegadas del día actual
+      // Filtrar solo llegadas del día actual y que no estén ya cargadas
       this.llegadas = todasLlegadas.filter((l: any) => {
         if (!l.createdAt) return false;
 
         const fechaLlegada = new Date(l.createdAt);
-        return (
+        const yaExiste = this.llegadasCargadas.some(c => c.documentId === l.documentId);
+
+        if (yaExiste) {
+          return false; // ya estaba cargada, no la incluimos
+        }
+
+        // si es del día actual y no estaba cargada, la agregamos a llegadasCargadas
+        const esDeHoy =
           fechaLlegada.getFullYear() === new Date().getFullYear() &&
           fechaLlegada.getMonth() === new Date().getMonth() &&
-          fechaLlegada.getDate() === new Date().getDate()
-        );
+          fechaLlegada.getDate() === new Date().getDate();
+
+        if (esDeHoy) {
+          this.llegadasCargadas.push(l);
+        }
+
+        return esDeHoy;
       });
+
 
       console.log('Llegadas del día:', this.llegadas);
 
@@ -79,7 +95,6 @@ export class LlegueGlobalPage implements OnInit {
     const salon = llegada;
     console.log(salon)
     this.salon = salon;
-
   }
 
   getLLegada() {
