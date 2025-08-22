@@ -9,7 +9,11 @@ ion-title {
 }
 
 
-
+.alumnoYallego {
+  opacity: 0.8;
+  // Cursor para indicar que no se puede seleccionar
+  cursor: not-allowed;
+}
 
 .custom-llegue-content {
   --background: #f4f4f4;

@@ -51,13 +51,16 @@
         <ion-grid>
           <ion-row>
             <ion-col size="6" sizeMd="4" sizeLg="3" *ngFor="let alumno of alumnos">
-              <ion-card class="alumno-card" [class.selected]="alumno.seleccionado"
-                (click)="toggleSeleccionConRetardo(alumno)">
-                <ion-img src="/assets/img/ejemplo.jpg" class="alumno-foto"></ion-img>
+              <ion-card [class.alumnoYallego]="alumno.isLlego === true" [class.alumno-card]="alumno.isLlego === false"
+                [class.selected]="alumno.seleccionado" (click)="!alumno.isLlego ? toggleSeleccionConRetardo(alumno) : ''">
+                <ion-img [src]="getFotoUrl(alumno) || 'assets/img/ejemplo.jpg'" class="alumno-foto"></ion-img>
 
                 <ion-card-content>
                   <h3 class="alumno-nombre">{{ alumno.nombre }} {{ alumno.apellidos }}</h3>
-                  <p class="alumno-grado">{{ alumno.salon?.grado }}° {{ alumno.salon?.grupo }}</p>
+                  <p *ngIf="!alumno.isLlego" class="alumno-grado">{{ alumno.salon?.grado }} ° {{ alumno.salon?.grupo }}
+                  </p>
+                  <p *ngIf="alumno.isLlego" class="alumno-grado">YA LLEGUE!</p>
+
                 </ion-card-content>
 
                 <ion-icon name="checkmark-circle" class="check-icon" *ngIf="alumno.seleccionado"></ion-icon>

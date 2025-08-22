@@ -90,13 +90,16 @@ export class ApiService {
 
   async uploadFile(file: File, token: string) {
     const formData = new FormData();
-    formData.append('files', file);
+    formData.append('files', file); // 👈 nombre exacto que Strapi espera
 
-    const res = await axios.post(`${this.url}/upload`, formData, {
-      headers: { Authorization: token }
-    });
+    const res:any = await this.http.post<any[]>(`${this.url}/upload`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).toPromise();
 
-    return (res.data as any[])[0];
+    // Strapi devuelve un array de archivos subidos
+    return res[0];
   }
 
   async createAlumnoConFoto(payload: any, file: File, token: string) {
@@ -137,7 +140,7 @@ export class ApiService {
   async getUserByMe() {
     const token = await this.storage.get("token")
     const headers = { Authorization: token };
-    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos][populate]=*&poulate[foto]=*`;
+    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos][populate]=*&poulate[foto]=*&populate[llegadas][populate]=* `;
 
     return await axios.get(url, {
       headers: headers
@@ -225,6 +228,12 @@ export class ApiService {
         persona_autorizada: autorizadaId,
       }
     }, {
+      headers: { Authorization: token }
+    });
+  }
+
+  getLlegadasByAlumno(id: string, token: any) {
+    return axios.get(`${this.url}/llegadas?filters[alumno][documentId][$eq]=${id}`, {
       headers: { Authorization: token }
     });
   }

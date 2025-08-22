@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-llegue',
@@ -17,7 +18,12 @@ export class LleguePage implements OnInit {
   userLogged: any;
   seleccionados: any[] = [];
   alumnos: any[] = [];
+  isLlego: boolean = false;
   token = "";
+  fechaHoy = new Date().toISOString().split('T')[0];
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
+
+
   private timeoutId: any = null; // Guardamos la referencia del timeout
 
   constructor(
@@ -43,8 +49,9 @@ export class LleguePage implements OnInit {
   }
 
   async ngOnInit() {
-    await this.getMe();
     this.token = await this.storage.get("token");
+    await this.getMe();
+    // await this.getLlegadasByAlumno();
   }
 
   async getMe() {
@@ -52,28 +59,37 @@ export class LleguePage implements OnInit {
       const res: any = await this.api.getUserByMe();
       this.userLogged = res.data;
       this.alumnos = [];  // Limpiar antes de llenar
-      res.data.alumnos.forEach((alumno: any) => {
+      // console.log('Usuario cargado:', this.userLogged);
+      res.data.alumnos.forEach(async (alumno: any) => {
         if (alumno.publishedAt !== null) {
+          // console.log('Alumno:', alumno);
+          const llegadaAlumno = await this.getLlegadasByAlumno(alumno.documentId);
+          const llegoHoy = llegadaAlumno.some((l: any) => {
+            const fechaLlegada = new Date(l.createdAt).toISOString().split('T')[0];
+            return fechaLlegada === this.fechaHoy;
+          });
+
+          alumno.isLlego = llegoHoy;
+
           alumno.seleccionado = false; // Inicializar la propiedad seleccionado
           this.alumnos.push(alumno);
+          // console.log('Alumnos:', this.alumnos);
         }
       });
-      // console.log('Usuario cargado:', this.userLogged);
-      console.log(this.alumnos)
     } catch (err) {
       console.error(err);
     }
   }
 
-  toggleSeleccion(alumno: any) {
-    alumno.seleccionado = !alumno.seleccionado;
+  // toggleSeleccion(alumno: any) {
+  //   alumno.seleccionado = !alumno.seleccionado;
 
-    if (alumno.seleccionado) {
-      this.seleccionados.push(alumno);
-    } else {
-      this.seleccionados = this.seleccionados.filter(a => a.id !== alumno.id);
-    }
-  }
+  //   if (alumno.seleccionado) {
+  //     this.seleccionados.push(alumno);
+  //   } else {
+  //     this.seleccionados = this.seleccionados.filter(a => a.id !== alumno.id);
+  //   }
+  // }
 
   toggleSeleccionConRetardo(alumno: any) {
     alumno.seleccionado = !alumno.seleccionado;
@@ -151,5 +167,36 @@ export class LleguePage implements OnInit {
     });
   }
 
-  
+  async getLlegadasByAlumno(id: any) {
+    try {
+      const res: any = await this.api.getLlegadasByAlumno(id, this.token);
+      // console.log('Llegadas por alumno:', res.data.data);
+      const llegadas = res.data.data;
+      return llegadas
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  getFotoUrl(a: any): string | null { // ✅ NUEVO
+    try {
+      const f = a?.foto ?? a?.attributes?.foto;
+      if (!f) return null;
+
+      // Puede venir como {data:{attributes:{url, formats}}} o directo con {url, formats}
+      const node = f?.data?.attributes ?? f?.attributes ?? f;
+      if (!node) return null;
+
+      // Prioriza thumbnail si existe; si no, usa url
+      const url: string | undefined = node?.formats?.thumbnail?.url || node?.url;
+      if (!url) return null;
+
+      // Si es relativa (/uploads/...), anteponer host; si ya es absoluta, devolverla tal cual
+      return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+    } catch {
+      return null;
+    }
+  }
+
+
 }

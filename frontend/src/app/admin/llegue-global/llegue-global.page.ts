@@ -61,7 +61,8 @@ export class LlegueGlobalPage implements OnInit {
         if (!l.createdAt) return false;
 
         const fechaLlegada = new Date(l.createdAt);
-        const yaExiste = this.llegadasCargadas.some(c => c.documentId === l.documentId);
+        // yaExiste verifica si ya existe un elemento en el array
+        const yaExiste = this.llegadasCargadas.some(c => c.documentId === l.documentId); // some tiene como funcion verificar si ya existe un elemento en el array
 
         if (yaExiste) {
           return false; // ya estaba cargada, no la incluimos
@@ -80,8 +81,7 @@ export class LlegueGlobalPage implements OnInit {
         return esDeHoy;
       });
 
-
-      console.log('Llegadas del día:', this.llegadas);
+      // console.log('Llegadas del día:', this.llegadas);
 
       this.getLLegada();
     }).catch(err => {
