@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
 import { ToastController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 // import { set } from 'date-fns';
 
 @Component({
@@ -24,6 +25,7 @@ export class LlegueGlobalPage implements OnInit {
   llegadasCargadas: any[] = [];
   token = "";
   salon: any = {};
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
   async ngOnInit() {
     this.storage.create();
@@ -91,15 +93,36 @@ export class LlegueGlobalPage implements OnInit {
   }
 
   getSalonByAlumno(llegada: any) {
-    console.log(llegada.alumno.salon)
     const salon = llegada;
-    console.log(salon)
+    // console.log(salon)
     this.salon = salon;
   }
 
   getLLegada() {
     this.llegadas.forEach((l: any) => {
       this.getSalonByAlumno(l);
+      // console.log(l);
     })
+  }
+
+  getFotoUrl(a: any): string | null { // ✅ NUEVO
+    try {
+      // console.log(a)
+      const f = a?.foto ?? a?.attributes?.foto;
+      if (!f) return null;
+
+      // Puede venir como {data:{attributes:{url, formats}}} o directo con {url, formats}
+      const node = f?.data?.attributes ?? f?.attributes ?? f;
+      if (!node) return null;
+
+      // Prioriza thumbnail si existe; si no, usa url
+      const url: string | undefined = node?.formats?.thumbnail?.url || node?.url;
+      if (!url) return null;
+
+      // Si es relativa (/uploads/...), anteponer host; si ya es absoluta, devolverla tal cual
+      return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+    } catch {
+      return null;
+    }
   }
 }

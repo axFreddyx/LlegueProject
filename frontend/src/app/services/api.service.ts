@@ -266,8 +266,9 @@ export class ApiService {
             populate: {
               salon: {
                 populate: '*'
-              }
-            }
+              },
+              foto: { populate: '*' }
+            },
           },
           docente: { populate: '*' },
           persona_autorizada: { populate: '*' }

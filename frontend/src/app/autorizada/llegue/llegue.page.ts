@@ -23,7 +23,6 @@ export class LleguePage implements OnInit {
   fechaHoy = new Date().toISOString().split('T')[0];
   private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
-
   private timeoutId: any = null; // Guardamos la referencia del timeout
 
   constructor(

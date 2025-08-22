@@ -29,7 +29,7 @@
       </div>
       <div class="llegada-card" *ngFor="let l of llegadasCargadas" (ion-onload)="getSalonByAlumno(l)">
         <div class="llegada-img">
-          <img src="assets/img/ejemplo.jpg" alt="Foto alumno">
+          <img [src]="getFotoUrl(l.alumno) || 'assets/img/ejemplo.jpg'" alt="Foto alumno">
         </div>
         <div class="llegada-info">
           <h2 class="llegada-alumno">{{ l.alumno.nombre }} {{l.alumno.apellidos}}</h2>
