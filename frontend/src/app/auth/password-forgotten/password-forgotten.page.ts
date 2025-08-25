@@ -45,7 +45,7 @@ export class PasswordForgottenPage implements OnInit {
 
     try {
       // Llamada a tu API que envía el correo
-      await this.api.recuperarPassword(this.email); // <-- Implementa esta función en tu ApiService
+      await this.api.forgotPassword(this.email); // <-- Implementa esta función en tu ApiService
       const toast = await this.toastController.create({
         message: 'Se ha enviado un enlace a tu correo',
         duration: 3000,

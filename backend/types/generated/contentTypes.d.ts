@@ -985,7 +985,7 @@ export interface PluginUsersPermissionsUser
         minLength: 6;
       }>;
     foto: Schema.Attribute.Media<'images' | 'files'>;
-    ine: Schema.Attribute.Media<'files'>;
+    ine: Schema.Attribute.Media<'files' | 'images', true>;
     llegadas: Schema.Attribute.Relation<'oneToMany', 'api::llegada.llegada'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
