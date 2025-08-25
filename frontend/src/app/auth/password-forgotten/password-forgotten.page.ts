@@ -42,7 +42,6 @@ export class PasswordForgottenPage implements OnInit {
       await toast.present();
       return;
     }
-
     try {
       // Llamada a tu API que envía el correo
       await this.api.forgotPassword(this.email); // <-- Implementa esta función en tu ApiService

@@ -456,16 +456,40 @@ export class VerPage implements OnInit {
     }
   }
 
-  getINEUrl(persona: any): string {
-    const ine = persona?.ine ?? persona?.attributes?.ine;
-    if (!ine) return '';
 
-    // Normalizamos la URL
-    const url = ine?.data?.attributes?.url || ine?.url;
-    if (!url) return '';
+  getFotoINE(user: any): string | null {
+    try {
+      const ineArray = user?.ine ?? user?.attributes?.ine;
+      if (!ineArray || !ineArray.length) return null;
 
-    return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+      // Tomamos la primera foto de INE
+      const ine = ineArray[0];
+
+      // Puede venir como {data:{attributes:{url}}} o directo
+      const node = ine?.data?.attributes ?? ine?.attributes ?? ine;
+
+      if (!node?.url) return null;
+
+      return node.url.startsWith('http') ? node.url : `${this.assetsBase}${node.url}`;
+    } catch (e) {
+      console.error('Error obteniendo foto INE:', e);
+      return null;
+    }
   }
+
+
+
+
+  // getINEUrl(persona: any): string {
+  //   const ine = persona?.ine ?? persona?.attributes?.ine;
+  //   if (!ine) return '';
+
+  //   // Normalizamos la URL
+  //   const url = ine?.data?.attributes?.url || ine?.url;
+  //   if (!url) return '';
+
+  //   return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+  // }
 
 
   changeResolution() {

@@ -18,10 +18,11 @@
           <ion-item class="item-menu" routerLink="/ver/padres">Padres</ion-item>
           <ion-item class="item-menu" routerLink="/ver/admins">Administradores</ion-item>
           <ion-item class="item-menu" routerLink="/visualizacion-llegadas">Estadisticas</ion-item>
+          <ion-button (click)="logout()" expand="block" color="danger"shape="round">
+            Cerrar Sesión
+          </ion-button>
           <!-- otros items -->
         </ion-list>
-
-        <ion-item class="btn-logout" (click)="logout()">Cerrar Sesión</ion-item>
       </div>
     </ion-content>
   </ion-menu>

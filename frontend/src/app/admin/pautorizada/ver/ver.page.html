@@ -263,7 +263,8 @@
                                 <div class="cuenta-escritorio-acciones">
                                     <ion-checkbox *ngIf="isSelecting" [(ngModel)]="p.selected"
                                         (ionChange)="selectPersonas(p)"></ion-checkbox>
-                                    <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline" color="primary">
+                                    <ion-button (click)="redirectToEditPersona(p)" size="small" fill="outline"
+                                        color="primary">
                                         📝 Editar
                                     </ion-button>
                                     <ion-button (click)="openAlertDelete(p)" size="small" fill="outline" color="danger">
@@ -357,8 +358,12 @@
             </ion-header>
 
             <ion-content class="ion-padding" *ngIf="currentPersonaINE">
-                <iframe [src]="(getINEUrl(currentPersonaINE) || '')"></iframe>
+                <div class="ine-container">
+                    <img [src]="getFotoINE(currentPersonaINE) || 'assets/img/sin-ine.avif'" alt="INE">
+                </div>
             </ion-content>
+
+
         </ng-template>
     </ion-modal>
 
