@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -16,12 +17,17 @@ export class PerfilPage implements OnInit {
 
   constructor(
     private api: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     this.token = await this.storage.get('token');
     await this.getMe();
+  }
+
+  redirect(id:any){
+    this.router.navigate([`/editar-perfil/${id}`])
   }
 
   async getMe() {

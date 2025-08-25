@@ -1,0 +1,72 @@
+<!-- src/app/pages/editar-perfil/editar-perfil.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Regresar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-wrapper" *ngIf="!loading; else cargando">
+    <div class="text-center mb-4">
+      <img src="assets/img/escuela.png" alt="Logo Escuela" class="logo-form">
+      <h5 class="titulo2">Escuela Primaria Benito Juárez</h5>
+    </div>
+
+    <div class="container">
+      <div class="register-form text-center">
+        <ion-grid fixed>
+          <ion-row class="ion-justify-content-center">
+
+            <!-- Foto -->
+            <ion-col size="12" size-md="6" class="ion-text-center">
+              <div class="register-photo-upload">
+                <label for="foto-input">
+                  <img [src]="fotoPreviewUrl" alt="Foto" class="register-photo">
+                  <div class="register-photo-overlay">
+                    <ion-icon name="camera-outline"></ion-icon>
+                  </div>
+                </label>
+                <input id="foto-input" type="file" accept="image/*" hidden (change)="onFotoChange($event)">
+              </div>
+              <p>Foto de perfil (opcional)</p>
+            </ion-col>
+
+            <!-- Nombre -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="form.nombre" placeholder="Nombre"></ion-input>
+            </ion-col>
+
+            <!-- Apellidos -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="form.apellidos" placeholder="Apellidos"></ion-input>
+            </ion-col>
+
+            <!-- Usuario -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="text" class="register-input" [(ngModel)]="form.username" placeholder="Nombre de usuario"></ion-input>
+            </ion-col>
+
+            <!-- Correo -->
+            <ion-col size="12" size-md="6">
+              <ion-input type="email" class="register-input" [(ngModel)]="form.email" placeholder="Correo electrónico"></ion-input>
+            </ion-col>
+
+            <ion-col size="12" class="ion-padding-top">
+              <ion-button (click)="guardarCambios()" expand="block" class="btn-principal">
+                Guardar cambios
+              </ion-button>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #cargando>
+    <ion-spinner name="crescent" class="spinner-center"></ion-spinner>
+  </ng-template>
+</ion-content>
