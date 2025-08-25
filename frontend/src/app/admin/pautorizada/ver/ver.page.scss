@@ -148,3 +148,23 @@ ion-grid {
   outline: none;
   /* Quitamos el outline por defecto */
 }
+
+
+.ine-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  /* opcional para que resalte */
+}
+
+.ine-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  /* mantiene proporción sin recortar */
+  border-radius: 8px;
+  /* opcional */
+}

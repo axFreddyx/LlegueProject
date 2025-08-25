@@ -137,14 +137,19 @@ export class ApiService {
 
   //#region Usuarios
   async getUserByMe() {
-    const token = await this.storage.get("token")
+    const token = await this.storage.get("token"); 
     const headers = { Authorization: token };
-    const url = `${this.url}/users/me?populate[role]=*&populate[salon][populate]=alumnos&populate[alumnos][populate]=*&poulate[foto]=*&populate[llegadas][populate]=* `;
 
-    return await axios.get(url, {
-      headers: headers
-    });
+    const url = `${this.url}/users/me` +
+      `?populate[role]=*` +
+      `&populate[salon][populate]=alumnos` +
+      `&populate[alumnos][populate]=*` +
+      `&populate[foto]=*` +        
+      `&populate[llegadas][populate]=*`;
+
+    return await axios.get(url, { headers });
   }
+
 
   //Función para traer usuarios con rol específico
 
@@ -378,6 +383,11 @@ export class ApiService {
       }
     });
   }
+
+
+
+
+  
 
 
 }
