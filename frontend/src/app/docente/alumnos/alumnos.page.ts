@@ -9,6 +9,7 @@ import {
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
+import { environment } from 'src/environments/environment';
 
 interface Alumno {
   id: number;
@@ -39,6 +40,9 @@ export class AlumnosPage implements OnInit {
   alumnosConLlegada: any[] = [];
   alumnosSinLlegada: any[] = [];
 
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
+
+
   constructor(
     private toastCtrl: ToastController,
     private api: ApiService,
@@ -53,8 +57,10 @@ export class AlumnosPage implements OnInit {
     await this.getMe();
     await this.getLlegada();
     this.notification();
+    setInterval(() => {
+      this.getLlegada();
+    }, 5000); // Cada 1 segundo
   }
-
 
   // Para cambiar vista
   changeResolution() {
@@ -170,8 +176,8 @@ export class AlumnosPage implements OnInit {
     });
   }
 
-  notification(){
-     console.log('Initializing Ver por cuales alumnos han llegado');
+  notification() {
+    console.log('Initializing Ver por cuales alumnos han llegado');
 
     // Request permission to use push notifications
     // iOS will prompt user and return if they granted permission or not
@@ -212,5 +218,27 @@ export class AlumnosPage implements OnInit {
         alert('Push action performed: ' + JSON.stringify(notification));
       }
     );
+  }
+
+  // 🖼️ Helper para obtener la URL de la foto desde Strapi (v4/v5)
+  getFotoUrl(alumno: any): string | null { // ✅ NUEVO
+    try {
+      const a = alumno?.alumno ?? alumno; // Puede venir como {alumno:{foto}} o directo {foto}
+      const f = a?.foto ?? a?.attributes?.foto;
+      if (!f) return null;
+
+      // Puede venir como {data:{attributes:{url, formats}}} o directo con {url, formats}
+      const node = f?.data?.attributes ?? f?.attributes ?? f;
+      if (!node) return null;
+
+      // Prioriza thumbnail si existe; si no, usa url
+      const url: string | undefined = node?.formats?.thumbnail?.url || node?.url;
+      if (!url) return null;
+
+      // Si es relativa (/uploads/...), anteponer host; si ya es absoluta, devolverla tal cual
+      return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
+    } catch {
+      return null;
+    }
   }
 }

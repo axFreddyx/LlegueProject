@@ -61,6 +61,27 @@ export class ApiService {
     return true;
   }
 
+
+
+  async setPushToken(userId: number, tokenPush: string) {
+    try {
+      await axios.put(`${this.url}/users/${userId}`, { token_push: tokenPush });
+      console.log('token_push guardado');
+    } catch (err) {
+      console.error('Error guardando token_push:', err);
+    }
+  }
+
+  // Limpiar token_push al cerrar sesión
+  async clearPushToken(userId: number) {
+    try {
+      await axios.put(`${this.url}/users/${userId}`, { token_push: null });
+      console.log('token_push eliminado');
+    } catch (err) {
+      console.error('Error eliminando token_push:', err);
+    }
+  }
+
   //#endregion
 
   //#region Alumnos
@@ -137,14 +158,14 @@ export class ApiService {
 
   //#region Usuarios
   async getUserByMe() {
-    const token = await this.storage.get("token"); 
+    const token = await this.storage.get("token");
     const headers = { Authorization: token };
 
     const url = `${this.url}/users/me` +
       `?populate[role]=*` +
       `&populate[salon][populate]=alumnos` +
       `&populate[alumnos][populate]=*` +
-      `&populate[foto]=*` +        
+      `&populate[foto]=*` +
       `&populate[llegadas][populate]=*`;
 
     return await axios.get(url, { headers });
@@ -383,6 +404,15 @@ export class ApiService {
       }
     });
   }
+
+
+
+
+
+
+
+
+
 
 
 }

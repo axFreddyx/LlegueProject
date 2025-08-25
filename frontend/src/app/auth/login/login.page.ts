@@ -96,41 +96,55 @@ export class LoginPage implements OnInit {
     await toast.present();
   }
 
-  async login() {
-    const data = {
-      identifier: this.identifier,
-      password: this.password
-    };
+  async registerPush(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive !== 'granted') return reject('Permiso denegado');
 
-    await this.api.login(data).then(async (data: any) => {
-      console.log("Login correcto:", data);
+      PushNotifications.register();
 
-      await this.db.set('token', `Bearer ${data.jwt}`);
-
-      await this.api.getUserByMe().then((userWithRole: any) => {
-        const rol = userWithRole?.data?.role?.type;
-
-        switch (rol) {
-          case 'admin':
-            this.router.navigateByUrl('/home');
-            break;
-          case 'docente':
-            this.router.navigateByUrl('/alumnos');
-            break;
-          case 'persona_autorizada':
-            this.router.navigateByUrl('/llegue');
-            break;
-          default:
-            this.router.navigateByUrl('/login');
-            break;
-        }
+      PushNotifications.addListener('registration', (token: Token) => {
+        resolve(token.value); // aquí se resuelve la promesa con el token
       });
 
-      this.presentToast('Inicio de sesión exitoso', 'success');
-
-    }).catch((error: any) => {
-      console.error("Error en login:", error);
-      this.presentToast('Ocurrió un error al iniciar sesión', 'error');
+      PushNotifications.addListener('registrationError', (error: any) => {
+        reject(error);
+      });
     });
+  });
+}
+
+
+async login() {
+  const data = { identifier: this.identifier, password: this.password };
+
+  try {
+    const res: any = await this.api.login(data);
+    await this.db.set('token', `Bearer ${res.jwt}`);
+
+    try {
+      this.token_push = await this.registerPush();
+      await this.api.setPushToken(res.user.id, this.token_push);
+      console.log('token_push actualizado en backend');
+    } catch (err) {
+      console.error('No se pudo registrar push token:', err);
+    }
+
+    const userWithRole: any = await this.api.getUserByMe();
+    const rol = userWithRole?.data?.role?.type;
+    switch (rol) {
+      case 'admin': this.router.navigateByUrl('/home'); break;
+      case 'docente': this.router.navigateByUrl('/alumnos'); break;
+      case 'persona_autorizada': this.router.navigateByUrl('/llegue'); break;
+      default: this.router.navigateByUrl('/login'); break;
+    }
+
+    this.presentToast('Inicio de sesión exitoso', 'success');
+  } catch (error) {
+    console.error('Error en login:', error);
+    this.presentToast('Ocurrió un error al iniciar sesión', 'error');
   }
+}
+
+
 }

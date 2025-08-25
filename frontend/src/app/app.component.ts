@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { MenuController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Storage } from '@ionic/storage-angular';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent {
     private router: Router,
     private menuCtrl: MenuController,
     private storage: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private api: ApiService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -46,18 +48,32 @@ export class AppComponent {
     await toast.present();
   }
 
-  logout() {
-    console.log("Has cerrado sesión");
+  async logout() {
+    try {
+      // Obtener usuario actual
+      const user: any = await this.api.getUserByMe();
+      const userId = user?.data?.id;
 
-    this.storage.remove("token").then(() => {
-      // Mostrar mensaje antes de redirigir
+      // Limpiar token_push en backend si existe
+      if (userId) {
+        await this.api.clearPushToken(userId);
+        console.log('token_push eliminado en backend');
+      }
+
+      // Borrar token local
+      await this.storage.remove("token");
+
+      // Mensaje y redirección
       this.presentToast('Has cerrado sesión correctamente', 'success');
-
       setTimeout(() => {
         this.router.navigateByUrl('/login');
       }, 1500);
-    });
 
-
+    } catch (err) {
+      console.error('Error en logout:', err);
+      this.presentToast('Error al cerrar sesión', 'error');
+    }
   }
+
+
 }

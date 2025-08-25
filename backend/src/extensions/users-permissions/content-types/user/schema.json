@@ -111,7 +111,6 @@
       "type": "media",
       "multiple": true,
       "allowedTypes": [
-        "files",
         "images"
       ]
     },

@@ -91,7 +91,8 @@ export class RegisterPage implements OnInit {
 
       await this.api.register(usuario, this.token);
       // console.log(respuesta);
-      this.presentToast('Te has registrado de manera exitosa', 3000, 'success');
+      this.presentToast('Te has registrado de manera exitosa, Espera a que un administrador te active', 3000, 'success');
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error(error);
       this.presentToast('Error al registrarse. Inténtalo de nuevo.', 3000, 'danger');
