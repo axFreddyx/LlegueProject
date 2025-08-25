@@ -40,7 +40,7 @@
           </ion-item>
           <ion-item *ngFor="let a of alumnosSinLlegada" class="d-flex align-items-center rounded mb-2">
             <ion-avatar slot="start" class="me-3">
-              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+              <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" alt="Foto de {{ a.alumno.nombre }}" />
             </ion-avatar>
             <ion-label class="me-auto">
               <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
@@ -66,7 +66,7 @@
 
           <ion-item *ngFor="let a of alumnosConLlegada" class="d-flex align-items-center rounded mb-2">
             <ion-avatar slot="start" class="me-3">
-              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+              <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" alt="Foto de {{ a.alumno.nombre }}" />
             </ion-avatar>
             <ion-label>
               <h6 class="fw-semibold mb-0">{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h6>
@@ -94,7 +94,7 @@
           </div>
           <ion-item *ngFor="let a of alumnosSinLlegada">
             <ion-avatar slot="start">
-              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+              <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" alt="Foto de {{ a.alumno.nombre }}" />
             </ion-avatar>
             <ion-label>
               <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
@@ -116,7 +116,7 @@
           </div>
           <ion-item *ngFor="let a of alumnosConLlegada">
             <ion-avatar slot="start">
-              <img src="assets/img/ejemplo.jpg" alt="Foto de {{ a.alumno.nombre }}" />
+              <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" alt="Foto de {{ a.alumno.nombre }}" />
             </ion-avatar>
             <ion-label>
               <h2>{{ a.alumno.nombre }} {{ a.alumno.apellidos }}</h2>
