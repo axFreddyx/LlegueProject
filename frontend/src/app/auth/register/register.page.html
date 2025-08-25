@@ -58,7 +58,7 @@
                 <ion-icon name="document-text-outline"></ion-icon>
                 <span>Subir INE (PDF)</span>
               </label>
-              <input id="ine-input" [(ngModel)]="ine" type="file" accept="application/pdf" hidden
+              <input id="ine-input" [(ngModel)]="ine" type="file" accept="image/png, image/jpeg, image/jpg" hidden
                 (change)="seleccionarINE($event)">
               <div *ngIf="nombreINE" class="register-pdf-name">{{ nombreINE }}</div>
             </ion-col>

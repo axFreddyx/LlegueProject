@@ -114,7 +114,11 @@ const routes: Routes = [
   {
     path: 'ver/padres',
     loadChildren: () => import('./admin/pautorizada/ver/ver.module').then( m => m.VerPageModule)
+  },  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
+
 
 ];
 

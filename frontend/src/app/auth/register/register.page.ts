@@ -37,7 +37,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-    async subirArchivos(): Promise<any[]> {
+  async subirArchivos(): Promise<any[]> {
     const formData = new FormData();
 
     const fotoInput = document.getElementById('foto-input') as HTMLInputElement;
@@ -63,6 +63,7 @@ export class RegisterPage implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
   seleccionarINE(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -70,52 +71,40 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  async Register() {
+    try {
+      // 1. Subir archivos
+      const archivos = await this.subirArchivos(); // Devuelve IDs de Strapi
 
+      // 2. Crear usuario
+      const usuario = {
+        nombre: this.nombre,
+        apellidos: this.apellidos,
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        confirmed: false,
+        role: this.role,
+        foto: archivos[0]?.id || null,  // ID de la foto en Strapi
+        ine: archivos[1]?.id || null    // ID del INE en Strapi
+      };
 
-async Register() {
-  if (this.password === '') {
-    const toast = await this.toastController.create({
-      message: 'Por favor, complete todos los campos',
-      duration: 2000,
-      color: 'danger'
-    });
-    toast.present();
-    return;
+      await this.api.register(usuario, this.token);
+      // console.log(respuesta);
+      this.presentToast('Te has registrado de manera exitosa', 3000, 'success');
+    } catch (error) {
+      console.error(error);
+      this.presentToast('Error al registrarse. Inténtalo de nuevo.', 3000, 'danger');
+    }
   }
 
-  // 1️⃣ Subimos los archivos primero
-  const archivos = await this.subirArchivos(); // este método sube a /api/upload
-  // archivos = [{id:12, name:"foto.png", ...}, {id:13, name:"ine.pdf", ...}]
-
-  // 2️⃣ Identificamos cada archivo por tipo
-  const fotoArchivo = archivos.find(f => f.ext === '.png' || f.ext === '.jpg' || f.ext === '.jpeg');
-  const ineArchivo = archivos.find(f => f.ext === '.pdf');
-
-  // 3️⃣ Creamos el usuario y asociamos los archivos usando sus ids
-  const data = {
-    nombre: this.nombre,
-    apellidos: this.apellidos,
-    username: this.username,
-    email: this.email,
-    password: this.password,
-    role: this.role,
-    confirmed: this.confirmed,
-    foto: fotoArchivo ? fotoArchivo.id : null,
-    ine: ineArchivo ? ineArchivo.id : null
-  };
-
-  try {
-    const response = await this.api.crear_cuenta(data); // aquí va solo JSON
-    console.log(response);
-    this.router.navigate(['/home']);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-
-
+  presentToast(message: string, duration: number = 2000, color: string = 'success') {
+    this.toastController.create({
+      message,
+      duration,
+      color
+    }).then(toast => toast.present());
+  } 
 }
 
 

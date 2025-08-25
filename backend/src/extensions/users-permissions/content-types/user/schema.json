@@ -109,9 +109,10 @@
     },
     "ine": {
       "type": "media",
-      "multiple": false,
+      "multiple": true,
       "allowedTypes": [
-        "files"
+        "files",
+        "images"
       ]
     },
     "token_push": {

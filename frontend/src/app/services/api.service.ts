@@ -17,22 +17,22 @@ export class ApiService {
   //#region Register y login
 
   async register(user: any, token: any) {
-    return await axios.post(this.url + "/users", user, { headers: { Authorization: token } });
+    return await axios.post(this.url + "/users", user, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } });
   }
 
-  async crear_cuenta(data: any) {
-    console.log(data)
-    return await axios.post(this.url + "/users", data,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
-    );
-  }
+  // async crear_cuenta(data: any) {
+  //   console.log(data)
+  //   return await axios.post(this.url + "/users", data,
+  //     { headers: {  } }
+  //   );
+  // }
 
-  async subirArchivos(formData: FormData) {
+  async subirArchivos(formData: FormData): Promise<any[]> {
     try {
-      const response = await axios.post(this.url + '/upload', formData, {
+      const response = await axios.post<any[]>(this.url + '/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      return response.data; // array de archivos subidos
+      return response.data;
     } catch (error) {
       console.error('Error subiendo archivos:', error);
       return [];
@@ -90,16 +90,15 @@ export class ApiService {
 
   async uploadFile(file: File, token: string) {
     const formData = new FormData();
-    formData.append('files', file); // 👈 nombre exacto que Strapi espera
+    formData.append('files', file);
 
-    const res:any = await this.http.post<any[]>(`${this.url}/upload`, formData, {
+    const res: any = await this.http.post<any[]>(`${this.url}/upload`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }).toPromise();
 
-    // Strapi devuelve un array de archivos subidos
-    return res[0];
+    return res[0]; // retorna el objeto del archivo subido
   }
 
   async createAlumnoConFoto(payload: any, file: File, token: string) {
@@ -181,6 +180,18 @@ export class ApiService {
 
   async getUserById(id: any, token: string) {
     return await axios.get(`${this.url}/users/${id}`, { headers: { Authorization: token } });
+  }
+
+  async forgotPassword(email: string) {
+    return await axios.post(`${this.url}/auth/forgot-password`, { email });
+  }
+
+  async resetPassword(code: string, password: string, passwordConfirmation: string) {
+    return await axios.post(`${this.url}/auth/reset-password`, {
+      code,
+      password,
+      passwordConfirmation
+    });
   }
 
   // crea una funcion que me traiga la foto del usuario
