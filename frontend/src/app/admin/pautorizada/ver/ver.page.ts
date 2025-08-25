@@ -388,7 +388,6 @@ export class VerPage implements OnInit {
     this.deleteAlert?.present();
   }
 
-
   redirect() {
     this.router.navigate(['/create/cuenta'], { queryParams: { role: 'persona_autorizada' } });
   }
@@ -397,6 +396,15 @@ export class VerPage implements OnInit {
     this.router.navigate([`/editar/cuenta/${p.id}`], { queryParams: { role: 'persona_autorizada' } });
   }
 
+  confirmar(p:any){
+    try{
+      this.api.updateUser({ confirmed: true }, p.id);
+      this.presentToast(`Cuenta de ${p.nombre} confirmada.`, 'success');
+    }catch(error){
+      console.error('Error al confirmar:', error);
+      this.presentToast('No se pudo confirmar la cuenta.', 'error');
+    }
+  }
 
   openModalVarios() {
     this.modal.present();
@@ -428,13 +436,13 @@ export class VerPage implements OnInit {
     try {
       await this.api.deleteUser(persona.id);
       this.personas = this.personas.filter(p => p.id !== persona.id);
+      this.getPersonasAutorizadas(); // Refresca la lista
       this.presentToast(`Docente ${persona.nombre} eliminado.`, 'success');
     } catch (err) {
       console.error('Error deleting docente:', err);
       this.presentToast('No se pudo eliminar el docente.', 'error');
     }
   }
-
 
   getFotoUrl(a: any): string | null { // ✅ NUEVO
     try {
