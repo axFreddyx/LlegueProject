@@ -1,3 +1,5 @@
+import {format} from 'path';
+
 const admin = require("firebase-admin");
 
 if (!admin.apps.length) {
@@ -17,7 +19,7 @@ export default {
 
       const llegada = await strapi.db.query("api::llegada.llegada").findOne({
         where: { id: result.id },
-        populate: { docente: true, alumno:true }, // asegúrate que la relación se llama 'cliente'
+        populate: { docente: true, alumno:true },
       });
 
       if (!llegada.docente || !llegada.docente.token_push) {
