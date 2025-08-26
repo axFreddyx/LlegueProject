@@ -32,18 +32,20 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.token = await this.storage.get("token");
-    // this.getMe();
+    await this.getMe(); // obtener info del usuario y su ID
     this.toggleMenu();
   }
 
-  // async getMe() {
-  //   await this.api.getUserByMe().then((res: any) => {
-  //     console.log("Yo => ",res.data.id);
-  //     this.idUser = res.data.id;
-  //   }).catch((err: any) => {
-  //     console.log(err);
-  //   });
-  // }
+  async getMe() {
+    try {
+      const res: any = await this.api.getUserByMe();
+      this.idUser = res.data.id; // guardamos el id del usuario
+      console.log("ID de usuario:", this.idUser);
+    } catch (err) {
+      console.error("Error obteniendo info de usuario:", err);
+    }
+  }
+
 
   toggleMenu() {
     const hideMenuRoutes = ['/login', '/register', '/llegue', '/alumnos', '/perfil', '/llegue-global', '/password-forgotten'];
@@ -62,10 +64,12 @@ export class AppComponent implements OnInit {
     });
     await toast.present();
   }
+
+
   async logout() {
     try {
       const jwt = await this.storage.get("token"); // obtener token
-      const userId = this.idUser; // ya lo guardaste antes en login
+      const userId = this.idUser;
 
       if (userId && jwt) {
         await this.api.gestionarToken(userId, '', jwt); // vaciar token_push en backend
@@ -73,7 +77,7 @@ export class AppComponent implements OnInit {
       }
 
       await this.storage.remove("token"); // borrar token local
-      this.presentToast('Has cerrado sesión correctamente', 'success');
+      await this.presentToast('Has cerrado sesión correctamente', 'success');
 
       setTimeout(() => {
         this.router.navigateByUrl('/login');
@@ -81,9 +85,10 @@ export class AppComponent implements OnInit {
 
     } catch (err) {
       console.error('Error en logout:', err);
-      this.presentToast('Error al cerrar sesión: ' + err, 'error');
+      await this.presentToast('Error al cerrar sesión: ' + err, 'error');
     }
   }
+
 
 
 
