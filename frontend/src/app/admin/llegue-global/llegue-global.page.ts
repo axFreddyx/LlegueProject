@@ -35,7 +35,7 @@ export class LlegueGlobalPage implements OnInit {
     // Llegadas en tiempo real
     setInterval(() => {
       this.getLlegadas();
-    }, 1000); // cada 5 segundos, por ejemplo
+    }, 10000); // cada 5 segundos, por ejemplo
   }
 
   // helper toast
