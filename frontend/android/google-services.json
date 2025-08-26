@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "542311403130",
-    "project_id": "lleguefjp",
-    "storage_bucket": "lleguefjp.firebasestorage.app"
+    "project_number": "762494505426",
+    "project_id": "llegue-a2155",
+    "storage_bucket": "llegue-a2155.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:542311403130:android:dec053211e47b6bf3235c3",
+        "mobilesdk_app_id": "1:762494505426:android:45f7d2044700463bc3780b",
         "android_client_info": {
-          "package_name": "com.llegueFJP"
+          "package_name": "com.llegue3jotas"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDbpUQdRpjHXxea72aJp6V98KBblIy-3Rs"
+          "current_key": "AIzaSyDSbCliBTtngT8ovlM5Iq83Zv764e-4I8I"
         }
       ],
       "services": {
