@@ -74,8 +74,7 @@ export class ApiService {
       throw err.response?.data || err;
     }
   }
-
-
+  
   async setPushToken(userId: number, tokenPush: string) {
     try {
       await axios.put(`${this.url}/users/${userId}`, { data: { token_push: tokenPush } });
