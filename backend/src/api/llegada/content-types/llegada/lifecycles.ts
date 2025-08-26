@@ -30,7 +30,7 @@ export default {
         token: llegada.docente.token_push,
         notification: {
           title: "Aviso de llegada",
-          body:`Vienen por ${llegada.alumno.nombre}`,
+          body:`Han llegado por ${llegada.alumno.nombre}`,
         },
       };
 
