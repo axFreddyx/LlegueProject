@@ -62,30 +62,20 @@ export class AppComponent implements OnInit {
     });
     await toast.present();
   }
-
   async logout() {
     try {
-      // Obtener usuario actual
       const user: any = await this.api.getUserByMe();
       const userId = user?.data?.id;
-      console.log("Usuario actual ID:", userId);
-      // Limpiar token_push en backend si existe
-      if (userId) {
-        this.api.gestionarToken(userId, '', this.token).then(() => {
-          console.log("Token gestionado correctamente");
-        }).catch((err) => {
-          console.log("Error al gestionar el token", err);
-        });
+      const jwt = await this.storage.get("token"); // asegurar que tienes el token válido
 
-      } else {
-        console.log('token_push eliminado en backend');
+      if (userId && user.data.token_push) {
+        await this.api.gestionarToken(userId, '', jwt);
+        console.log("Token_push eliminado en backend");
       }
 
-      // Borrar token local 
-      await this.storage.remove("token");
-
-      // Mensaje y redirección 
+      await this.storage.remove("token"); // borrar token local después de éxito
       this.presentToast('Has cerrado sesión correctamente', 'success');
+
       setTimeout(() => {
         this.router.navigateByUrl('/login');
       }, 1500);
