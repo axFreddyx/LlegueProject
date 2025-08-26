@@ -64,16 +64,15 @@ export class AppComponent implements OnInit {
   }
   async logout() {
     try {
-      const user: any = await this.api.getUserByMe();
-      const userId = user?.data?.id;
-      const jwt = await this.storage.get("token"); // asegurar que tienes el token válido
+      const jwt = await this.storage.get("token"); // obtener token
+      const userId = this.idUser; // ya lo guardaste antes en login
 
-      if (userId && user.data.token_push) {
-        await this.api.gestionarToken(userId, '', jwt);
+      if (userId && jwt) {
+        await this.api.gestionarToken(userId, '', jwt); // vaciar token_push en backend
         console.log("Token_push eliminado en backend");
       }
 
-      await this.storage.remove("token"); // borrar token local después de éxito
+      await this.storage.remove("token"); // borrar token local
       this.presentToast('Has cerrado sesión correctamente', 'success');
 
       setTimeout(() => {
@@ -82,9 +81,10 @@ export class AppComponent implements OnInit {
 
     } catch (err) {
       console.error('Error en logout:', err);
-      this.presentToast('Error al cerrar sesión', 'error');
+      this.presentToast('Error al cerrar sesión: ' + err, 'error');
     }
   }
+
 
 
 }
