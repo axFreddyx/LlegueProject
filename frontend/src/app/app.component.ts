@@ -32,18 +32,18 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.token = await this.storage.get("token");
-    this.getMe();
+    // this.getMe();
     this.toggleMenu();
   }
 
-  async getMe() {
-    await this.api.getUserByMe().then((res: any) => {
-      console.log(res.data);
-      this.idUser = res.data.id;
-    }).catch((err: any) => {
-      console.log(err);
-    });
-  }
+  // async getMe() {
+  //   await this.api.getUserByMe().then((res: any) => {
+  //     console.log("Yo => ",res.data.id);
+  //     this.idUser = res.data.id;
+  //   }).catch((err: any) => {
+  //     console.log(err);
+  //   });
+  // }
 
   toggleMenu() {
     const hideMenuRoutes = ['/login', '/register', '/llegue', '/alumnos', '/perfil', '/llegue-global', '/password-forgotten'];
@@ -68,28 +68,23 @@ export class AppComponent implements OnInit {
       // Obtener usuario actual
       const user: any = await this.api.getUserByMe();
       const userId = user?.data?.id;
-
+      console.log("Usuario actual ID:", userId);
       // Limpiar token_push en backend si existe
       if (userId) {
-        await this.api.clearPushToken(userId).then(() => {
-          this.api.gestionarToken(this.idUser, '', this.token).then(() => {
-            console.log("Token gestionado correctamente");
-          }).catch((err) => {
-            console.log("Error al gestionar el token", err);
-          });
-
-          console.log('token_push eliminado en backend');
+        this.api.gestionarToken(userId, '', this.token).then(() => {
+          console.log("Token gestionado correctamente");
         }).catch((err) => {
-          console.error('Error al eliminar token_push en backend:', err);
+          console.log("Error al gestionar el token", err);
         });
+
       } else {
         console.log('token_push eliminado en backend');
       }
 
-      // Borrar token local
+      // Borrar token local 
       await this.storage.remove("token");
 
-      // Mensaje y redirección
+      // Mensaje y redirección 
       this.presentToast('Has cerrado sesión correctamente', 'success');
       setTimeout(() => {
         this.router.navigateByUrl('/login');
