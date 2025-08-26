@@ -63,9 +63,24 @@ export class ApiService {
 
 
 
+  // api.service.ts
+  async ponertoken(userId: number, token_push: string, jwt: string) {
+    try {
+      const res = await axios.put(
+        this.url + `/users/${userId}`,
+        { token_push }, // <- este campo debe existir en Strapi en la colección Users
+        { headers: { Authorization: `Bearer ${jwt}` } }
+      );
+      return res.data;
+    } catch (err: any) {
+      throw err.response?.data || err;
+    }
+  }
+
+
   async setPushToken(userId: number, tokenPush: string) {
     try {
-      await axios.put(`${this.url}/users/${userId}`, { token_push: tokenPush });
+      await axios.put(`${this.url}/users/${userId}`, { data: { token_push: tokenPush } });
       console.log('token_push guardado');
     } catch (err) {
       console.error('Error guardando token_push:', err);
