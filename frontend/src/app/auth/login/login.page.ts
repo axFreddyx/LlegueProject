@@ -25,9 +25,7 @@ export class LoginPage implements OnInit {
     private toastController: ToastController
   ) { }
 
-
   token_push = '';
-
 
   identifier = '';
   password = '';
@@ -86,57 +84,53 @@ export class LoginPage implements OnInit {
 
   }
 
-async presentToast(message: string, type: 'success' | 'error' | 'warning') {
-  const toast = await this.toastController.create({
-    message,
-    duration: 1500,
-    position: 'top',
-    color: type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'
-  });
-  await toast.present();
-}
-
-
-
-
-
-async login() {
-  const data = { identifier: this.identifier, password: this.password };
-
-  try {
-    const res: any = await this.api.login(data);
-    await this.db.set('token', `Bearer ${res.jwt}`);
-
-    // Intentamos guardar el token_push en la DB
-    if (this.token_push) {
-      try {
-        await this.api.ponertoken(res.user.id, this.token_push, res.jwt);
-        this.presentToast('✅ token_push guardado correctamente', 'success');
-        console.log('token_push actualizado en backend');
-      } catch (err) {
-        console.error('No se pudo registrar push token:', err);
-        this.presentToast('❌ Error guardando token_push: ' + JSON.stringify(err), 'warning');
-      }
-    } else {
-      this.presentToast('⚠️ No se encontró token_push para registrar', 'warning');
-    }
-
-    // Ahora obtenemos info del usuario logueado
-    const userWithRole: any = await this.api.getUserByMe();
-    const rol = userWithRole?.data?.role?.type;
-    switch (rol) {
-      case 'admin': this.router.navigateByUrl('/home'); break;
-      case 'docente': this.router.navigateByUrl('/alumnos'); break;
-      case 'persona_autorizada': this.router.navigateByUrl('/llegue'); break;
-      default: this.router.navigateByUrl('/login'); break;
-    }
-
-    this.presentToast('Inicio de sesión exitoso', 'success');
-  } catch (error) {
-    console.error('Error en login:', error);
-    this.presentToast('Ocurrió un error al iniciar sesión', 'warning');
+  async presentToast(message: string, type: 'success' | 'error' | 'warning') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'top',
+      color: type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'
+    });
+    await toast.present();
   }
-}
+
+  async login() {
+    const data = { identifier: this.identifier, password: this.password };
+
+    try {
+      const res: any = await this.api.login(data);
+      await this.db.set('token', `Bearer ${res.jwt}`);
+
+      // Intentamos guardar el token_push en la DB
+      if (this.token_push) {
+        try {
+          await this.api.gestionarToken(res.user.id, this.token_push, res.jwt);
+          this.presentToast('✅ token_push guardado correctamente', 'success');
+          console.log('token_push actualizado en backend');
+        } catch (err) {
+          console.error('No se pudo registrar push token:', err);
+          this.presentToast('❌ Error guardando token_push: ' + JSON.stringify(err), 'warning');
+        }
+      } else {
+        this.presentToast('⚠️ No se encontró token_push para registrar', 'warning');
+      }
+
+      // Ahora obtenemos info del usuario logueado
+      const userWithRole: any = await this.api.getUserByMe();
+      const rol = userWithRole?.data?.role?.type;
+      switch (rol) {
+        case 'admin': this.router.navigateByUrl('/home'); break;
+        case 'docente': this.router.navigateByUrl('/alumnos'); break;
+        case 'persona_autorizada': this.router.navigateByUrl('/llegue'); break;
+        default: this.router.navigateByUrl('/login'); break;
+      }
+
+      this.presentToast('Inicio de sesión exitoso', 'success');
+    } catch (error) {
+      console.error('Error en login:', error);
+      this.presentToast('Ocurrió un error al iniciar sesión', 'warning');
+    }
+  }
 
 
 

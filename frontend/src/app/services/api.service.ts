@@ -61,10 +61,8 @@ export class ApiService {
     return true;
   }
 
-
-
   // api.service.ts
-  async ponertoken(userId: number, token_push: string, jwt: string) {
+  async gestionarToken(userId: number, token_push: string, jwt: string) {
     try {
       const res = await axios.put(
         this.url + `/users/${userId}`,

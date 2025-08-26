@@ -36,8 +36,6 @@ export class EditarPage implements OnInit {
   roles: any[] = [];
   roleParameter: any;
 
-
-
   async ngOnInit() {
     this.token = await this.storage.get("token");
     this.idDocente = window.location.href.split('/').pop() || "";
@@ -104,7 +102,6 @@ export class EditarPage implements OnInit {
       this.presentToast('Error al cargar roles.', 'error');
     }
   }
-
 
   async presentToast(message: string, type: 'success' | 'error') {
     const toast = await this.toastController.create({
