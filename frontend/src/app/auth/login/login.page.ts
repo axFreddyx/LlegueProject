@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
     private api: ApiService,
     private router: Router,
     private db: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
   ) { }
 
   token_push = '';
