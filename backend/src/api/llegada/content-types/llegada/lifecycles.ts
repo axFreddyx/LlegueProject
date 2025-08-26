@@ -3,7 +3,7 @@ import {format} from 'path';
 const admin = require("firebase-admin");
 
 if (!admin.apps.length) {
-  const serviceAccount = require("./llegue-a2155-firebase-adminsdk-fbsvc-97353971ea.json");
+  const serviceAccount = require("./llegue-a2155-firebase-adminsdk-fbsvc-df00c6181f.json");
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
