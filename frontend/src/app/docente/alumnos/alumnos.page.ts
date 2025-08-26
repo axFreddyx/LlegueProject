@@ -58,7 +58,7 @@ export class AlumnosPage implements OnInit {
     await this.getLlegada();
     setInterval(() => {
       this.getLlegada();
-    }, 5000); // Cada 1 segundo
+    }, 30000); // Cada 1 segundo
   }
 
   // Para cambiar vista

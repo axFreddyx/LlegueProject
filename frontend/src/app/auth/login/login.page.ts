@@ -35,9 +35,6 @@ export class LoginPage implements OnInit {
     this.db.create();
     this.token = await this.db.get("token");
 
-
-
-
     console.log('Initializing HomePage');
 
     // Request permission to use push notifications
@@ -55,7 +52,8 @@ export class LoginPage implements OnInit {
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration',
       (token: Token) => {
-        alert('Push registration success, token: ' + token.value);
+        // alert('Push registration success, token: ' + token.value);
+        // this.presentToast('Push registration success', 'success');
         this.token_push = token.value;
       }
     );
@@ -63,15 +61,16 @@ export class LoginPage implements OnInit {
     // Some issue with our setup and push will not work
     PushNotifications.addListener('registrationError',
       (error: any) => {
-        alert('Error on registration: ' + JSON.stringify(error));
+        // alert('Error on registration: ' + JSON.stringify(error));
+        this.presentToast('Ha ocurrido un error, intentalo mas tarde.', 'error');
       }
     );
 
     // Show us the notification payload if the app is open on our device
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotificationSchema) => {
-        alert('Push received: ' + JSON.stringify(notification));
-
+        // alert('Push received: ' + JSON.stringify(notification));
+        this.presentToast(JSON.stringify(notification.title) + JSON.stringify(notification.body), 'success');
       }
     );
 

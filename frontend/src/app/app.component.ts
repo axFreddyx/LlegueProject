@@ -84,7 +84,4 @@ export class AppComponent implements OnInit {
       this.presentToast('Error al cerrar sesión: ' + err, 'error');
     }
   }
-
-
-
 }
