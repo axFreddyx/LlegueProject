@@ -35,7 +35,7 @@ export class EditarPerfilPage implements OnInit {
   loading = false;
 
   // Foto
-  nuevaFotoFile: File | null = null; 
+  nuevaFotoFile: File | null = null;
   fotoPreviewUrl: string = 'assets/img/user.png';
 
   constructor(
@@ -44,7 +44,7 @@ export class EditarPerfilPage implements OnInit {
     private storage: Storage,
     private api: ApiService,
     private toast: ToastController,
-  ) {}
+  ) { }
 
   async ngOnInit() {
     await this.storage.create();
@@ -66,13 +66,21 @@ export class EditarPerfilPage implements OnInit {
       const data = res?.data as UserMe;
       this.me = data;
 
-      this.form.nombre   = data?.nombre || '';
-      this.form.apellidos= data?.apellidos || '';
+      this.form.nombre = data?.nombre || '';
+      this.form.apellidos = data?.apellidos || '';
       this.form.username = data?.username || '';
-      this.form.email    = data?.email || '';
+      this.form.email = data?.email || '';
 
-      if (data?.foto?.url) {
-        this.fotoPreviewUrl = this.toAbsoluteUrl(data.foto.url);
+      if (this.nuevaFotoFile) {
+        const formData = new FormData();
+        formData.append('files', this.nuevaFotoFile); // 👈 nombre debe coincidir con el que espera tu backend
+
+        const uploaded = await this.api.subirArchivos(formData);
+        // si el backend responde un arreglo de archivos, tomamos el primero
+        let fotoId: number | undefined;
+        if (uploaded && uploaded.length > 0) {
+          fotoId = uploaded[0].id;
+        }
       }
     } catch (err) {
       console.error('Error al cargar perfil:', err);
@@ -93,6 +101,8 @@ export class EditarPerfilPage implements OnInit {
     };
     reader.readAsDataURL(file);
   }
+
+
 
   async guardarCambios() {
     if (!this.me?.id) {
@@ -123,7 +133,7 @@ export class EditarPerfilPage implements OnInit {
       await this.api.updateUser(payload, this.me.id);
 
       this.presentToast('Perfil actualizado.', 'success');
-      await this.cargarMiPerfil();  
+      await this.cargarMiPerfil();
       this.nuevaFotoFile = null;
     } catch (err: any) {
       console.error('Error al actualizar perfil:', err);
@@ -134,7 +144,7 @@ export class EditarPerfilPage implements OnInit {
     }
   }
 
-  private async presentToast(message: string, color: 'success'|'danger'|'warning'|'primary'='success', duration=2500) {
+  private async presentToast(message: string, color: 'success' | 'danger' | 'warning' | 'primary' = 'success', duration = 2500) {
     const t = await this.toast.create({ message, color, duration });
     t.present();
   }
