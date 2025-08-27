@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://172.20.10.3:1337/api',
-  // apiUrl: 'https://api2.utzac.edu.mx/api',
-   apiUrl: 'http://localhost:1337/api',
+  apiUrl: 'https://api2.utzac.edu.mx/api',
+  //  apiUrl: 'http://localhost:1337/api',
 
 };
 
