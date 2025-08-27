@@ -129,3 +129,5 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+src/api/llegada/content-types/llegada/lifecycles.ts
+src/api/llegada/content-types/llegada/llegue-a2155-firebase-adminsdk-fbsvc-df00c6181f.json
