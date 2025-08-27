@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
-import { ToastController } from '@ionic/angular'; 
+import { InfiniteScrollCustomEvent, ToastController } from '@ionic/angular';
 
 interface Salon {
   aula: string;
@@ -23,8 +23,11 @@ export class GradoygrupoPage implements OnInit {
   isEditing = false;
   idSalon: string = "";
   dataExisting: boolean = false;
-  salonSelected:any;
+  salonSelected: any;
 
+  // Paginación e Infinite Scroll
+  pageSize = 25;
+  numItems = 0; // número de items cargados
   public alertButtons = [
     { text: 'Cancelar', role: 'cancel' },
     {
@@ -43,7 +46,7 @@ export class GradoygrupoPage implements OnInit {
     private storage: Storage,
     private api: ApiService,
     private router: Router,
-    private toastController: ToastController 
+    private toastController: ToastController
   ) { }
 
   data: any = {
@@ -83,20 +86,35 @@ export class GradoygrupoPage implements OnInit {
     }
   }
 
-  async getSalones() {
-    this.salones = [];
+  async getSalones(event?: InfiniteScrollCustomEvent) {
     try {
-      const res = await this.api.verSalones(this.token);
+      const res: any = await this.api.verSalones(this.token, this.numItems, this.pageSize);
       const data = (res.data as any).data as Salon[];
-      this.salones = data.sort((a: Salon, b: Salon) => {
+
+      // concatenar y ordenar
+      const nuevosSalones = data.sort((a: Salon, b: Salon) => {
         return a.grado !== b.grado
           ? a.grado - b.grado
           : a.grupo.toLowerCase().localeCompare(b.grupo.toLowerCase());
       });
+
+      this.salones = [...this.salones, ...nuevosSalones];
+
+      this.numItems += this.pageSize;
+
+      const total = res.data.meta.pagination.total;
+
+      if (event) {
+        event.target.complete();
+        if (this.salones.length >= total) {
+          event.target.disabled = true;
+        }
+      }
+
       console.log(this.salones);
     } catch (error) {
       console.error('Error cargando salones:', error);
-      this.presentToast('Error al cargar salones.', 'danger'); 
+      this.presentToast('Error al cargar salones.', 'danger');
     }
   }
 
@@ -116,7 +134,7 @@ export class GradoygrupoPage implements OnInit {
       this.cancel();
     }).catch(error => {
       console.error('Error creando salón:', error);
-      this.presentToast('No se pudo crear el salón.', 'danger'); 
+      this.presentToast('No se pudo crear el salón.', 'danger');
     });
   }
 
@@ -126,7 +144,7 @@ export class GradoygrupoPage implements OnInit {
       this.cancel();
     }).catch(error => {
       console.error('Error actualizando salón:', error);
-      this.presentToast('No se pudo actualizar el salón.', 'danger'); 
+      this.presentToast('No se pudo actualizar el salón.', 'danger');
     });
   }
 
@@ -136,7 +154,7 @@ export class GradoygrupoPage implements OnInit {
       this.getSalones();
     }).catch(error => {
       console.error('Error eliminando salón:', error);
-      this.presentToast('No se pudo eliminar el salón.', 'danger'); 
+      this.presentToast('No se pudo eliminar el salón.', 'danger');
     });
   }
 

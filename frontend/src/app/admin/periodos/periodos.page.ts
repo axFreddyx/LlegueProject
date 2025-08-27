@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from 'src/app/services/api.service';
-import { IonAlert, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonAlert, ToastController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular/common';
 
 @Component({
@@ -32,6 +32,8 @@ export class PeriodosPage implements OnInit {
   dataExisting = false;
   p: any;
   isMultipleDelete = false;
+  pageSize = 25;
+  numItems = 0; // número de items cargados
 
   alertButtonsDelete = [
     { text: 'Cancelar', role: 'cancel' },
@@ -72,17 +74,28 @@ export class PeriodosPage implements OnInit {
     }
   }
 
-  async getPeriodo() {
-    this.periodos = [];
+  async getPeriodo(event?: InfiniteScrollCustomEvent) {
     try {
-      const res: any = await this.api.getPeriodos(this.token);
-      this.periodos = res.data.data || [];
-      console.log(this.periodos)
+      const res: any = await this.api.getPeriodos(this.token, this.numItems, this.pageSize);
+      const nuevosPeriodos = res.data.data || [];
+      this.periodos = [...this.periodos, ...nuevosPeriodos]; // concatena
+
+      this.numItems += this.pageSize;
+
+      const total = res.data.meta.pagination.total;
+
+      if (event) {
+        event.target.complete(); // indica que terminó el scroll
+        if (this.periodos.length >= total) {
+          event.target.disabled = true; // desactiva scroll si no hay más
+        }
+      }
     } catch (err) {
       console.error(err);
       this.presentToast('Error al cargar periodos.', 'danger');
     }
   }
+
 
   async getMe() {
     try {
@@ -154,7 +167,7 @@ export class PeriodosPage implements OnInit {
   }
 
   selectingPeriodos() { this.isSelecting = true; }
-  
+
   notSelectingPeriodos() {
     this.isSelecting = false;
     this.allSelected = false;

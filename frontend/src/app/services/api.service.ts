@@ -74,7 +74,7 @@ export class ApiService {
       throw err.response?.data || err;
     }
   }
-  
+
   async setPushToken(userId: number, tokenPush: string) {
     try {
       await axios.put(`${this.url}/users/${userId}`, { data: { token_push: tokenPush } });
@@ -98,8 +98,11 @@ export class ApiService {
 
   //#region Alumnos
 
-  async getAlumnos(token: any) {
-    return await axios.get(`${this.url}/alumnos?populate=*`, { headers: { Authorization: token } });
+  async getAlumnos(token: any, start: number = 0, limit: number = 25) {
+    return await axios.get(
+      `${this.url}/alumnos?populate=*&pagination[start]=${start}&pagination[limit]=${limit}`,
+      { headers: { Authorization: token } }
+    );
   }
 
   async getAlumno(id: any, token: string) {
@@ -191,7 +194,7 @@ export class ApiService {
   // 4: Docente
   // 5: Admin
 
-  async getUsersByRole(id: number) {
+  async getUsersByRole(id: number, start: number = 0, limit: number = 25) {
     const token = await this.storage.get('token');
     const headers = { Authorization: token };
     let url = "";
@@ -202,7 +205,7 @@ export class ApiService {
     } else if (id === 5) {
       url += `${this.url}/users?filters[role][id][$eq]=${id}`;
     }
-    return await axios.get(url, { headers: headers });
+    return await axios.get(url, { headers: headers, params: { pagination: { start: start, limit: limit } } });
   }
 
   async updateUser(data: any, id: any) {
@@ -238,15 +241,34 @@ export class ApiService {
 
   //#region Salones
 
-  async getSalones(token: any) {
+  async getSalones(token: any, start: number = 0, limit: number = 25) {
     return await axios.get(`${this.url}/salons?populate[alumnos][populate]=*&populate[docente]=true&populate[periodo]=true`, {
-      headers: { Authorization: token }
+      headers: { Authorization: token },
+      params: {
+        sort: 'createdAt:desc',
+        pagination: {
+          start: start,
+          limit: limit,
+        }
+      }
     });
   }
 
-  async verSalones(token: string) {
+  async verSalones(token: string, start: number = 0, limit: number = 25) {
     return await axios.get(`${this.url}/salons`, {
-      headers: { Authorization: `${token}` }
+      headers: { Authorization: `${token}` },
+      params: {
+        sort: 'createdAt:desc',
+        populate: {
+          alumnos: { populate: '*' },
+          docente: { populate: '*' },
+          periodo: { populate: '*' }
+        },
+        pagination: {
+          start: start,
+          limit: limit,
+        }
+      }
     });
   }
 
@@ -287,12 +309,19 @@ export class ApiService {
     });
   }
 
-  async getLlegadasBySalon(id: string, token: any) {
+  async getLlegadasBySalon(id: string, token: any, start: number = 0, limit: number = 25) {
     const url = `${this.url}/llegadas?filters[alumno][salon][documentId][$eq]=${id}&populate[alumno][populate]=*`;
 
     return await axios.get(url, {
       headers: {
         Authorization: token
+      },
+      params: {
+        sort: 'createdAt:desc',
+        pagination: {
+          start: start,
+          limit: limit,
+        }
       }
     });
   }
@@ -358,16 +387,23 @@ export class ApiService {
   }
 
   //#region Periodos
-  async getPeriodos(token: any) {
+  async getPeriodos(token: any, start: number = 0, limit: number = 25) {
     return await axios.get(`${this.url}/periodos`,
       {
         headers: { Authorization: token },
         params: {
           sort: 'createdAt:desc',
-          populate: '*'
+          populate: '*',
+          pagination: {
+            start: start,
+            limit: limit,
+          }
         }
       });
   }
+
+  // `${this.url}/alumnos?populate=*&pagination[start]=${start}&pagination[limit]=${limit}`,
+
 
   async createPeriodos(data: any, token: any) {
     return await axios.post(`${this.url}/periodos`, { data }, { headers: { Authorization: token } })
@@ -416,15 +452,5 @@ export class ApiService {
       }
     });
   }
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -58,8 +58,7 @@
                         el botón "Registrar administrador" arriba.</p>
                 </ion-card-content>
             </ion-card>
-            <ion-item class="admin-item" *ngFor="let a of admins"
-                (click)="isSelecting ? clickAdmin(a) : null">
+            <ion-item class="admin-item" *ngFor="let a of admins" (click)="isSelecting ? clickAdmin(a) : null">
                 <!-- CHECKBOX -->
                 <ion-checkbox disabled *ngIf="isSelecting" slot="start" color="primary" [(ngModel)]="a.selected"
                     (click)="selectAdmins(a)"
@@ -72,8 +71,7 @@
                     <h2>{{a.nombre}} {{a.apellidos}}</h2>
                     <p>ID: {{a.id}}</p>
                     <div class="acciones" *ngIf="!isSelecting">
-                        <ion-button (click)="redirectToEditAdmin(a)" size="small" fill="outline"
-                            color="primary">
+                        <ion-button (click)="redirectToEditAdmin(a)" size="small" fill="outline" color="primary">
                             📝 Editar
                         </ion-button>
                         <ion-button (click)="openAlertDelete(a)" size="small" fill="outline" color="danger">
@@ -82,6 +80,10 @@
                     </div>
                 </ion-label>
             </ion-item>
+            <ion-infinite-scroll threshold="1px" (ionInfinite)="getAdmins($event)">
+                <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
         </ion-list>
     </div>
 

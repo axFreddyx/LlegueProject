@@ -176,8 +176,7 @@
                                             color="danger">
                                             Eliminar
                                         </ion-button>
-                                        <ion-button (click)="confirmar(p)" size="small" fill="outline"
-                                            color="success">
+                                        <ion-button (click)="confirmar(p)" size="small" fill="outline" color="success">
                                             Confirmar
                                         </ion-button>
                                     </div>
@@ -276,6 +275,10 @@
                                 </div>
                             </div>
                         </ng-container>
+                        <ion-infinite-scroll threshold="1px" (ionInfinite)="getPersonasAutorizadas($event)">
+                            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más padres...">
+                            </ion-infinite-scroll-content>
+                        </ion-infinite-scroll>
                     </div>
                 </ion-col>
 
@@ -324,8 +327,7 @@
                                     <ion-button (click)="openModalINE(p)" size="small" fill="outline" color="primary">
                                         Ver INE
                                     </ion-button>
-                                    <ion-button (click)="confirmar(p)" size="small" fill="outline"
-                                        color="success">
+                                    <ion-button (click)="confirmar(p)" size="small" fill="outline" color="success">
                                         Confirmar
                                     </ion-button>
                                     <ion-button (click)="openAlertDelete(p)" size="small" fill="outline" color="danger">
@@ -334,6 +336,10 @@
                                 </div>
                             </div>
                         </ng-container>
+                        <ion-infinite-scroll threshold="1px" (ionInfinite)="getPersonasAutorizadas($event)">
+                            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+                            </ion-infinite-scroll-content>
+                        </ion-infinite-scroll>
                     </div>
                 </ion-col>
             </ion-row>
@@ -423,6 +429,10 @@
 
                     </ion-accordion>
                 </ion-accordion-group>
+                <ion-infinite-scroll threshold="1px" (ionInfinite)="getSalones($event)">
+                    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
                 <ion-list *ngIf="getTodosLosAlumnos().length > 0">
                     <ion-list-header color="light">
                         <ion-label>Alumnos seleccionados:</ion-label>
@@ -436,10 +446,11 @@
                         <ion-button size="small" color="danger" fill="clear" (click)="quitarAlumno(a.id)">
                             {{ esAlumnoAsignadoBD(a.id) ? 'Designar Alumno' : 'Quitar' }}
                         </ion-button>
-
-
                     </ion-item>
-
+                    <!-- <ion-infinite-scroll threshold="1px" (ionInfinite)="getAlumnos($event)">
+                        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+                        </ion-infinite-scroll-content>
+                    </ion-infinite-scroll> -->
                 </ion-list>
                 <ion-button (click)="asignarAlumnos()" fill="clear" expand="block" class="btn-principal">
                     Agregar Alumno

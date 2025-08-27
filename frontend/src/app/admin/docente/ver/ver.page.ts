@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
-import { IonModal, IonAlert, ToastController } from '@ionic/angular'; 
+import { IonModal, IonAlert, ToastController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class VerPage implements OnInit {
-  @ViewChild(IonModal) modal!: IonModal; 
+  @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('deleteAlert') deleteAlert?: IonAlert;  // Nuevo para alerta eliminar múltiple
 
   docentes: any[] = [];
@@ -28,6 +28,10 @@ export class VerPage implements OnInit {
   isSelecting = false;
   allSelected = false;
   docentesSeleccionados: any[] = [];
+
+  // Paginación
+  pageSize = 25; // Número de elementos por página
+  numItems = 0; // Número actual de elementos cargados
 
   alertButtons = [
     {
@@ -60,7 +64,7 @@ export class VerPage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private router: Router,
-    private toastController: ToastController 
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -78,15 +82,37 @@ export class VerPage implements OnInit {
     await t.present();
   }
 
-  async getDocentes() {
-    await this.api.getUsersByRole(4).then((res: any) => {
-      this.docentes = res.data;
-      // Limpiar selección al recargar
+  async getDocentes(event?: InfiniteScrollCustomEvent) {
+    try {
+      // Asegúrate que tu API soporte offset y limit
+      const res: any = await this.api.getUsersByRole(4, this.numItems, this.pageSize);
+      const nuevosDocentes = res.data || [];
+
+      // Evitar duplicados usando el ID del docente
+      this.docentes = [
+        ...this.docentes,
+        ...nuevosDocentes.filter((nd:any) => !this.docentes.some(d => d.id === nd.id))
+      ];
+
+      // avanzar offset solo si recibimos datos
+      if (nuevosDocentes.length > 0) {
+        this.numItems += this.pageSize;
+      }
+
+      const total = res.data.meta?.pagination?.total ?? this.docentes.length;
+
+      if (event) {
+        event.target.complete();
+        if (this.docentes.length >= total) {
+          event.target.disabled = true;
+        }
+      }
+
       this.notSelectingDocentes();
-    }).catch((err: any) => {
+    } catch (err) {
       console.error('Error fetching docentes:', err);
-      this.presentToast('Error al cargar docentes.', 'danger'); 
-    });
+      this.presentToast('Error al cargar docentes.', 'danger');
+    }
   }
 
   async getSalones() {
@@ -102,7 +128,7 @@ export class VerPage implements OnInit {
       }
     }).catch((err: any) => {
       console.error('Error fetching salones:', err);
-      this.presentToast('Error al cargar salones.', 'danger'); 
+      this.presentToast('Error al cargar salones.', 'danger');
     });
   }
 
@@ -115,7 +141,7 @@ export class VerPage implements OnInit {
       this.getSalones();
     }).catch(err => {
       console.error('Error updating docente:', err);
-      this.presentToast('No se pudo asignar el salón.', 'danger'); 
+      this.presentToast('No se pudo asignar el salón.', 'danger');
     });
     this.modal.dismiss(null, 'confirm');
   }
@@ -161,7 +187,7 @@ export class VerPage implements OnInit {
   redirectToAddDocente() {
     this.router.navigate(['/create/cuenta'], { queryParams: { role: 'docente' } });
   }
-  redirectToEditDocente(d:any){
+  redirectToEditDocente(d: any) {
     // console.log(d.documentId)
     this.router.navigate([`/editar/cuenta/${d.id}`], { queryParams: { role: 'docente' } });
   }

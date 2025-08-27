@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonAlert, IonModal, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonAlert, IonModal, ToastController } from '@ionic/angular';
 import { IonCard } from "@ionic/angular/standalone";
 import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment'; // ✅ NUEVO
@@ -54,6 +54,10 @@ export class AlumnosOrdenadorComponent implements OnInit {
   allSelected = false; //Selected section
 
   data: any = { salon: {} };
+
+  // Paginacion infinite scroll
+  numItems: number = 0;
+  pageSize: number = 25;
 
   alertButtons = [
     { text: 'Cancelar', role: 'cancel' },
@@ -129,17 +133,30 @@ export class AlumnosOrdenadorComponent implements OnInit {
   }
 
   // API calls
-  async getAlumnos() {
+  async getAlumnos(event?: InfiniteScrollCustomEvent) {
     try {
-      const res: any = await this.api.getAlumnos(this.token);
-      this.alumnos = res.data.data;          // ✅ guardar todos los alumnos
-      this.alumnosFiltrados = [...this.alumnos]; // ✅ inicializar filtrados
+      const res: any = await this.api.getAlumnos(this.token, this.numItems, this.pageSize);
+
+      this.alumnos = [...this.alumnos, ...res.data.data];
+      this.alumnosFiltrados = [...this.alumnos];
+
+      // avanzar offset
+      this.numItems += this.pageSize;
+      console.log('Página actual:', this.numItems / this.pageSize);
+
+      // detener scroll si ya no hay más
+      const total = res.data.meta.pagination.total;
+      if (event) {
+        event.target.complete();
+        if (this.salones.length >= total) {
+          event.target.disabled = true;
+        }
+      }
     } catch (err) {
       console.error('Error fetching alumnos:', err);
       this.presentToast('Error al cargar alumnos.');
     }
   }
-
 
   private async presentToasts(
     message: string,
@@ -154,10 +171,11 @@ export class AlumnosOrdenadorComponent implements OnInit {
     });
     await t.present();
   }
-  async getSalones() {
+
+  async getSalones(event?: InfiniteScrollCustomEvent) {
     this.salones = [];
     try {
-      const res = await this.api.verSalones(this.token);
+      const res: any = await this.api.verSalones(this.token);
       const data = (res.data as any).data as Salon[];
 
       // Añadir totalAlumnos y ordenar por grado y grupo
@@ -171,6 +189,19 @@ export class AlumnosOrdenadorComponent implements OnInit {
             ? a.grado - b.grado
             : a.grupo.toLowerCase().localeCompare(b.grupo.toLowerCase());
         });
+
+      // avanzar offset
+      this.numItems += this.pageSize;
+      console.log('Página actual:', this.numItems / this.pageSize);
+
+      // detener scroll si ya no hay más
+      const total = res.data.meta.pagination.total;
+      if (event) {
+        event.target.complete();
+        if (this.salones.length >= total) {
+          event.target.disabled = true;
+        }
+      }
 
       console.log(this.salones);
     } catch (error) {

@@ -1,12 +1,22 @@
-#listado-alumnos-box {
-  max-height: 400px; /* Ajusta según tu necesidad */
-  overflow-y: auto; /* Scroll vertical cuando se exceda */
-}
-#listado-alumnos-box::-webkit-scrollbar {
-  width: 6px;
-}
+// #listado-alumnos-box {
+//   max-height: 400px; /* Ajusta según tu necesidad */
+//   overflow-y: auto; /* Scroll vertical cuando se exceda */
+// }
+// #listado-alumnos-box::-webkit-scrollbar {
+//   width: 6px;
+// }
 
-#listado-alumnos-box::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 3px;
+// #listado-alumnos-box::-webkit-scrollbar-thumb {
+//   background-color: rgba(0,0,0,0.2);
+//   border-radius: 3px;
+// }
+
+
+.head_students_options {
+  position: sticky;
+  top: -1rem;
+  background: #fff;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }

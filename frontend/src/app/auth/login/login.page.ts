@@ -39,8 +39,6 @@ export class LoginPage implements OnInit {
 
     console.log('Initializing HomePage');
 
-
-
     if (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'android') {
 
       PushNotifications.requestPermissions().then(result => {

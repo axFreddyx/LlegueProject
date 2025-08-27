@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { Router, NavigationEnd } from '@angular/router';
@@ -40,8 +40,11 @@ export class AlumnosPage implements OnInit {
   alumnosConLlegada: any[] = [];
   alumnosSinLlegada: any[] = [];
 
-  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
+  // Paginación
+  numItems: number = 0; // Offset actual
+  pageSize: number = 25; // Número de elementos a cargar por página
 
+  private readonly assetsBase = environment.apiUrl.replace(/\/api\/?$/, ''); // ✅ NUEVO
 
   constructor(
     private toastCtrl: ToastController,
@@ -58,7 +61,7 @@ export class AlumnosPage implements OnInit {
     await this.getLlegada();
     setInterval(() => {
       this.getLlegada();
-    }, 30000); // Cada 1 segundo
+    }, 30000); // Cada 30 segundo
   }
 
   // Para cambiar vista
@@ -91,31 +94,45 @@ export class AlumnosPage implements OnInit {
     });
   }
 
-  async getLlegada() {
+  async getLlegada(event?: InfiniteScrollCustomEvent) {
+    try {
+      const res: any = await this.api.getLlegadasBySalon(this.idSalon, this.token, this.numItems, this.pageSize);
+      const nuevasLlegadas = res.data?.data || [];
 
-    this.api.getLlegadasBySalon(this.idSalon, this.token).then((res: any) => {
-      const data = res.data.data;
+      // Filtrar solo las llegadas de hoy
+      const llegadasHoy = nuevasLlegadas.filter((l: any) => {
+        const fechaLlegada = new Date(l.createdAt).toISOString().split('T')[0];
+        return fechaLlegada === this.fechaHoy;
+      });
 
-      this.reset(); // Limpiar antes de llenar de nuevo
-
-      data.forEach((llegada: any) => {
-        // Asegúrate de que la fecha esté bien formateada para comparar
-        const fechaLlegada = new Date(llegada.createdAt).toISOString().split('T')[0];
-
-        if (fechaLlegada === this.fechaHoy) {
-          if (llegada.llegada) {
-            this.alumnosConLlegada.push(llegada);
-          } else {
-            this.alumnosSinLlegada.push(llegada);
-          }
+      // Separar alumnos con y sin llegada, evitando duplicados
+      llegadasHoy.forEach((l:any) => {
+        if (l.llegada) {
+          if (!this.alumnosConLlegada.some(a => a.id === l.id)) this.alumnosConLlegada.push(l);
+        } else {
+          if (!this.alumnosSinLlegada.some(a => a.id === l.id)) this.alumnosSinLlegada.push(l);
         }
       });
 
-    }).catch((err: any) => {
+      // Incrementar offset solo si llegaron nuevos elementos
+      if (nuevasLlegadas.length > 0) this.numItems += this.pageSize;
+
+      // Controlar infinite scroll
+      const total = res.data?.meta?.pagination?.total ?? (this.alumnosConLlegada.length + this.alumnosSinLlegada.length);
+      if (event) {
+        event.target.complete();
+        if ((this.alumnosConLlegada.length + this.alumnosSinLlegada.length) >= total) {
+          event.target.disabled = true;
+        }
+      }
+
+    } catch (err) {
       console.error('Error al obtener llegadas:', err);
+      if (event) event.target.complete();
       this.presentToast('Error al obtener llegadas', "error");
-    });
+    }
   }
+
   // Reiniciar las listas de alumnos
   reset() {
     this.alumnosConLlegada = [];

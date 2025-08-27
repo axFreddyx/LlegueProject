@@ -128,6 +128,11 @@
             <ion-icon name="trash-outline" (click)="openAlertDelete(p)" class="salon-icon-delete"></ion-icon>
           </ion-label>
         </ion-item>
+        <ion-infinite-scroll threshold="1px" (ionInfinite)="getPeriodo($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más periodos...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
       </ion-list>
     </div>
 

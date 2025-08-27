@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { InfiniteScrollCustomEvent, OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { IonAlert, ToastController } from '@ionic/angular';
@@ -54,6 +54,10 @@ export class UsersAdminPage implements OnInit {
     }
   ];
 
+  // Infinite Scroll
+  pageSize = 25;
+  numItems = 0;
+
   constructor(
     private api: ApiService,
     private storage: Storage,
@@ -76,7 +80,7 @@ export class UsersAdminPage implements OnInit {
     this.getAdmins();
   }
 
-  async getAdmins() {
+  async getAdmins(event?: InfiniteScrollCustomEvent) {
     await this.api.getUsersByRole(5).then((res: any) => { // rol admin = 1
       if (res?.data) {
         this.admins = res.data;
@@ -89,6 +93,30 @@ export class UsersAdminPage implements OnInit {
           } else {
             admin.alumnos = [];
           }
+
+          const nuevosAdmins = res.data || [];
+
+          // Evitar duplicados usando el ID
+          this.admin = [
+            ...this.admin,
+            ...nuevosAdmins.filter((np: any) => !this.admin.some((p:any) => p.id === np.id))
+          ];
+
+          // Avanzar offset solo si hay nuevos elementos
+          if (nuevosAdmins.length > 0) {
+            this.numItems += this.pageSize;
+          }
+
+          // Limitar infinite scroll si la API devuelve total
+          const total = res.data.meta?.pagination?.total ?? this.admin.length;
+
+          if (event) {
+            event.target.complete();
+            if (this.admin.length >= total) {
+              event.target.disabled = true;
+            }
+          }
+
         });
       } else {
         console.warn('No se encontró .data en la respuesta:', res);

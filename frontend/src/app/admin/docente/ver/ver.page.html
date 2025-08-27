@@ -80,6 +80,10 @@
                     </div>
                 </ion-label>
             </ion-item>
+            <ion-infinite-scroll threshold="1px" (ionInfinite)="getDocentes($event)">
+                <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más docentes..">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
         </ion-list>
     </div>
 

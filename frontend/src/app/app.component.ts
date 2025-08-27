@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from './services/api.service';
+import { Capacitor } from '@capacitor/core';
+
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,9 @@ export class AppComponent implements OnInit {
     private menuCtrl: MenuController,
     private storage: Storage,
     private toastController: ToastController,
-    private api: ApiService
+    private api: ApiService,
+    private platform: Platform
+
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -46,7 +50,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-
   toggleMenu() {
     const hideMenuRoutes = ['/login', '/register', '/llegue', '/alumnos', '/perfil', '/llegue-global', '/password-forgotten'];
     const isHiddenPage = hideMenuRoutes.includes(this.router.url);
@@ -65,24 +68,23 @@ export class AppComponent implements OnInit {
     await toast.present();
   }
 
-
   async logout() {
     try {
       const jwt = await this.storage.get("token"); // obtener token
       const userId = this.idUser;
+      if (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'android') { // Es un dispositivo móvil
+        if (userId && jwt) {
+          await this.api.gestionarToken(userId, '', jwt); // vaciar token_push en backend
+          console.log("Token_push eliminado en backend");
+        }
+      } else {
+        await this.storage.remove("token"); // borrar token local
+        await this.presentToast('Has cerrado sesión correctamente', 'success');
 
-      if (userId && jwt) {
-        await this.api.gestionarToken(userId, '', jwt); // vaciar token_push en backend
-        console.log("Token_push eliminado en backend");
+        setTimeout(() => {
+          this.router.navigateByUrl('/login');
+        }, 1500);
       }
-
-      await this.storage.remove("token"); // borrar token local
-      await this.presentToast('Has cerrado sesión correctamente', 'success');
-
-      setTimeout(() => {
-        this.router.navigateByUrl('/login');
-      }, 1500);
-
     } catch (err) {
       console.error('Error en logout:', err);
       await this.presentToast('Error al cerrar sesión: ' + err, 'error');

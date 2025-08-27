@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { InfiniteScrollCustomEvent, OverlayEventDetail } from '@ionic/core/components';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import { IonAlert, ToastController } from '@ionic/angular';
@@ -9,8 +9,6 @@ import { environment } from 'src/environments/environment'; // ✅ NUEVO
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
-
 
 @Component({
   selector: 'app-ver',
@@ -39,7 +37,6 @@ export class VerPage implements OnInit {
 
   isMobile: boolean = false;
 
-
   // Variables de filtro
   // Filtros y listas para cuentas confirmadas
   filterNombreConfirmadas: string = '';
@@ -53,9 +50,9 @@ export class VerPage implements OnInit {
   filterEmailNoConfirmadas: string = '';
   filteredPersonasNoConfirmadas: any[] = [];
 
-
-
-
+  // Paginación
+  pageSize: number = 25; // Cantidad de elementos por página  
+  numItems: number = 0; // Offset actual
 
   // searchTerm: string = '';
   filteredSalones: any[] = [];
@@ -90,7 +87,6 @@ export class VerPage implements OnInit {
     }
   ];
 
-
   constructor(
     private api: ApiService,
     private storage: Storage,
@@ -98,8 +94,6 @@ export class VerPage implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer
   ) { }
-
-
 
   setOpen(isOpen: boolean, persona: [] = []) {
     this.isModalOpen = isOpen;
@@ -118,7 +112,6 @@ export class VerPage implements OnInit {
     if (!isOpen) this.currentPersonaINE = null;
   }
 
-
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     this.isModalOpen = false;
     this.isModalOpenINE = false;
@@ -131,9 +124,7 @@ export class VerPage implements OnInit {
     this.detectDevice();
     this.getPersonasAutorizadas();
     this.getSalones();
-
   }
-
 
   filtrarPersonasConfirmadas() {
     const nombre = this.filterNombreConfirmadas.toLowerCase().trim();
@@ -163,59 +154,92 @@ export class VerPage implements OnInit {
       );
   }
 
+  async getPersonasAutorizadas(event?: InfiniteScrollCustomEvent) {
+    try {
+      // Suponiendo que tu API soporte offset y limit
+      const res: any = await this.api.getUsersByRole(3, this.numItems, this.pageSize);
+      const nuevasPersonas = res.data || [];
 
+      // Evitar duplicados usando el ID
+      this.personas = [
+        ...this.personas,
+        ...nuevasPersonas.filter((np: any) => !this.personas.some(p => p.id === np.id))
+      ];
 
-  async getPersonasAutorizadas() {
-    await this.api.getUsersByRole(3).then((res: any) => {
-      if (res?.data) {
-        this.personas = res.data;
-
-        console.log('Personas autorizadas:', this.personas);
-
-        this.personas.forEach((persona: any) => {
-          if (persona.alumnos && Array.isArray(persona.alumnos)) {
-            // Filtra alumnos con publishedAt no nulo
-            persona.alumnos = persona.alumnos.filter((alumno: any) => alumno?.publishedAt != null);
-          } else {
-            persona.alumnos = []; // Si no hay alumnos, aseguramos que sea arreglo vacío
-          }
-        });
-        this.filtrarPersonasConfirmadas();
-        this.filtrarPersonasNoConfirmadas();
-
-      } else {
-        console.warn('No se encontró .data en la respuesta:', res);
+      // Avanzar offset solo si hay nuevos elementos
+      if (nuevasPersonas.length > 0) {
+        this.numItems += this.pageSize;
       }
-    }).catch((err: any) => {
+
+      // Limitar infinite scroll si la API devuelve total
+      const total = res.data.meta?.pagination?.total ?? this.personas.length;
+
+      if (event) {
+        event.target.complete();
+        if (this.personas.length >= total) {
+          event.target.disabled = true;
+        }
+      }
+
+      // Filtrar alumnos
+      this.personas.forEach((persona: any) => {
+        if (persona.alumnos && Array.isArray(persona.alumnos)) {
+          persona.alumnos = persona.alumnos.filter((alumno: any) => alumno?.publishedAt != null);
+        } else {
+          persona.alumnos = [];
+        }
+      });
+
+      this.filtrarPersonasConfirmadas();
+      this.filtrarPersonasNoConfirmadas();
+
+    } catch (err) {
       console.error('Error al obtener personas autorizadas:', err);
-      this.personas = [];
-    });
+      if (!event) this.personas = [];
+      if (event) event.target.complete();
+    }
   }
 
-  async getSalones() {
+  async getSalones(event?: InfiniteScrollCustomEvent) {
     const token = await this.storage.get('token');
-    await this.api.getSalones(token).then((res: any) => {
-      if (res?.data) {
-        this.salones = res.data.data;
 
-        // Filtra alumnos publicados
-        this.salones.forEach((salon: any) => {
-          if (salon.alumnos && Array.isArray(salon.alumnos)) {
-            salon.alumnos = salon.alumnos.filter((alumno: any) => alumno?.publishedAt != null);
-          } else {
-            salon.alumnos = [];
-          }
-        });
+    try {
+      // Suponiendo que la API soporte offset y limit
+      const res: any = await this.api.getSalones(token, this.numItems, this.pageSize);
+      const nuevosSalones = res.data?.data || [];
 
-        // Al principio mostramos todos
-        this.filteredSalones = [...this.salones];
-      } else {
-        console.warn('No se encontró .data en la respuesta de salones:', res);
+      // Evitar duplicados usando ID
+      this.salones = [
+        ...this.salones,
+        ...nuevosSalones.filter((np:any) => !this.salones.some(s => s.id === np.id))
+      ];
+
+      // Filtrar alumnos publicados
+      this.salones.forEach((salon: any) => {
+        salon.alumnos = Array.isArray(salon.alumnos)
+          ? salon.alumnos.filter((a:any) => a.publishedAt != null)
+          : [];
+      });
+
+      // Mostrar todos los salones filtrados inicialmente
+      this.filteredSalones = [...this.salones];
+
+      // Incrementar offset solo si llegaron nuevos elementos
+      if (nuevosSalones.length > 0) this.numItems += this.pageSize;
+
+      // Desactivar infinite scroll si ya no hay más
+      const total = res.data?.meta?.pagination?.total ?? this.salones.length;
+      if (event) {
+        event.target.complete();
+        if (this.salones.length >= total) event.target.disabled = true;
       }
-    }).catch((err: any) => {
+
+    } catch (err) {
       console.error('Error al obtener salones:', err);
-    });
+      if (event) event.target.complete();
+    }
   }
+
 
   filtrarSalones() {
     const term = this.searchTerm.toLowerCase().trim();
@@ -396,11 +420,11 @@ export class VerPage implements OnInit {
     this.router.navigate([`/editar/cuenta/${p.id}`], { queryParams: { role: 'persona_autorizada' } });
   }
 
-  confirmar(p:any){
-    try{
+  confirmar(p: any) {
+    try {
       this.api.updateUser({ confirmed: true }, p.id);
       this.presentToast(`Cuenta de ${p.nombre} confirmada.`, 'success');
-    }catch(error){
+    } catch (error) {
       console.error('Error al confirmar:', error);
       this.presentToast('No se pudo confirmar la cuenta.', 'error');
     }
@@ -430,6 +454,7 @@ export class VerPage implements OnInit {
     // this.data = { salon: salon.id };
     document.querySelector('ion-alert')?.present();
   }
+
   async eliminar(persona: any) {
     // Implementar llamada API para eliminar docente (similar a eliminar alumno)
     // Supongamos que tienes api.deleteUser:
@@ -464,7 +489,6 @@ export class VerPage implements OnInit {
     }
   }
 
-
   getFotoINE(user: any): string | null {
     try {
       const ineArray = user?.ine ?? user?.attributes?.ine;
@@ -485,21 +509,6 @@ export class VerPage implements OnInit {
     }
   }
 
-
-
-
-  // getINEUrl(persona: any): string {
-  //   const ine = persona?.ine ?? persona?.attributes?.ine;
-  //   if (!ine) return '';
-
-  //   // Normalizamos la URL
-  //   const url = ine?.data?.attributes?.url || ine?.url;
-  //   if (!url) return '';
-
-  //   return url.startsWith('http') ? url : `${this.assetsBase}${url}`;
-  // }
-
-
   changeResolution() {
     const resolution = window.matchMedia('(max-width: 768px)');
 
@@ -512,11 +521,9 @@ export class VerPage implements OnInit {
     });
   }
 
-
   detectDevice() {
     if (window.innerWidth <= 768) {
       this.isMobile = true;
     }
   }
-
 }

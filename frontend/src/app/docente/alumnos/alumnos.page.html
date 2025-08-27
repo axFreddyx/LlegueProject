@@ -38,6 +38,7 @@
           <ion-item *ngIf="alumnosSinLlegada.length === 0" class="text-center text-muted">
             No hay alumnos listos para salir.
           </ion-item>
+
           <ion-item *ngFor="let a of alumnosSinLlegada" class="d-flex align-items-center rounded mb-2">
             <ion-avatar slot="start" class="me-3">
               <img [src]="getFotoUrl(a) || 'assets/img/ejemplo.jpg'" alt="Foto de {{ a.alumno.nombre }}" />
@@ -50,6 +51,13 @@
               Dejar salir
             </ion-button>
           </ion-item>
+
+          <!-- Infinite Scroll -->
+          <ion-infinite-scroll threshold="100px" (ionInfinite)="getLlegada($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
         </ion-list>
       </div>
     </ion-accordion>
@@ -61,7 +69,7 @@
       <div slot="content" class="bg-white p-3 rounded shadow-sm mb-3">
         <ion-list>
           <ion-item *ngIf="alumnosConLlegada.length === 0" class="text-center text-muted">
-            Por el momento no se ha entregado algun alumno.
+            Por el momento no se ha entregado algún alumno.
           </ion-item>
 
           <ion-item *ngFor="let a of alumnosConLlegada" class="d-flex align-items-center rounded mb-2">
@@ -76,6 +84,13 @@
               No dejar salir
             </ion-button>
           </ion-item>
+
+          <!-- Infinite Scroll -->
+          <ion-infinite-scroll threshold="100px" (ionInfinite)="getLlegada($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
         </ion-list>
       </div>
     </ion-accordion>
@@ -104,15 +119,23 @@
               Dejar salir
             </ion-button>
           </ion-item>
+
+          <!-- Infinite Scroll -->
+          <ion-infinite-scroll threshold="100px" (ionInfinite)="getLlegada($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
         </ion-list>
       </ion-col>
+
       <ion-col size="12" size-sm="6">
         <ion-list>
           <ion-list-header>
             <ion-label class="label-docente2"><strong>Alumnos entregados</strong></ion-label>
           </ion-list-header>
           <div *ngIf="alumnosConLlegada.length === 0" class="text-center text-muted">
-            Por el momento no se ha entregado algun alumno.
+            Por el momento no se ha entregado algún alumno.
           </div>
           <ion-item *ngFor="let a of alumnosConLlegada">
             <ion-avatar slot="start">
@@ -126,11 +149,17 @@
               No dejar salir
             </ion-button>
           </ion-item>
+
+          <!-- Infinite Scroll -->
+          <ion-infinite-scroll threshold="100px" (ionInfinite)="getLlegada($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más alumnos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
         </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
-
   <div class="text-center mt-5 text-secondary small">
     © 2025 Escuela Primaria Benito Juárez | Llegué
   </div>

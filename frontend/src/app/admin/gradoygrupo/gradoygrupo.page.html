@@ -123,6 +123,10 @@
             <ion-icon name="trash-outline" (click)="openAlert(s)" class="salon-icon-delete"></ion-icon>
           </ion-label>
         </ion-item>
+        <ion-infinite-scroll threshold="1px" (ionInfinite)="getSalones($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más salones...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </ion-list>
     </div>
 
